@@ -1,0 +1,23 @@
+
+# Archivos y carpetas generadas automáticamente
+bin/
+obj/
+.vs/
+
+# Archivos de configuración de usuario
+*.user
+*.suo
+*.log
+
+# Paquetes restaurables
+packages/
+
+# Archivos de publicación
+*.Publish.xml
+
+# Archivos temporales
+*.tmp
+*.temp
+
+# Archivos de configuración de entorno
+appsettings.*.json
