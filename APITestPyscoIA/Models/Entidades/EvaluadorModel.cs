@@ -24,5 +24,6 @@ namespace APITestPyscoIA.Models.Entidades
         [DataType(DataType.Password)]
         public string Contrasena { get; set; }
 
+        public ICollection<ConfiguracionTestModel> ConfiguracionesTest { get; set; }
     }
 }
