@@ -28,5 +28,7 @@ namespace APITestPyscoIA.Models.Entidades
 
         public ICollection<ConfiguracionPreguntasModel> BancoPreguntas { get; set; }
 
+
+
     }
 }
