@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+permissions: 
+  contents: write 
+  pull-requests: read 
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -12,7 +16,10 @@ jobs:
     steps:
     - name: Checkout del repositorio
       uses: actions/checkout@v3
-
+    - name: Configure Git User
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
     - name: Instalar jq
       run: sudo apt-get install jq
 
