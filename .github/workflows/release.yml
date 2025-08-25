@@ -36,22 +36,24 @@ jobs:
 
         echo "VERSION=$NEW_VERSION" >> $GITHUB_ENV
 
-    - name: Commit de la nueva versión
+    - name: Configurar Git y actualizar remote
       env:
         TOKEN: ${{ secrets.GH_PAT }}
       run: |
         git config user.name "github-actions"
         git config user.email "github-actions@github.com"
         git remote set-url origin https://x-access-token:${TOKEN}@github.com/${{ github.repository }}
-        git add APITestPyscoIA/appsettings.json
-        git commit -m "Incrementar versión a $VERSION"
-        git push origin main
-    - name: Crear tag con la nueva versión
-      env:
-        TOKEN: ${{ secrets.GH_PAT }}
+
+    - name: Commit de la nueva versión
       run: |
-        git tag -a "v${VERSION}" -m "Release v${VERSION}"
-        git push origin "v${VERSION}"
+        git add APITestPyscoIA/appsettings.json
+        git commit -m "Incrementar versión a ${{ env.VERSION }}"
+        git push origin main
+
+    - name: Crear tag con la nueva versión
+      run: |
+        git tag -a "v${{ env.VERSION }}" -m "Release v${{ env.VERSION }}"
+        git push origin "v${{ env.VERSION }}"
 
     - name: Crear release en GitHub
       uses: softprops/action-gh-release@v1
