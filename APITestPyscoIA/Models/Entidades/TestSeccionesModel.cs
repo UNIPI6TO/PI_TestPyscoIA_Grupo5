@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace APITestPyscoIA.Models.Entidades
 {
+    [Table("TestSecciones")] 
     public class TestSeccionesModel:BaseModel
     {
         public float Score { get; set; }

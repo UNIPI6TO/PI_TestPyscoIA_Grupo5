@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace APITestPyscoIA.Models.Entidades
 {
-    [Table("ConfiguracionSecciones")]
+    [Table("ConfiguracionesSecciones")]
     public class ConfiguracionSeccionesModel: BaseModel
     {
 

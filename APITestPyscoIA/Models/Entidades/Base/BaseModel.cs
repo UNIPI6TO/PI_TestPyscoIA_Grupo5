@@ -15,7 +15,7 @@
         [Column(TypeName = "datetime2")]
         [Required(ErrorMessage = "Campo Requerido")]
         public DateTime ? Actualizado { get; set; }
-        [Display(Name = "Se puede eliminar ?")]
+        [Display(Name = "Está eliminado ?")]
         public bool Eliminado { get; set; }
     }
 
