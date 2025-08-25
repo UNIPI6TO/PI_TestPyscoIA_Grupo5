@@ -1,6 +1,7 @@
 ﻿using APITestPyscoIA.Models.Entidades.Base;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace APITestPyscoIA.Models.Entidades
 {
@@ -14,18 +15,20 @@ namespace APITestPyscoIA.Models.Entidades
         public int NumeroPreguntas { get; set; }
 
         [Required]
-        [ForeignKey("ConfiguracionTestModel")] 
+        [ForeignKey("ConfiguracionTest")] 
         public int IdConfiguracionesTest { get; set; }
         [Required]
-        [ForeignKey("TipoSeccionesModel")] public int IdTipoSecciones { get; set; }
+        [ForeignKey("TipoSecciones")] public int IdTipoSecciones { get; set; }
 
         [Required]
         [RegularExpression("AVG|SUM")] 
         public string FormulaAgregado { get; set; }
 
+        [JsonIgnore]
         public ConfiguracionTestModel ConfiguracionTest { get; set; }
+        [JsonIgnore]
         public TipoSeccionesModel TipoSecciones { get; set; }
-
+        [JsonIgnore]
         public ICollection<ConfiguracionPreguntasModel> BancoPreguntas { get; set; }
 
 

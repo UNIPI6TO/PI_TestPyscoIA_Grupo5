@@ -13,7 +13,6 @@
         [Required(ErrorMessage = "Campo Requerido")]
         public DateTime Creado { get; set; }
         [Column(TypeName = "datetime2")]
-        [Required(ErrorMessage = "Campo Requerido")]
         public DateTime ? Actualizado { get; set; }
         [Display(Name = "Está eliminado ?")]
         public bool Eliminado { get; set; }

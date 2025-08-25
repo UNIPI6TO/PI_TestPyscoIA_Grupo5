@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APITestPyscoIA.Migrations
 {
     [DbContext(typeof(DatosDbContext))]
-    [Migration("20250825023622_Inicial")]
+    [Migration("20250825042024_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -34,7 +34,6 @@ namespace APITestPyscoIA.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime?>("Actualizado")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("Creado")
@@ -51,12 +50,9 @@ namespace APITestPyscoIA.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("ProvinciaId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ProvinciaId");
+                    b.HasIndex("IdProvincia");
 
                     b.ToTable("Ciudades");
                 });
@@ -70,7 +66,6 @@ namespace APITestPyscoIA.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime?>("Actualizado")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("Creado")
@@ -109,11 +104,7 @@ namespace APITestPyscoIA.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime?>("Actualizado")
-                        .IsRequired()
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("ConfiguracionSeccionesId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("Creado")
                         .HasColumnType("datetime2");
@@ -130,7 +121,7 @@ namespace APITestPyscoIA.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ConfiguracionSeccionesId");
+                    b.HasIndex("IdConfiguracionSecciones");
 
                     b.ToTable("ConfiguracionesPreguntas");
                 });
@@ -144,11 +135,7 @@ namespace APITestPyscoIA.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime?>("Actualizado")
-                        .IsRequired()
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("ConfiguracionTestId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("Creado")
                         .HasColumnType("datetime2");
@@ -173,14 +160,11 @@ namespace APITestPyscoIA.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TipoSeccionesId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ConfiguracionTestId");
+                    b.HasIndex("IdConfiguracionesTest");
 
-                    b.HasIndex("TipoSeccionesId");
+                    b.HasIndex("IdTipoSecciones");
 
                     b.ToTable("ConfiguracionesSecciones");
                 });
@@ -194,7 +178,6 @@ namespace APITestPyscoIA.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime?>("Actualizado")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("Creado")
@@ -202,9 +185,6 @@ namespace APITestPyscoIA.Migrations
 
                     b.Property<bool>("Eliminado")
                         .HasColumnType("bit");
-
-                    b.Property<int>("EvaluadorId")
-                        .HasColumnType("int");
 
                     b.Property<int>("IdEvaluador")
                         .HasColumnType("int");
@@ -219,14 +199,11 @@ namespace APITestPyscoIA.Migrations
                     b.Property<int>("TiempoExpiracion")
                         .HasColumnType("int");
 
-                    b.Property<int>("TipoTestId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("EvaluadorId");
+                    b.HasIndex("IdEvaluador");
 
-                    b.HasIndex("TipoTestId");
+                    b.HasIndex("IdTipoTest");
 
                     b.ToTable("ConfiguracionesTest");
                 });
@@ -240,7 +217,6 @@ namespace APITestPyscoIA.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime?>("Actualizado")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Cargo")
@@ -281,16 +257,12 @@ namespace APITestPyscoIA.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime?>("Actualizado")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Cedula")
                         .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
-
-                    b.Property<int>("CiudadId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Contrasena")
                         .IsRequired()
@@ -323,7 +295,7 @@ namespace APITestPyscoIA.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CiudadId");
+                    b.HasIndex("IdCiudad");
 
                     b.ToTable("Pacientes");
                 });
@@ -337,7 +309,6 @@ namespace APITestPyscoIA.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime?>("Actualizado")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("Creado")
@@ -365,7 +336,6 @@ namespace APITestPyscoIA.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime?>("Actualizado")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("Creado")
@@ -382,12 +352,9 @@ namespace APITestPyscoIA.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("PaisId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("PaisId");
+                    b.HasIndex("IdPais");
 
                     b.ToTable("Provincias");
                 });
@@ -401,7 +368,6 @@ namespace APITestPyscoIA.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime?>("Actualizado")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<int>("CantidadPreguntas")
@@ -442,11 +408,7 @@ namespace APITestPyscoIA.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime?>("Actualizado")
-                        .IsRequired()
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("ConfiguracionBancoPreguntasId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("Creado")
                         .HasColumnType("datetime2");
@@ -472,14 +434,11 @@ namespace APITestPyscoIA.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TestSeccionesId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ConfiguracionBancoPreguntasId");
+                    b.HasIndex("IdConfiguracionBancoPreguntas");
 
-                    b.HasIndex("TestSeccionesId");
+                    b.HasIndex("IdTestSecciones");
 
                     b.ToTable("TestsPreguntas");
                 });
@@ -493,25 +452,21 @@ namespace APITestPyscoIA.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime?>("Actualizado")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CantidadPreguntas")
+                    b.Property<int?>("CantidadPreguntas")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Completado")
+                    b.Property<bool?>("Completado")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ConfiguracionSeccionesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Contestadas")
+                    b.Property<int?>("Contestadas")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Creado")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Duracion")
+                    b.Property<int?>("Duracion")
                         .HasColumnType("int");
 
                     b.Property<bool>("Eliminado")
@@ -529,27 +484,23 @@ namespace APITestPyscoIA.Migrations
                     b.Property<int>("IdTest")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Iniciado")
+                    b.Property<bool?>("Iniciado")
                         .HasColumnType("bit");
 
-                    b.Property<int>("NoContestadas")
+                    b.Property<int?>("NoContestadas")
                         .HasColumnType("int");
 
                     b.Property<string>("Resultado")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float>("Score")
+                    b.Property<float?>("Score")
                         .HasColumnType("real");
-
-                    b.Property<int>("TestId")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ConfiguracionSeccionesId");
+                    b.HasIndex("IdConfiguracionSecciones");
 
-                    b.HasIndex("TestId");
+                    b.HasIndex("IdTest");
 
                     b.ToTable("TestSecciones");
                 });
@@ -562,12 +513,21 @@ namespace APITestPyscoIA.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime?>("Actualizado")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Creado")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Descripcion")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Duracion")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Eliminado")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Icono")
                         .IsRequired()
@@ -576,6 +536,10 @@ namespace APITestPyscoIA.Migrations
                     b.Property<int>("IdTipoTest")
                         .HasColumnType("int");
 
+                    b.Property<string>("Instrucciones")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -583,12 +547,9 @@ namespace APITestPyscoIA.Migrations
                     b.Property<int>("Orden")
                         .HasColumnType("int");
 
-                    b.Property<int>("TipoTestId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("TipoTestId");
+                    b.HasIndex("IdTipoTest");
 
                     b.ToTable("TipoSecciones");
                 });
@@ -602,7 +563,6 @@ namespace APITestPyscoIA.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime?>("Actualizado")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("Creado")
@@ -615,6 +575,10 @@ namespace APITestPyscoIA.Migrations
 
                     b.Property<bool>("Eliminado")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Instrucciones")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -630,7 +594,7 @@ namespace APITestPyscoIA.Migrations
                 {
                     b.HasOne("APITestPyscoIA.Models.Entidades.ProvinciaModel", "Provincia")
                         .WithMany("Ciudades")
-                        .HasForeignKey("ProvinciaId")
+                        .HasForeignKey("IdProvincia")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -652,7 +616,7 @@ namespace APITestPyscoIA.Migrations
                 {
                     b.HasOne("APITestPyscoIA.Models.Entidades.ConfiguracionSeccionesModel", "ConfiguracionSecciones")
                         .WithMany("BancoPreguntas")
-                        .HasForeignKey("ConfiguracionSeccionesId")
+                        .HasForeignKey("IdConfiguracionSecciones")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -663,13 +627,13 @@ namespace APITestPyscoIA.Migrations
                 {
                     b.HasOne("APITestPyscoIA.Models.Entidades.ConfiguracionTestModel", "ConfiguracionTest")
                         .WithMany("ConfiguracionesSecciones")
-                        .HasForeignKey("ConfiguracionTestId")
+                        .HasForeignKey("IdConfiguracionesTest")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("APITestPyscoIA.Models.Entidades.TipoSeccionesModel", "TipoSecciones")
                         .WithMany("ConfiguracionesSecciones")
-                        .HasForeignKey("TipoSeccionesId")
+                        .HasForeignKey("IdTipoSecciones")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -682,13 +646,13 @@ namespace APITestPyscoIA.Migrations
                 {
                     b.HasOne("APITestPyscoIA.Models.Entidades.EvaluadorModel", "Evaluador")
                         .WithMany("ConfiguracionesTest")
-                        .HasForeignKey("EvaluadorId")
+                        .HasForeignKey("IdEvaluador")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("APITestPyscoIA.Models.Entidades.TipoTestModel", "TipoTest")
                         .WithMany()
-                        .HasForeignKey("TipoTestId")
+                        .HasForeignKey("IdTipoTest")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -701,7 +665,7 @@ namespace APITestPyscoIA.Migrations
                 {
                     b.HasOne("APITestPyscoIA.Models.Entidades.CiudadModel", "Ciudad")
                         .WithMany()
-                        .HasForeignKey("CiudadId")
+                        .HasForeignKey("IdCiudad")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -712,7 +676,7 @@ namespace APITestPyscoIA.Migrations
                 {
                     b.HasOne("APITestPyscoIA.Models.Entidades.PaisModel", "Pais")
                         .WithMany("Provincias")
-                        .HasForeignKey("PaisId")
+                        .HasForeignKey("IdPais")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -748,19 +712,19 @@ namespace APITestPyscoIA.Migrations
 
             modelBuilder.Entity("APITestPyscoIA.Models.Entidades.TestPreguntasModel", b =>
                 {
-                    b.HasOne("APITestPyscoIA.Models.Entidades.ConfiguracionPreguntasModel", "ConfiguracionBancoPreguntas")
+                    b.HasOne("APITestPyscoIA.Models.Entidades.ConfiguracionPreguntasModel", "ConfiguracionPreguntas")
                         .WithMany()
-                        .HasForeignKey("ConfiguracionBancoPreguntasId")
+                        .HasForeignKey("IdConfiguracionBancoPreguntas")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("APITestPyscoIA.Models.Entidades.TestSeccionesModel", "TestSecciones")
                         .WithMany("Preguntas")
-                        .HasForeignKey("TestSeccionesId")
+                        .HasForeignKey("IdTestSecciones")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ConfiguracionBancoPreguntas");
+                    b.Navigation("ConfiguracionPreguntas");
 
                     b.Navigation("TestSecciones");
                 });
@@ -769,13 +733,13 @@ namespace APITestPyscoIA.Migrations
                 {
                     b.HasOne("APITestPyscoIA.Models.Entidades.ConfiguracionSeccionesModel", "ConfiguracionSecciones")
                         .WithMany()
-                        .HasForeignKey("ConfiguracionSeccionesId")
+                        .HasForeignKey("IdConfiguracionSecciones")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("APITestPyscoIA.Models.Entidades.TestModel", "Test")
                         .WithMany("Secciones")
-                        .HasForeignKey("TestId")
+                        .HasForeignKey("IdTest")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -788,7 +752,7 @@ namespace APITestPyscoIA.Migrations
                 {
                     b.HasOne("APITestPyscoIA.Models.Entidades.TipoTestModel", "TipoTest")
                         .WithMany("Secciones")
-                        .HasForeignKey("TipoTestId")
+                        .HasForeignKey("IdTipoTest")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

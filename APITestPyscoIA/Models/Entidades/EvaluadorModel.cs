@@ -1,6 +1,7 @@
 ﻿using APITestPyscoIA.Models.Entidades.Base;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace APITestPyscoIA.Models.Entidades
 {
@@ -23,7 +24,7 @@ namespace APITestPyscoIA.Models.Entidades
         [Required]
         [DataType(DataType.Password)]
         public string Contrasena { get; set; }
-
+        [JsonIgnore]
         public ICollection<ConfiguracionTestModel> ConfiguracionesTest { get; set; }
     }
 }

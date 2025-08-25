@@ -1,6 +1,7 @@
 ﻿using APITestPyscoIA.Models.Entidades.Base;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace APITestPyscoIA.Models.Entidades
 {
@@ -13,9 +14,9 @@ namespace APITestPyscoIA.Models.Entidades
         public string Nombre { get; set; }
 
         [Required]
-        [ForeignKey("ProvinciaModel")]
+        [ForeignKey("Provincia")]
         public int IdProvincia { get; set; }
-
+        [JsonIgnore]
         public ProvinciaModel Provincia { get; set; }
 
     }

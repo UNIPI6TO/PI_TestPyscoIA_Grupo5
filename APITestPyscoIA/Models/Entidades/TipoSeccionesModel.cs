@@ -1,13 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using APITestPyscoIA.Models.Entidades.Base;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace APITestPyscoIA.Models.Entidades
 {
     [Table("TipoSecciones")]
-    public class TipoSeccionesModel
+    public class TipoSeccionesModel:BaseModel
     {
-        public int Id { get; set; }
-        [Required]
         public string Nombre { get; set; }
         [Required]
         public string Descripcion { get; set; }
@@ -15,15 +15,17 @@ namespace APITestPyscoIA.Models.Entidades
         public int Duracion { get; set; } 
         public int Orden { get; set; }
 
-        public string Icono { get; set; }
         [Required]
-        [ForeignKey("TipoTestModel")]
+        public String Instrucciones { get; set; }
+
+        public string Icono { get; set; }
+        
+        [Required]
+        [ForeignKey("TipoTest")]
         public int IdTipoTest { get; set; }
-
+        [JsonIgnore]
         public TipoTestModel TipoTest { get; set; }
-
+        [JsonIgnore]
         public ICollection<ConfiguracionSeccionesModel> ConfiguracionesSecciones { get; set; }
-
-
     }
 }
