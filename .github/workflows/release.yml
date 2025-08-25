@@ -19,7 +19,8 @@ jobs:
     - name: Leer y actualizar versión en appsettings.json
       id: update_version
       run: |
-        VERSION=$(jq -r '.Application.Version' appsettings.json)
+        FILE="APITestPyscoIA/appsettings.json"
+        VERSION=$(jq -r '.Application.Version' $FILE)
         echo "Versión actual: $VERSION"
         MAJOR=$(echo $VERSION | cut -d. -f1)
         MINOR=$(echo $VERSION | cut -d. -f2)
@@ -31,7 +32,7 @@ jobs:
         echo "Nueva versión: $NEW_VERSION"
 
         # Actualizar appsettings.json
-        jq --arg v "$NEW_VERSION" '.Application.Version = $v' appsettings.json > temp.json && mv temp.json appsettings.json
+        jq --arg v "$NEW_VERSION" '.Application.Version = $v' $FILE > temp.json && mv temp.json $FILE
 
         echo "VERSION=$NEW_VERSION" >> $GITHUB_ENV
 
@@ -39,7 +40,7 @@ jobs:
       run: |
         git config user.name "github-actions"
         git config user.email "github-actions@github.com"
-        git add appsettings.json
+        git add APITestPyscoIA/appsettings.json
         git commit -m "Incrementar versión a $VERSION"
         git push
 
