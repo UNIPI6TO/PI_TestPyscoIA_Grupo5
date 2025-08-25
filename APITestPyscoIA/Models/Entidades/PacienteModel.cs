@@ -32,7 +32,7 @@ namespace APITestPyscoIA.Models.Entidades
         public string Contrasena { get; set; }
 
         [Required]
-        [ForeignKey("CiudadModel")]
+        [ForeignKey("Ciudad")]
         public int IdCiudad { get; set; }
 
         public CiudadModel Ciudad { get; set; } 

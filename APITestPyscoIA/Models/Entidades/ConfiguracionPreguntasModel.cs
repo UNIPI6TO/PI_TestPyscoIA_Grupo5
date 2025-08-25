@@ -11,7 +11,7 @@ namespace APITestPyscoIA.Models.Entidades
         [Required] 
         public string Pregunta { get; set; }
         [Required]
-        [ForeignKey("ConfiguracionSeccionesModel")]
+        [ForeignKey("ConfiguracionSecciones")]
         public int IdConfiguracionSecciones { get; set; }
 
         public ConfiguracionSeccionesModel ConfiguracionSecciones { get; set; } 

@@ -1,33 +1,36 @@
 ﻿using APITestPyscoIA.Models.Entidades.Base;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace APITestPyscoIA.Models.Entidades
 {
     [Table("TestSecciones")] 
     public class TestSeccionesModel:BaseModel
     {
-        public float Score { get; set; }
-        public string Resultado { get; set; }
+        public float? Score { get; set; }
+        public string? Resultado { get; set; }
         public DateTime? FechaInicioTest { get; set; }
         public DateTime? FechaFinTest { get; set; }
-        public int Duracion { get; set; }
-        public int Contestadas { get; set; }
-        public int NoContestadas { get; set; }
-        public int CantidadPreguntas { get; set; }
-        public bool Completado { get; set; }
-        public bool Iniciado { get; set; }
+        public int? Duracion { get; set; }
+        public int? Contestadas { get; set; }
+        public int? NoContestadas { get; set; }
+        public int? CantidadPreguntas { get; set; }
+        public bool? Completado { get; set; }
+        public bool? Iniciado { get; set; }
 
         [Required]
-        [ForeignKey("TestModel")] 
+        [ForeignKey("Test")] 
         public int IdTest { get; set; }
         [Required]
-        [ForeignKey("ConfiguracionSeccionesModel")] 
+        [ForeignKey("ConfiguracionSecciones")] 
         public int IdConfiguracionSecciones { get; set; }
 
+        [JsonIgnore]
         public TestModel Test { get; set; }
+        [JsonIgnore]
         public ConfiguracionSeccionesModel ConfiguracionSecciones { get; set; }
-
+        [JsonIgnore]
         public ICollection<TestPreguntasModel> Preguntas { get; set; }
 
     }

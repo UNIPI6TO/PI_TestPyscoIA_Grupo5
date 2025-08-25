@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace APITestPyscoIA.Models.Entidades
 {
@@ -13,11 +14,14 @@ namespace APITestPyscoIA.Models.Entidades
         [Precision(8, 4)]
         public decimal Peso { get; set; }
 
-        [Required][ForeignKey("ConfiguracionPreguntasModel")] public int IdConfiguracionBancoPreguntas { get; set; }
-        [Required][ForeignKey("TestSeccionesModel")] 
+        [Required][ForeignKey("ConfiguracionPreguntas")] 
+        public int IdConfiguracionBancoPreguntas { get; set; }
+        
+        [Required][ForeignKey("TestSecciones")] 
         public int IdTestSecciones { get; set; }
-
-        public ConfiguracionPreguntasModel ConfiguracionBancoPreguntas { get; set; }
+        [JsonIgnore]
+        public ConfiguracionPreguntasModel ConfiguracionPreguntas { get; set; }
+        [JsonIgnore]
         public TestSeccionesModel TestSecciones { get; set; }
 
     }

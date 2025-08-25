@@ -1,6 +1,7 @@
 ﻿using APITestPyscoIA.Models.Entidades.Base;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace APITestPyscoIA.Models.Entidades
 {
@@ -18,11 +19,13 @@ namespace APITestPyscoIA.Models.Entidades
         [Required]
         [ForeignKey("Paciente")] 
         public int IdPaciente { get; set; }
-
+        [JsonIgnore]
         public ConfiguracionTestModel ConfiguracionTest { get; set; }
+        [JsonIgnore]
         public EvaluadorModel Evaluador { get; set; }
+        [JsonIgnore]
         public PacienteModel Paciente { get; set; }
-
+        [JsonIgnore]
         public ICollection<TestSeccionesModel> Secciones { get; set; }
     }
 }

@@ -22,7 +22,7 @@ namespace APITestPyscoIA.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Contrasena = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Creado = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Actualizado = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Actualizado = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Eliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -38,7 +38,7 @@ namespace APITestPyscoIA.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Creado = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Actualizado = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Actualizado = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Eliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -54,8 +54,9 @@ namespace APITestPyscoIA.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Descripcion = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    Instrucciones = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Creado = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Actualizado = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Actualizado = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Eliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -71,17 +72,16 @@ namespace APITestPyscoIA.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     IdPais = table.Column<int>(type: "int", nullable: false),
-                    PaisId = table.Column<int>(type: "int", nullable: false),
                     Creado = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Actualizado = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Actualizado = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Eliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Provincias", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Provincias_Paises_PaisId",
-                        column: x => x.PaisId,
+                        name: "FK_Provincias_Paises_IdPais",
+                        column: x => x.IdPais,
                         principalTable: "Paises",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -97,27 +97,25 @@ namespace APITestPyscoIA.Migrations
                     TiempoExpiracion = table.Column<int>(type: "int", nullable: false),
                     IdTipoTest = table.Column<int>(type: "int", nullable: false),
                     IdEvaluador = table.Column<int>(type: "int", nullable: false),
-                    TipoTestId = table.Column<int>(type: "int", nullable: false),
-                    EvaluadorId = table.Column<int>(type: "int", nullable: false),
                     Creado = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Actualizado = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Actualizado = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Eliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ConfiguracionesTest", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ConfiguracionesTest_Evaluadores_EvaluadorId",
-                        column: x => x.EvaluadorId,
+                        name: "FK_ConfiguracionesTest_Evaluadores_IdEvaluador",
+                        column: x => x.IdEvaluador,
                         principalTable: "Evaluadores",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ConfiguracionesTest_TipoTest_TipoTestId",
-                        column: x => x.TipoTestId,
+                        name: "FK_ConfiguracionesTest_TipoTest_IdTipoTest",
+                        column: x => x.IdTipoTest,
                         principalTable: "TipoTest",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -130,16 +128,19 @@ namespace APITestPyscoIA.Migrations
                     Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Duracion = table.Column<int>(type: "int", nullable: false),
                     Orden = table.Column<int>(type: "int", nullable: false),
+                    Instrucciones = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Icono = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IdTipoTest = table.Column<int>(type: "int", nullable: false),
-                    TipoTestId = table.Column<int>(type: "int", nullable: false)
+                    Creado = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Actualizado = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Eliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TipoSecciones", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TipoSecciones_TipoTest_TipoTestId",
-                        column: x => x.TipoTestId,
+                        name: "FK_TipoSecciones_TipoTest_IdTipoTest",
+                        column: x => x.IdTipoTest,
                         principalTable: "TipoTest",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -153,17 +154,16 @@ namespace APITestPyscoIA.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     IdProvincia = table.Column<int>(type: "int", nullable: false),
-                    ProvinciaId = table.Column<int>(type: "int", nullable: false),
                     Creado = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Actualizado = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Actualizado = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Eliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Ciudades", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Ciudades_Provincias_ProvinciaId",
-                        column: x => x.ProvinciaId,
+                        name: "FK_Ciudades_Provincias_IdProvincia",
+                        column: x => x.IdProvincia,
                         principalTable: "Provincias",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -180,24 +180,22 @@ namespace APITestPyscoIA.Migrations
                     IdConfiguracionesTest = table.Column<int>(type: "int", nullable: false),
                     IdTipoSecciones = table.Column<int>(type: "int", nullable: false),
                     FormulaAgregado = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ConfiguracionTestId = table.Column<int>(type: "int", nullable: false),
-                    TipoSeccionesId = table.Column<int>(type: "int", nullable: false),
                     Creado = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Actualizado = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Actualizado = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Eliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ConfiguracionesSecciones", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ConfiguracionesSecciones_ConfiguracionesTest_ConfiguracionTestId",
-                        column: x => x.ConfiguracionTestId,
+                        name: "FK_ConfiguracionesSecciones_ConfiguracionesTest_IdConfiguracionesTest",
+                        column: x => x.IdConfiguracionesTest,
                         principalTable: "ConfiguracionesTest",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ConfiguracionesSecciones_TipoSecciones_TipoSeccionesId",
-                        column: x => x.TipoSeccionesId,
+                        name: "FK_ConfiguracionesSecciones_TipoSecciones_IdTipoSecciones",
+                        column: x => x.IdTipoSecciones,
                         principalTable: "TipoSecciones",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -216,17 +214,16 @@ namespace APITestPyscoIA.Migrations
                     Direccion = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Contrasena = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IdCiudad = table.Column<int>(type: "int", nullable: false),
-                    CiudadId = table.Column<int>(type: "int", nullable: false),
                     Creado = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Actualizado = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Actualizado = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Eliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Pacientes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Pacientes_Ciudades_CiudadId",
-                        column: x => x.CiudadId,
+                        name: "FK_Pacientes_Ciudades_IdCiudad",
+                        column: x => x.IdCiudad,
                         principalTable: "Ciudades",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -240,17 +237,16 @@ namespace APITestPyscoIA.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Pregunta = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IdConfiguracionSecciones = table.Column<int>(type: "int", nullable: false),
-                    ConfiguracionSeccionesId = table.Column<int>(type: "int", nullable: false),
                     Creado = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Actualizado = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Actualizado = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Eliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ConfiguracionesPreguntas", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ConfiguracionesPreguntas_ConfiguracionesSecciones_ConfiguracionSeccionesId",
-                        column: x => x.ConfiguracionSeccionesId,
+                        name: "FK_ConfiguracionesPreguntas_ConfiguracionesSecciones_IdConfiguracionSecciones",
+                        column: x => x.IdConfiguracionSecciones,
                         principalTable: "ConfiguracionesSecciones",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -267,7 +263,7 @@ namespace APITestPyscoIA.Migrations
                     IdEvaluador = table.Column<int>(type: "int", nullable: false),
                     IdPaciente = table.Column<int>(type: "int", nullable: false),
                     Creado = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Actualizado = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Actualizado = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Eliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -304,7 +300,7 @@ namespace APITestPyscoIA.Migrations
                     Peso = table.Column<decimal>(type: "decimal(8,4)", precision: 8, scale: 4, nullable: false),
                     IdConfiguracionBancoPreguntas = table.Column<int>(type: "int", nullable: false),
                     Creado = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Actualizado = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Actualizado = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Eliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -324,36 +320,34 @@ namespace APITestPyscoIA.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Score = table.Column<float>(type: "real", nullable: false),
-                    Resultado = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Score = table.Column<float>(type: "real", nullable: true),
+                    Resultado = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FechaInicioTest = table.Column<DateTime>(type: "datetime2", nullable: true),
                     FechaFinTest = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Duracion = table.Column<int>(type: "int", nullable: false),
-                    Contestadas = table.Column<int>(type: "int", nullable: false),
-                    NoContestadas = table.Column<int>(type: "int", nullable: false),
-                    CantidadPreguntas = table.Column<int>(type: "int", nullable: false),
-                    Completado = table.Column<bool>(type: "bit", nullable: false),
-                    Iniciado = table.Column<bool>(type: "bit", nullable: false),
+                    Duracion = table.Column<int>(type: "int", nullable: true),
+                    Contestadas = table.Column<int>(type: "int", nullable: true),
+                    NoContestadas = table.Column<int>(type: "int", nullable: true),
+                    CantidadPreguntas = table.Column<int>(type: "int", nullable: true),
+                    Completado = table.Column<bool>(type: "bit", nullable: true),
+                    Iniciado = table.Column<bool>(type: "bit", nullable: true),
                     IdTest = table.Column<int>(type: "int", nullable: false),
                     IdConfiguracionSecciones = table.Column<int>(type: "int", nullable: false),
-                    TestId = table.Column<int>(type: "int", nullable: false),
-                    ConfiguracionSeccionesId = table.Column<int>(type: "int", nullable: false),
                     Creado = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Actualizado = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Actualizado = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Eliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TestSecciones", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TestSecciones_ConfiguracionesSecciones_ConfiguracionSeccionesId",
-                        column: x => x.ConfiguracionSeccionesId,
+                        name: "FK_TestSecciones_ConfiguracionesSecciones_IdConfiguracionSecciones",
+                        column: x => x.IdConfiguracionSecciones,
                         principalTable: "ConfiguracionesSecciones",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_TestSecciones_Test_TestId",
-                        column: x => x.TestId,
+                        name: "FK_TestSecciones_Test_IdTest",
+                        column: x => x.IdTest,
                         principalTable: "Test",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -370,33 +364,31 @@ namespace APITestPyscoIA.Migrations
                     Peso = table.Column<decimal>(type: "decimal(8,4)", precision: 8, scale: 4, nullable: false),
                     IdConfiguracionBancoPreguntas = table.Column<int>(type: "int", nullable: false),
                     IdTestSecciones = table.Column<int>(type: "int", nullable: false),
-                    ConfiguracionBancoPreguntasId = table.Column<int>(type: "int", nullable: false),
-                    TestSeccionesId = table.Column<int>(type: "int", nullable: false),
                     Creado = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Actualizado = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Actualizado = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Eliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TestsPreguntas", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TestsPreguntas_ConfiguracionesPreguntas_ConfiguracionBancoPreguntasId",
-                        column: x => x.ConfiguracionBancoPreguntasId,
+                        name: "FK_TestsPreguntas_ConfiguracionesPreguntas_IdConfiguracionBancoPreguntas",
+                        column: x => x.IdConfiguracionBancoPreguntas,
                         principalTable: "ConfiguracionesPreguntas",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_TestsPreguntas_TestSecciones_TestSeccionesId",
-                        column: x => x.TestSeccionesId,
+                        name: "FK_TestsPreguntas_TestSecciones_IdTestSecciones",
+                        column: x => x.IdTestSecciones,
                         principalTable: "TestSecciones",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Ciudades_ProvinciaId",
+                name: "IX_Ciudades_IdProvincia",
                 table: "Ciudades",
-                column: "ProvinciaId");
+                column: "IdProvincia");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ConfiguracionesOpciones_IdConfiguracionBancoPreguntas",
@@ -404,39 +396,39 @@ namespace APITestPyscoIA.Migrations
                 column: "IdConfiguracionBancoPreguntas");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ConfiguracionesPreguntas_ConfiguracionSeccionesId",
+                name: "IX_ConfiguracionesPreguntas_IdConfiguracionSecciones",
                 table: "ConfiguracionesPreguntas",
-                column: "ConfiguracionSeccionesId");
+                column: "IdConfiguracionSecciones");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ConfiguracionesSecciones_ConfiguracionTestId",
+                name: "IX_ConfiguracionesSecciones_IdConfiguracionesTest",
                 table: "ConfiguracionesSecciones",
-                column: "ConfiguracionTestId");
+                column: "IdConfiguracionesTest");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ConfiguracionesSecciones_TipoSeccionesId",
+                name: "IX_ConfiguracionesSecciones_IdTipoSecciones",
                 table: "ConfiguracionesSecciones",
-                column: "TipoSeccionesId");
+                column: "IdTipoSecciones");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ConfiguracionesTest_EvaluadorId",
+                name: "IX_ConfiguracionesTest_IdEvaluador",
                 table: "ConfiguracionesTest",
-                column: "EvaluadorId");
+                column: "IdEvaluador");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ConfiguracionesTest_TipoTestId",
+                name: "IX_ConfiguracionesTest_IdTipoTest",
                 table: "ConfiguracionesTest",
-                column: "TipoTestId");
+                column: "IdTipoTest");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Pacientes_CiudadId",
+                name: "IX_Pacientes_IdCiudad",
                 table: "Pacientes",
-                column: "CiudadId");
+                column: "IdCiudad");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Provincias_PaisId",
+                name: "IX_Provincias_IdPais",
                 table: "Provincias",
-                column: "PaisId");
+                column: "IdPais");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Test_IdConfiguracionTest",
@@ -454,29 +446,29 @@ namespace APITestPyscoIA.Migrations
                 column: "IdPaciente");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TestSecciones_ConfiguracionSeccionesId",
+                name: "IX_TestSecciones_IdConfiguracionSecciones",
                 table: "TestSecciones",
-                column: "ConfiguracionSeccionesId");
+                column: "IdConfiguracionSecciones");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TestSecciones_TestId",
+                name: "IX_TestSecciones_IdTest",
                 table: "TestSecciones",
-                column: "TestId");
+                column: "IdTest");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TestsPreguntas_ConfiguracionBancoPreguntasId",
+                name: "IX_TestsPreguntas_IdConfiguracionBancoPreguntas",
                 table: "TestsPreguntas",
-                column: "ConfiguracionBancoPreguntasId");
+                column: "IdConfiguracionBancoPreguntas");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TestsPreguntas_TestSeccionesId",
+                name: "IX_TestsPreguntas_IdTestSecciones",
                 table: "TestsPreguntas",
-                column: "TestSeccionesId");
+                column: "IdTestSecciones");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TipoSecciones_TipoTestId",
+                name: "IX_TipoSecciones_IdTipoTest",
                 table: "TipoSecciones",
-                column: "TipoTestId");
+                column: "IdTipoTest");
         }
 
         /// <inheritdoc />

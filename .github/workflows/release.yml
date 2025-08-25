@@ -1,0 +1,59 @@
+name: Crear Release con incremento de versión
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout del repositorio
+      uses: actions/checkout@v3
+
+    - name: Instalar jq
+      run: sudo apt-get install jq
+
+    - name: Leer y actualizar versión en appsettings.json
+      id: update_version
+      run: |
+        VERSION=$(jq -r '.Application.Version' appsettings.json)
+        echo "Versión actual: $VERSION"
+        MAJOR=$(echo $VERSION | cut -d. -f1)
+        MINOR=$(echo $VERSION | cut -d. -f2)
+        PATCH=$(echo $VERSION | cut -d. -f3)
+
+        # Incrementar el número minor
+        NEW_MINOR=$((MINOR + 1))
+        NEW_VERSION="$MAJOR.$NEW_MINOR.$PATCH"
+        echo "Nueva versión: $NEW_VERSION"
+
+        # Actualizar appsettings.json
+        jq --arg v "$NEW_VERSION" '.Application.Version = $v' appsettings.json > temp.json && mv temp.json appsettings.json
+
+        echo "VERSION=$NEW_VERSION" >> $GITHUB_ENV
+
+    - name: Commit de la nueva versión
+      run: |
+        git config user.name "github-actions"
+        git config user.email "github-actions@github.com"
+        git add appsettings.json
+        git commit -m "Incrementar versión a $VERSION"
+        git push
+
+    - name: Crear tag con la nueva versión
+      run: |
+        git tag -a "v${VERSION}" -m "Release v${VERSION}"
+        git push origin "v${VERSION}"
+
+    - name: Crear release en GitHub
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: v${{ env.VERSION }}
+        name: Release v${{ env.VERSION }}
+        body: |
+          Release generado automáticamente con versión incrementada.
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,6 +1,7 @@
 ﻿using APITestPyscoIA.Models.Entidades.Base;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace APITestPyscoIA.Models.Entidades
 {
@@ -13,7 +14,9 @@ namespace APITestPyscoIA.Models.Entidades
         [Required]
         [StringLength(500)]
         public string Descripcion { get; set; }
-
+        [Required]
+        public String Instrucciones { get; set; }
+        [JsonIgnore]
         public ICollection<TipoSeccionesModel> Secciones { get; set; }
 
     }
