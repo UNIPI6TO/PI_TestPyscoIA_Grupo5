@@ -1,9 +1,12 @@
 name: Crear Release con incremento de versión
 
 on:
-  push:
+  pull_request:
+    types:
+      - closed
     branches:
-      - main
+      - main 
+      
 
 permissions: 
   contents: write 
