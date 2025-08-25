@@ -1,4 +1,5 @@
 ﻿using APITestPyscoIA.Models.Entidades.Base;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -11,7 +12,8 @@ namespace APITestPyscoIA.Models.Entidades
 
         [Required] public int Orden { get; set; }
         [Required] public string Opcion { get; set; }
-        [Required] public decimal Peso { get; set; }
+        
+        [Precision(8, 4)][Required] public decimal Peso { get; set; }
 
         [Required][ForeignKey("ConfiguracionBancoPreguntas")] public int IdConfiguracionBancoPreguntas { get; set; }
         public ConfiguracionPreguntasModel ConfiguracionBancoPreguntas { get; set; }
