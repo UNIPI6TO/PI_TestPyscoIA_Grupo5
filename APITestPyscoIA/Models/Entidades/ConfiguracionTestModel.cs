@@ -20,11 +20,11 @@ namespace APITestPyscoIA.Models.Entidades
         [Required]
         [ForeignKey("Evaluador")]
         public int IdEvaluador { get; set; }
+        
+        public TipoTestModel? TipoTest { get; set; }
+        
+        public EvaluadorModel? Evaluador { get; set; }
         [JsonIgnore]
-        public TipoTestModel TipoTest { get; set; }
-        [JsonIgnore]
-        public EvaluadorModel Evaluador { get; set; }
-        [JsonIgnore]
-        public ICollection<ConfiguracionSeccionesModel> ConfiguracionesSecciones { get; set; }
+        public ICollection<ConfiguracionSeccionesModel>? ConfiguracionesSecciones { get; set; }
     }
 }

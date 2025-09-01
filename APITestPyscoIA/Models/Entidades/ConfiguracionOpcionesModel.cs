@@ -17,8 +17,8 @@ namespace APITestPyscoIA.Models.Entidades
         [Precision(8, 4)][Required] public decimal Peso { get; set; }
 
         [Required][ForeignKey("ConfiguracionBancoPreguntas")] public int IdConfiguracionBancoPreguntas { get; set; }
-        [JsonIgnore]
-        public ConfiguracionPreguntasModel ConfiguracionBancoPreguntas { get; set; }
+        
+        public ConfiguracionPreguntasModel? ConfiguracionBancoPreguntas { get; set; }
 
     }
 }

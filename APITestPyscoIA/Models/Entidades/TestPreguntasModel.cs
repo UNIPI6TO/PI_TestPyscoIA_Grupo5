@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 
 namespace APITestPyscoIA.Models.Entidades
 {
@@ -19,10 +18,10 @@ namespace APITestPyscoIA.Models.Entidades
         
         [Required][ForeignKey("TestSecciones")] 
         public int IdTestSecciones { get; set; }
-        [JsonIgnore]
-        public ConfiguracionPreguntasModel ConfiguracionPreguntas { get; set; }
-        [JsonIgnore]
-        public TestSeccionesModel TestSecciones { get; set; }
+        
+        public ConfiguracionPreguntasModel? ConfiguracionPreguntas { get; set; }
+        
+        public TestSeccionesModel? TestSecciones { get; set; }
 
     }
 }

@@ -26,12 +26,12 @@ namespace APITestPyscoIA.Models.Entidades
         [ForeignKey("ConfiguracionSecciones")] 
         public int IdConfiguracionSecciones { get; set; }
 
+        
+        public TestModel? Test { get; set; }
+        
+        public ConfiguracionSeccionesModel? ConfiguracionSecciones { get; set; }
         [JsonIgnore]
-        public TestModel Test { get; set; }
-        [JsonIgnore]
-        public ConfiguracionSeccionesModel ConfiguracionSecciones { get; set; }
-        [JsonIgnore]
-        public ICollection<TestPreguntasModel> Preguntas { get; set; }
+        public ICollection<TestPreguntasModel>? Preguntas { get; set; }
 
     }
 }

@@ -16,8 +16,9 @@ namespace APITestPyscoIA.Models.Entidades
         [Required]
         [ForeignKey("Provincia")]
         public int IdProvincia { get; set; }
-        [JsonIgnore]
-        public ProvinciaModel Provincia { get; set; }
+        
+
+        public ProvinciaModel? Provincia { get; set; }
 
     }
 }

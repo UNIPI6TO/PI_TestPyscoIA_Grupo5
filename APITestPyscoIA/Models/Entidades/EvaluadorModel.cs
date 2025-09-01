@@ -21,10 +21,7 @@ namespace APITestPyscoIA.Models.Entidades
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
-        [DataType(DataType.Password)]
-        public string Contrasena { get; set; }
-        [JsonIgnore]
-        public ICollection<ConfiguracionTestModel> ConfiguracionesTest { get; set; }
+                
+        public ICollection<ConfiguracionTestModel>? ConfiguracionesTest { get; set; }
     }
 }

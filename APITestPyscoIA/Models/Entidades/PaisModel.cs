@@ -14,7 +14,7 @@ namespace APITestPyscoIA.Models.Entidades
         public string Nombre { get; set; }
         
         [JsonIgnore]
-        public ICollection<ProvinciaModel> Provincias { get; set; }
+        public ICollection<ProvinciaModel>? Provincias { get; set; }
 
     }
 }

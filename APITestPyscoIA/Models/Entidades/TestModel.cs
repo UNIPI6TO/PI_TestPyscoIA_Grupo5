@@ -19,13 +19,13 @@ namespace APITestPyscoIA.Models.Entidades
         [Required]
         [ForeignKey("Paciente")] 
         public int IdPaciente { get; set; }
+        
+        public ConfiguracionTestModel? ConfiguracionTest { get; set; }
+        
+        public EvaluadorModel? Evaluador { get; set; }
+        
+        public PacienteModel? Paciente { get; set; }
         [JsonIgnore]
-        public ConfiguracionTestModel ConfiguracionTest { get; set; }
-        [JsonIgnore]
-        public EvaluadorModel Evaluador { get; set; }
-        [JsonIgnore]
-        public PacienteModel Paciente { get; set; }
-        [JsonIgnore]
-        public ICollection<TestSeccionesModel> Secciones { get; set; }
+        public ICollection<TestSeccionesModel>? Secciones { get; set; }
     }
 }

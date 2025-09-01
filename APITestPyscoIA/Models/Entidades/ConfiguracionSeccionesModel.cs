@@ -24,12 +24,12 @@ namespace APITestPyscoIA.Models.Entidades
         [RegularExpression("AVG|SUM")] 
         public string FormulaAgregado { get; set; }
 
+        
+        public ConfiguracionTestModel? ConfiguracionTest { get; set; }
+        
+        public TipoSeccionesModel? TipoSecciones { get; set; }
         [JsonIgnore]
-        public ConfiguracionTestModel ConfiguracionTest { get; set; }
-        [JsonIgnore]
-        public TipoSeccionesModel TipoSecciones { get; set; }
-        [JsonIgnore]
-        public ICollection<ConfiguracionPreguntasModel> BancoPreguntas { get; set; }
+        public ICollection<ConfiguracionPreguntasModel>? BancoPreguntas { get; set; }
 
 
 

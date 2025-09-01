@@ -35,7 +35,7 @@ namespace APITestPyscoIA.Models.Entidades
         [ForeignKey("Ciudad")]
         public int IdCiudad { get; set; }
 
-        public CiudadModel Ciudad { get; set; } 
+        public CiudadModel? Ciudad { get; set; } 
 
     }
 }

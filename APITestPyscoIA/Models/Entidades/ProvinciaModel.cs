@@ -16,10 +16,10 @@ namespace APITestPyscoIA.Models.Entidades
         [ForeignKey("Pais")]
         public int IdPais { get; set; }
 
+        
+        public PaisModel? Pais { get; set; }
         [JsonIgnore]
-        public PaisModel Pais { get; set; }
-        [JsonIgnore]
-        public ICollection<CiudadModel> Ciudades { get; set; }
+        public ICollection<CiudadModel>? Ciudades { get; set; }
 
     }
 }

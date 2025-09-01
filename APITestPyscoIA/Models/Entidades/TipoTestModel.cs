@@ -15,9 +15,9 @@ namespace APITestPyscoIA.Models.Entidades
         [StringLength(500)]
         public string Descripcion { get; set; }
         [Required]
-        public String Instrucciones { get; set; }
+        public string Instrucciones { get; set; }
         [JsonIgnore]
-        public ICollection<TipoSeccionesModel> Secciones { get; set; }
+        public ICollection<TipoSeccionesModel>? Secciones { get; set; }
 
     }
 }

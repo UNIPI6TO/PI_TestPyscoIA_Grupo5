@@ -16,16 +16,16 @@ namespace APITestPyscoIA.Models.Entidades
         public int Orden { get; set; }
 
         [Required]
-        public String Instrucciones { get; set; }
+        public string Instrucciones { get; set; }
 
         public string Icono { get; set; }
         
         [Required]
         [ForeignKey("TipoTest")]
         public int IdTipoTest { get; set; }
+        
+        public TipoTestModel? TipoTest { get; set; }
         [JsonIgnore]
-        public TipoTestModel TipoTest { get; set; }
-        [JsonIgnore]
-        public ICollection<ConfiguracionSeccionesModel> ConfiguracionesSecciones { get; set; }
+        public ICollection<ConfiguracionSeccionesModel>? ConfiguracionesSecciones { get; set; }
     }
 }

@@ -1,0 +1,6 @@
+
+
+INSERT INTO [dbo].[TipoTest]([Nombre],[Descripcion],[Instrucciones],[Creado],[Eliminado])VALUES ('Evaluación de Personalidad','En estLa Evaluación de Personalidad es un instrumento psicológico diseñado para medir cinco dimensiones clave del modelo de los Cinco Grandes Rasgos de Personalidad (Big Five)e test se evaluara al sujeto personal','El test consta de entre 20 y 30 ítems, presentados como afirmaciones que el participante debe valorar utilizando una escala de Likert, típicamente de 5 puntos, que va desde “Totalmente en desacuerdo” hasta “Totalmente de acuerdo”.',GETDATE(),0);
+INSERT INTO [dbo].[TipoTest]([Nombre],[Descripcion],[Instrucciones],[Creado],[Eliminado])VALUES ('Evaluación de Aptitud','TDB','TDB',GETDATE(),0);
+INSERT INTO [dbo].[TipoTest]([Nombre],[Descripcion],[Instrucciones],[Creado],[Eliminado])VALUES ('Evaluación de Autoestima','Evaluar el nivel de autoestima de una persona, entendida como la valoración que tiene de sí misma en distintos aspectos de su vida personal, social y emocional.','Este test consta de una serie de afirmaciones (por ejemplo: “Me siento satisfecho conmigo mismo”), que el participante debe responder utilizando una escala de Likert de 1 a 5, donde:',GETDATE(),0);
+INSERT INTO [dbo].[TipoTest]([Nombre],[Descripcion],[Instrucciones],[Creado],[Eliminado])VALUES ('Evaluación IQ','TDB','TDB',GETDATE(),0);

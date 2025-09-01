@@ -1,6 +1,7 @@
 ﻿using APITestPyscoIA.Models.Entidades.Base;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace APITestPyscoIA.Models.Entidades
 {
@@ -14,8 +15,9 @@ namespace APITestPyscoIA.Models.Entidades
         [ForeignKey("ConfiguracionSecciones")]
         public int IdConfiguracionSecciones { get; set; }
 
-        public ConfiguracionSeccionesModel ConfiguracionSecciones { get; set; } 
-        public ICollection<ConfiguracionOpcionesModel> Opciones { get; set; }
+        public ConfiguracionSeccionesModel? ConfiguracionSecciones { get; set; }
+        [JsonIgnore]
+        public ICollection<ConfiguracionOpcionesModel>? Opciones { get; set; }
 
     }
 }
