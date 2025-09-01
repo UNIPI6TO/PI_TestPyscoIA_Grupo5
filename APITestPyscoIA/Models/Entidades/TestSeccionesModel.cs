@@ -12,12 +12,6 @@ namespace APITestPyscoIA.Models.Entidades
         public string? Resultado { get; set; }
         public DateTime? FechaInicioTest { get; set; }
         public DateTime? FechaFinTest { get; set; }
-        public int? Duracion { get; set; }
-        public int? Contestadas { get; set; }
-        public int? NoContestadas { get; set; }
-        public int? CantidadPreguntas { get; set; }
-        public bool? Completado { get; set; }
-        public bool? Iniciado { get; set; }
 
         [Required]
         [ForeignKey("Test")] 

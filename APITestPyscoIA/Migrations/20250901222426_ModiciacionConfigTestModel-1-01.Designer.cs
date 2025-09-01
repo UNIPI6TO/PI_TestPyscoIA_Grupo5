@@ -4,6 +4,7 @@ using APITestPyscoIA.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APITestPyscoIA.Migrations
 {
     [DbContext(typeof(DatosDbContext))]
-    partial class DatosDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250901222426_ModiciacionConfigTestModel-1-01")]
+    partial class ModiciacionConfigTestModel101
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -179,9 +182,6 @@ namespace APITestPyscoIA.Migrations
 
                     b.Property<DateTime>("Creado")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("Duracion")
-                        .HasColumnType("int");
 
                     b.Property<bool>("Eliminado")
                         .HasColumnType("bit");
@@ -369,17 +369,8 @@ namespace APITestPyscoIA.Migrations
                     b.Property<int>("CantidadPreguntas")
                         .HasColumnType("int");
 
-                    b.Property<bool?>("Completado")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("Contestadas")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Creado")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("Duracion")
-                        .HasColumnType("int");
 
                     b.Property<bool>("Eliminado")
                         .HasColumnType("bit");
@@ -391,12 +382,6 @@ namespace APITestPyscoIA.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("IdPaciente")
-                        .HasColumnType("int");
-
-                    b.Property<bool?>("Iniciado")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("NoContestadas")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -465,8 +450,20 @@ namespace APITestPyscoIA.Migrations
                     b.Property<DateTime?>("Actualizado")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("CantidadPreguntas")
+                        .HasColumnType("int");
+
+                    b.Property<bool?>("Completado")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("Contestadas")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Creado")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("Duracion")
+                        .HasColumnType("int");
 
                     b.Property<bool>("Eliminado")
                         .HasColumnType("bit");
@@ -481,6 +478,12 @@ namespace APITestPyscoIA.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("IdTest")
+                        .HasColumnType("int");
+
+                    b.Property<bool?>("Iniciado")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("NoContestadas")
                         .HasColumnType("int");
 
                     b.Property<string>("Resultado")
@@ -536,6 +539,9 @@ namespace APITestPyscoIA.Migrations
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Orden")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
