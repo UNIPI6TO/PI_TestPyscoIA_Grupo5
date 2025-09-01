@@ -19,7 +19,14 @@ namespace APITestPyscoIA.Models.Entidades
         [Required]
         [ForeignKey("Paciente")] 
         public int IdPaciente { get; set; }
-        
+
+        public int? Duracion { get; set; }
+        public int? Contestadas { get; set; }
+        public int? NoContestadas { get; set; }
+        public bool? Completado { get; set; }
+        public bool? Iniciado { get; set; }
+
+
         public ConfiguracionTestModel? ConfiguracionTest { get; set; }
         
         public EvaluadorModel? Evaluador { get; set; }

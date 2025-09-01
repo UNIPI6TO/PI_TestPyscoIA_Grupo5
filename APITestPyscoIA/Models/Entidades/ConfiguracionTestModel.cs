@@ -17,10 +17,10 @@ namespace APITestPyscoIA.Models.Entidades
         [Required]
         [ForeignKey("TipoTest")]
         public int IdTipoTest { get; set; }
+
         [Required]
-        [ForeignKey("Evaluador")]
-        public int IdEvaluador { get; set; }
-        
+        public int Duracion { get; set; }
+
         public TipoTestModel? TipoTest { get; set; }
         
         public EvaluadorModel? Evaluador { get; set; }
