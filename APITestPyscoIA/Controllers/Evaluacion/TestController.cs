@@ -8,51 +8,51 @@ using Microsoft.EntityFrameworkCore;
 using APITestPyscoIA.Data;
 using APITestPyscoIA.Models.Entidades;
 
-namespace APITestPyscoIA.Controllers.Configuracion
+namespace APITestPyscoIA.Controllers.Evaluacion
 {
     [Route("api/config/[controller]")]
     [ApiController]
-    public class CiudadController : ControllerBase
+    public class TestController : ControllerBase
     {
         private readonly DatosDbContext _context;
 
-        public CiudadController(DatosDbContext context)
+        public TestController(DatosDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/config/Ciudad
+        // GET: api/config/Test
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CiudadModel>>> GetCiudades()
+        public async Task<ActionResult<IEnumerable<TestModel>>> GetTests()
         {
-            return await _context.Ciudades.ToListAsync();
+            return await _context.Tests.ToListAsync();
         }
 
-        // GET: api/config/Ciudad/5
+        // GET: api/config/Test/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<CiudadModel>> GetCiudadModel(int id)
+        public async Task<ActionResult<TestModel>> GetTestModel(int id)
         {
-            var ciudadModel = await _context.Ciudades.FindAsync(id);
+            var testModel = await _context.Tests.FindAsync(id);
 
-            if (ciudadModel == null)
+            if (testModel == null)
             {
                 return NotFound();
             }
 
-            return ciudadModel;
+            return testModel;
         }
 
-        // PUT: api/config/Ciudad/5
+        // PUT: api/config/Test/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCiudadModel(int id, CiudadModel ciudadModel)
+        public async Task<IActionResult> PutTestModel(int id, TestModel testModel)
         {
-            if (id != ciudadModel.Id)
+            if (id != testModel.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(ciudadModel).State = EntityState.Modified;
+            _context.Entry(testModel).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace APITestPyscoIA.Controllers.Configuracion
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CiudadModelExists(id))
+                if (!TestModelExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace APITestPyscoIA.Controllers.Configuracion
             return NoContent();
         }
 
-        // POST: api/config/Ciudad
+        // POST: api/config/Test
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<CiudadModel>> PostCiudadModel(CiudadModel ciudadModel)
+        public async Task<ActionResult<TestModel>> PostTestModel(TestModel testModel)
         {
-            _context.Ciudades.Add(ciudadModel);
+            _context.Tests.Add(testModel);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCiudadModel", new { id = ciudadModel.Id }, ciudadModel);
+            return CreatedAtAction("GetTestModel", new { id = testModel.Id }, testModel);
         }
 
-        // DELETE: api/config/Ciudad/5
+        // DELETE: api/config/Test/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCiudadModel(int id)
+        public async Task<IActionResult> DeleteTestModel(int id)
         {
-            var ciudadModel = await _context.Ciudades.FindAsync(id);
-            if (ciudadModel == null)
+            var testModel = await _context.Tests.FindAsync(id);
+            if (testModel == null)
             {
                 return NotFound();
             }
 
-            _context.Ciudades.Remove(ciudadModel);
+            _context.Tests.Remove(testModel);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool CiudadModelExists(int id)
+        private bool TestModelExists(int id)
         {
-            return _context.Ciudades.Any(e => e.Id == id);
+            return _context.Tests.Any(e => e.Id == id);
         }
     }
 }

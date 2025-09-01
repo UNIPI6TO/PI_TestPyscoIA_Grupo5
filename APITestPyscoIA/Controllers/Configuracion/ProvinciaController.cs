@@ -21,14 +21,14 @@ namespace APITestPyscoIA.Controllers.Configuracion
             _context = context;
         }
 
-        // GET: api/Provincia
+        // GET: api/config/Provincia
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProvinciaModel>>> GetProvincias()
         {
             return await _context.Provincias.ToListAsync();
         }
 
-        // GET: api/Provincia/5
+        // GET: api/config/Provincia/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ProvinciaModel>> GetProvinciaModel(int id)
         {
@@ -42,7 +42,7 @@ namespace APITestPyscoIA.Controllers.Configuracion
             return provinciaModel;
         }
 
-        // PUT: api/Provincia/5
+        // PUT: api/config/Provincia/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProvinciaModel(int id, ProvinciaModel provinciaModel)
@@ -73,7 +73,7 @@ namespace APITestPyscoIA.Controllers.Configuracion
             return NoContent();
         }
 
-        // POST: api/Provincia
+        // POST: api/config/Provincia
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<ProvinciaModel>> PostProvinciaModel(ProvinciaModel provinciaModel)
@@ -84,7 +84,7 @@ namespace APITestPyscoIA.Controllers.Configuracion
             return CreatedAtAction("GetProvinciaModel", new { id = provinciaModel.Id }, provinciaModel);
         }
 
-        // DELETE: api/Provincia/5
+        // DELETE: api/config/Provincia/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProvinciaModel(int id)
         {

@@ -12,47 +12,47 @@ namespace APITestPyscoIA.Controllers.Configuracion
 {
     [Route("api/config/[controller]")]
     [ApiController]
-    public class CiudadController : ControllerBase
+    public class PacienteController : ControllerBase
     {
         private readonly DatosDbContext _context;
 
-        public CiudadController(DatosDbContext context)
+        public PacienteController(DatosDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/config/Ciudad
+        // GET: api/config/Paciente
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CiudadModel>>> GetCiudades()
+        public async Task<ActionResult<IEnumerable<PacienteModel>>> GetPacientes()
         {
-            return await _context.Ciudades.ToListAsync();
+            return await _context.Pacientes.ToListAsync();
         }
 
-        // GET: api/config/Ciudad/5
+        // GET: api/config/Paciente/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<CiudadModel>> GetCiudadModel(int id)
+        public async Task<ActionResult<PacienteModel>> GetPacienteModel(int id)
         {
-            var ciudadModel = await _context.Ciudades.FindAsync(id);
+            var pacienteModel = await _context.Pacientes.FindAsync(id);
 
-            if (ciudadModel == null)
+            if (pacienteModel == null)
             {
                 return NotFound();
             }
 
-            return ciudadModel;
+            return pacienteModel;
         }
 
-        // PUT: api/config/Ciudad/5
+        // PUT: api/config/Paciente/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCiudadModel(int id, CiudadModel ciudadModel)
+        public async Task<IActionResult> PutPacienteModel(int id, PacienteModel pacienteModel)
         {
-            if (id != ciudadModel.Id)
+            if (id != pacienteModel.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(ciudadModel).State = EntityState.Modified;
+            _context.Entry(pacienteModel).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace APITestPyscoIA.Controllers.Configuracion
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CiudadModelExists(id))
+                if (!PacienteModelExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace APITestPyscoIA.Controllers.Configuracion
             return NoContent();
         }
 
-        // POST: api/config/Ciudad
+        // POST: api/config/Paciente
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<CiudadModel>> PostCiudadModel(CiudadModel ciudadModel)
+        public async Task<ActionResult<PacienteModel>> PostPacienteModel(PacienteModel pacienteModel)
         {
-            _context.Ciudades.Add(ciudadModel);
+            _context.Pacientes.Add(pacienteModel);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCiudadModel", new { id = ciudadModel.Id }, ciudadModel);
+            return CreatedAtAction("GetPacienteModel", new { id = pacienteModel.Id }, pacienteModel);
         }
 
-        // DELETE: api/config/Ciudad/5
+        // DELETE: api/config/Paciente/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCiudadModel(int id)
+        public async Task<IActionResult> DeletePacienteModel(int id)
         {
-            var ciudadModel = await _context.Ciudades.FindAsync(id);
-            if (ciudadModel == null)
+            var pacienteModel = await _context.Pacientes.FindAsync(id);
+            if (pacienteModel == null)
             {
                 return NotFound();
             }
 
-            _context.Ciudades.Remove(ciudadModel);
+            _context.Pacientes.Remove(pacienteModel);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool CiudadModelExists(int id)
+        private bool PacienteModelExists(int id)
         {
-            return _context.Ciudades.Any(e => e.Id == id);
+            return _context.Pacientes.Any(e => e.Id == id);
         }
     }
 }

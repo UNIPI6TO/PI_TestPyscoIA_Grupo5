@@ -12,47 +12,47 @@ namespace APITestPyscoIA.Controllers.Configuracion
 {
     [Route("api/config/[controller]")]
     [ApiController]
-    public class CiudadController : ControllerBase
+    public class EvaluadorController : ControllerBase
     {
         private readonly DatosDbContext _context;
 
-        public CiudadController(DatosDbContext context)
+        public EvaluadorController(DatosDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/config/Ciudad
+        // GET: api/config/Evaluador
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CiudadModel>>> GetCiudades()
+        public async Task<ActionResult<IEnumerable<EvaluadorModel>>> GetEvaluadores()
         {
-            return await _context.Ciudades.ToListAsync();
+            return await _context.Evaluadores.ToListAsync();
         }
 
-        // GET: api/config/Ciudad/5
+        // GET: api/config/Evaluador/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<CiudadModel>> GetCiudadModel(int id)
+        public async Task<ActionResult<EvaluadorModel>> GetEvaluadorModel(int id)
         {
-            var ciudadModel = await _context.Ciudades.FindAsync(id);
+            var evaluadorModel = await _context.Evaluadores.FindAsync(id);
 
-            if (ciudadModel == null)
+            if (evaluadorModel == null)
             {
                 return NotFound();
             }
 
-            return ciudadModel;
+            return evaluadorModel;
         }
 
-        // PUT: api/config/Ciudad/5
+        // PUT: api/config/Evaluador/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCiudadModel(int id, CiudadModel ciudadModel)
+        public async Task<IActionResult> PutEvaluadorModel(int id, EvaluadorModel evaluadorModel)
         {
-            if (id != ciudadModel.Id)
+            if (id != evaluadorModel.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(ciudadModel).State = EntityState.Modified;
+            _context.Entry(evaluadorModel).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace APITestPyscoIA.Controllers.Configuracion
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CiudadModelExists(id))
+                if (!EvaluadorModelExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace APITestPyscoIA.Controllers.Configuracion
             return NoContent();
         }
 
-        // POST: api/config/Ciudad
+        // POST: api/config/Evaluador
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<CiudadModel>> PostCiudadModel(CiudadModel ciudadModel)
+        public async Task<ActionResult<EvaluadorModel>> PostEvaluadorModel(EvaluadorModel evaluadorModel)
         {
-            _context.Ciudades.Add(ciudadModel);
+            _context.Evaluadores.Add(evaluadorModel);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCiudadModel", new { id = ciudadModel.Id }, ciudadModel);
+            return CreatedAtAction("GetEvaluadorModel", new { id = evaluadorModel.Id }, evaluadorModel);
         }
 
-        // DELETE: api/config/Ciudad/5
+        // DELETE: api/config/Evaluador/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCiudadModel(int id)
+        public async Task<IActionResult> DeleteEvaluadorModel(int id)
         {
-            var ciudadModel = await _context.Ciudades.FindAsync(id);
-            if (ciudadModel == null)
+            var evaluadorModel = await _context.Evaluadores.FindAsync(id);
+            if (evaluadorModel == null)
             {
                 return NotFound();
             }
 
-            _context.Ciudades.Remove(ciudadModel);
+            _context.Evaluadores.Remove(evaluadorModel);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool CiudadModelExists(int id)
+        private bool EvaluadorModelExists(int id)
         {
-            return _context.Ciudades.Any(e => e.Id == id);
+            return _context.Evaluadores.Any(e => e.Id == id);
         }
     }
 }

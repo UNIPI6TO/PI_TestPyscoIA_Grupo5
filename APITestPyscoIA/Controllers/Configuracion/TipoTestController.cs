@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using APITestPyscoIA.Data;
 using APITestPyscoIA.Models.Entidades;
 
-namespace APITestPyscoIA.Controllers.Evaluacion
+namespace APITestPyscoIA.Controllers.Configuracion
 {
     [Route("api/evaluacion/[controller]")]
     [ApiController]

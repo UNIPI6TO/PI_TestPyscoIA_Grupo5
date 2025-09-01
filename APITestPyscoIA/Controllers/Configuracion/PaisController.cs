@@ -21,14 +21,14 @@ namespace APITestPyscoIA.Controllers.Configuracion
             _context = context;
         }
 
-        // GET: api/Pais
+        // GET: api/config/Pais
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PaisModel>>> GetPaises()
         {
             return await _context.Paises.ToListAsync();
         }
 
-        // GET: api/Pais/5
+        // GET: api/config/Pais/5
         [HttpGet("{id}")]
         public async Task<ActionResult<PaisModel>> GetPaisModel(int id)
         {
@@ -42,7 +42,7 @@ namespace APITestPyscoIA.Controllers.Configuracion
             return paisModel;
         }
 
-        // PUT: api/Pais/5
+        // PUT: api/config/Pais/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPaisModel(int id, PaisModel paisModel)
@@ -73,7 +73,7 @@ namespace APITestPyscoIA.Controllers.Configuracion
             return NoContent();
         }
 
-        // POST: api/Pais
+        // POST: api/config/Pais
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<PaisModel>> PostPaisModel(PaisModel paisModel)
@@ -84,7 +84,7 @@ namespace APITestPyscoIA.Controllers.Configuracion
             return CreatedAtAction("GetPaisModel", new { id = paisModel.Id }, paisModel);
         }
 
-        // DELETE: api/Pais/5
+        // DELETE: api/config/Pais/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePaisModel(int id)
         {
