@@ -21,3 +21,4 @@ packages/
 
 # Archivos de configuración de entorno
 appsettings.*.json
+/TestPsycoAI/.vscode
