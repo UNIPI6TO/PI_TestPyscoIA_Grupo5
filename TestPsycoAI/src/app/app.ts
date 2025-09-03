@@ -1,14 +1,15 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { HeaderComponent } from './header/header';
+import { Header } from './layout/header/header';
+
 
 
 
 @Component({
   selector: 'app-root',
-  imports: [
+  imports: [ 
     RouterOutlet, 
-    HeaderComponent
+    Header
   ],
   templateUrl: './app.html',
   styleUrl: './app.css'
