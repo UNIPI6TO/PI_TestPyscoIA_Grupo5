@@ -4,6 +4,7 @@ using APITestPyscoIA.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APITestPyscoIA.Migrations
 {
     [DbContext(typeof(DatosDbContext))]
-    partial class DatosDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250904065422_EmailOpcional")]
+    partial class EmailOpcional
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,7 +39,7 @@ namespace APITestPyscoIA.Migrations
                     b.Property<DateTime>("Creado")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("Eliminado")
+                    b.Property<bool>("Eliminado")
                         .HasColumnType("bit");
 
                     b.Property<int>("IdProvincia")
@@ -46,9 +49,6 @@ namespace APITestPyscoIA.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<bool?>("Sincronizado")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -71,7 +71,7 @@ namespace APITestPyscoIA.Migrations
                     b.Property<DateTime>("Creado")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("Eliminado")
+                    b.Property<bool>("Eliminado")
                         .HasColumnType("bit");
 
                     b.Property<int>("IdConfiguracionBancoPreguntas")
@@ -87,9 +87,6 @@ namespace APITestPyscoIA.Migrations
                     b.Property<decimal>("Peso")
                         .HasPrecision(8, 4)
                         .HasColumnType("decimal(8,4)");
-
-                    b.Property<bool?>("Sincronizado")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -112,7 +109,7 @@ namespace APITestPyscoIA.Migrations
                     b.Property<DateTime>("Creado")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("Eliminado")
+                    b.Property<bool>("Eliminado")
                         .HasColumnType("bit");
 
                     b.Property<int>("IdConfiguracionSecciones")
@@ -121,9 +118,6 @@ namespace APITestPyscoIA.Migrations
                     b.Property<string>("Pregunta")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("Sincronizado")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -146,7 +140,7 @@ namespace APITestPyscoIA.Migrations
                     b.Property<DateTime>("Creado")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("Eliminado")
+                    b.Property<bool>("Eliminado")
                         .HasColumnType("bit");
 
                     b.Property<string>("FormulaAgregado")
@@ -165,9 +159,6 @@ namespace APITestPyscoIA.Migrations
                     b.Property<string>("Seccion")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("Sincronizado")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -195,7 +186,7 @@ namespace APITestPyscoIA.Migrations
                     b.Property<int>("Duracion")
                         .HasColumnType("int");
 
-                    b.Property<bool?>("Eliminado")
+                    b.Property<bool>("Eliminado")
                         .HasColumnType("bit");
 
                     b.Property<int?>("EvaluadorId")
@@ -207,9 +198,6 @@ namespace APITestPyscoIA.Migrations
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("Sincronizado")
-                        .HasColumnType("bit");
 
                     b.Property<int>("TiempoExpiracion")
                         .HasColumnType("int");
@@ -242,7 +230,7 @@ namespace APITestPyscoIA.Migrations
                     b.Property<DateTime>("Creado")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("Eliminado")
+                    b.Property<bool>("Eliminado")
                         .HasColumnType("bit");
 
                     b.Property<string>("Email")
@@ -253,9 +241,6 @@ namespace APITestPyscoIA.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<bool?>("Sincronizado")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -285,7 +270,7 @@ namespace APITestPyscoIA.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("Eliminado")
+                    b.Property<bool>("Eliminado")
                         .HasColumnType("bit");
 
                     b.Property<string>("Email")
@@ -301,9 +286,6 @@ namespace APITestPyscoIA.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<bool?>("Sincronizado")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -326,16 +308,13 @@ namespace APITestPyscoIA.Migrations
                     b.Property<DateTime>("Creado")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("Eliminado")
+                    b.Property<bool>("Eliminado")
                         .HasColumnType("bit");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<bool?>("Sincronizado")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -356,7 +335,7 @@ namespace APITestPyscoIA.Migrations
                     b.Property<DateTime>("Creado")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("Eliminado")
+                    b.Property<bool>("Eliminado")
                         .HasColumnType("bit");
 
                     b.Property<int>("IdPais")
@@ -366,9 +345,6 @@ namespace APITestPyscoIA.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<bool?>("Sincronizado")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -403,7 +379,7 @@ namespace APITestPyscoIA.Migrations
                     b.Property<int?>("Duracion")
                         .HasColumnType("int");
 
-                    b.Property<bool?>("Eliminado")
+                    b.Property<bool>("Eliminado")
                         .HasColumnType("bit");
 
                     b.Property<int>("IdConfiguracionTest")
@@ -420,9 +396,6 @@ namespace APITestPyscoIA.Migrations
 
                     b.Property<int?>("NoContestadas")
                         .HasColumnType("int");
-
-                    b.Property<bool?>("Sincronizado")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -449,7 +422,7 @@ namespace APITestPyscoIA.Migrations
                     b.Property<DateTime>("Creado")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("Eliminado")
+                    b.Property<bool>("Eliminado")
                         .HasColumnType("bit");
 
                     b.Property<int>("IdConfiguracionBancoPreguntas")
@@ -469,9 +442,6 @@ namespace APITestPyscoIA.Migrations
                     b.Property<string>("Respuesta")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("Sincronizado")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -496,7 +466,7 @@ namespace APITestPyscoIA.Migrations
                     b.Property<DateTime>("Creado")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("Eliminado")
+                    b.Property<bool>("Eliminado")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("FechaFinTest")
@@ -516,9 +486,6 @@ namespace APITestPyscoIA.Migrations
 
                     b.Property<float?>("Score")
                         .HasColumnType("real");
-
-                    b.Property<bool?>("Sincronizado")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -550,7 +517,7 @@ namespace APITestPyscoIA.Migrations
                     b.Property<int>("Duracion")
                         .HasColumnType("int");
 
-                    b.Property<bool?>("Eliminado")
+                    b.Property<bool>("Eliminado")
                         .HasColumnType("bit");
 
                     b.Property<string>("Icono")
@@ -567,9 +534,6 @@ namespace APITestPyscoIA.Migrations
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("Sincronizado")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -597,7 +561,7 @@ namespace APITestPyscoIA.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<bool?>("Eliminado")
+                    b.Property<bool>("Eliminado")
                         .HasColumnType("bit");
 
                     b.Property<string>("Instrucciones")
@@ -608,9 +572,6 @@ namespace APITestPyscoIA.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<bool?>("Sincronizado")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

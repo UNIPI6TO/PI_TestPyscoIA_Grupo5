@@ -2,6 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using System.Text.Json.Serialization;
 
     public class BaseModel
     {
@@ -15,7 +16,10 @@
         [Column(TypeName = "datetime2")]
         public DateTime ? Actualizado { get; set; }
         [Display(Name = "Está eliminado ?")]
-        public bool Eliminado { get; set; }
+        public bool? Eliminado { get; set; }
+        [JsonIgnore]
+        public bool? Sincronizado { get; set; }
+
     }
 
 }
