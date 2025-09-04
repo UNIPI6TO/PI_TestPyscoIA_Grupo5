@@ -1,0 +1,128 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white text-center">
+          <h3 class="mb-0">Crear Nuevo Paciente</h3>
+        </div>
+        <div class="card-body">
+          <form #pacienteForm="ngForm" (ngSubmit)="onSubmit()">
+
+            <fieldset class="mb-4 p-3 border rounded">
+              <legend class="float-none w-auto px-1 fs-6 text-primary">Datos Personales</legend>
+
+              <div class="mb-3">
+                <label for="cedula" class="form-label">Cédula</label>
+                <input type="text" 
+                       class="form-control" 
+                       id="cedula" 
+                       name="cedula" 
+                       [(ngModel)]="paciente.cedula" 
+                       required 
+                       pattern="[0-9]{10}"
+                       #cedula="ngModel">
+                <div *ngIf="cedula.invalid && (cedula.dirty || cedula.touched)" class="text-danger mt-1">
+                  <div *ngIf="cedula.errors?.['required']">
+                    La cédula es obligatoria.
+                  </div>
+                  <div *ngIf="cedula.errors?.['pattern']">
+                    La cédula debe contener 10 dígitos.
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" 
+                       class="form-control" 
+                       id="nombre" 
+                       name="nombre" 
+                       [(ngModel)]="paciente.nombre" 
+                       required
+                       #nombre="ngModel">
+                <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="text-danger mt-1">
+                  <div *ngIf="nombre.errors?.['required']">
+                    El nombre es obligatorio.
+                  </div>
+                </div>
+              </div>
+              
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" 
+                       class="form-control" 
+                       id="email" 
+                       name="email" 
+                       [(ngModel)]="paciente.email" 
+                       required
+                       pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"
+                       #email="ngModel">
+                <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger mt-1">
+                  <div *ngIf="email.errors?.['required']">
+                    El email es obligatorio.
+                  </div>
+                  <div *ngIf="email.errors?.['pattern']">
+                    El formato del email no es válido.
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento</label>
+                <input type="date" 
+                       class="form-control" 
+                       id="fechaNacimiento" 
+                       name="fechaNacimiento" 
+                       [(ngModel)]="paciente.fechaNacimiento" 
+                       required
+                       #fechaNacimiento="ngModel">
+                <div *ngIf="fechaNacimiento.invalid && (fechaNacimiento.dirty || fechaNacimiento.touched)" class="text-danger mt-1">
+                  <div *ngIf="fechaNacimiento.errors?.['required']">
+                    La fecha de nacimiento es obligatoria.
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="direccion" class="form-label">Dirección</label>
+                <input type="text" 
+                       class="form-control" 
+                       id="direccion" 
+                       name="direccion" 
+                       [(ngModel)]="paciente.direccion" 
+                       required
+                       #direccion="ngModel">
+                <div *ngIf="direccion.invalid && (direccion.dirty || direccion.touched)" class="text-danger mt-1">
+                  <div *ngIf="direccion.errors?.['required']">
+                    La dirección es obligatoria.
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset class="mb-4 p-3 border rounded">
+              <legend class="float-none w-auto px-1 fs-6 text-primary">Localización</legend>
+              <div class="mb-3">
+                <label for="idCiudad" class="form-label">Ciudad</label>
+                <select class="form-select" id="idCiudad" name="idCiudad" [(ngModel)]="paciente.idCiudad" required>
+                  <option [ngValue]="null" disabled>Selecciona una ciudad</option>
+                  <option *ngFor="let ciudad of ciudadesDisponibles" [ngValue]="ciudad.id">{{ ciudad.nombre }}</option>
+                </select>
+                </div>
+            </fieldset>
+
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-primary" [disabled]="pacienteForm.invalid">
+                Crear Paciente
+              </button>
+              <button type="button" class="btn btn-secondary" (click)="pacienteForm.reset()">
+                Limpiar
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
