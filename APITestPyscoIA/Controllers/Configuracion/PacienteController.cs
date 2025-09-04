@@ -25,7 +25,7 @@ namespace APITestPyscoIA.Controllers.Configuracion
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PacienteModel>>> GetPacientes()
         {
-            return await _context.Pacientes.ToListAsync();
+            return await _context.Pacientes.Include(p => p.Ciudad).ToListAsync();
         }
 
         // GET: api/config/Paciente/5
@@ -76,8 +76,20 @@ namespace APITestPyscoIA.Controllers.Configuracion
         // POST: api/config/Paciente
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<PacienteModel>> PostPacienteModel(PacienteModel pacienteModel)
+        public async Task<ActionResult<PacienteModel>> PostPacienteModel(PacienteDTO pacienteDTO)
         {
+            PacienteModel pacienteModel = new PacienteModel
+            {
+                Cedula = pacienteDTO.Cedula,
+                Nombre = pacienteDTO.Nombre,
+                Email = pacienteDTO.Email,
+                FechaNacimiento = pacienteDTO.FechaNacimiento,
+                Direccion = pacienteDTO.Direccion,
+                IdCiudad = pacienteDTO.IdCiudad,
+                Creado = DateTime.UtcNow,
+                Eliminado = false,
+                Sincronizado = false
+            };
             _context.Pacientes.Add(pacienteModel);
             await _context.SaveChangesAsync();
 

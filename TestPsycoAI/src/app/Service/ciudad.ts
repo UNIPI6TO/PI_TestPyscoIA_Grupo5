@@ -9,15 +9,17 @@ import { environment } from '../../environments/environment';
 })
 export class CiudadService {
   private API_URL = environment.apiUrl;
-  private CONTEXT = '/api/config';
+  private CONTEXT = 'api/config';
 
   constructor(private http: HttpClient) { }
 
   getCiudades(): Observable<ICiudad[]> {
-    return this.http
-      .get<ICiudad[]>(`${this.API_URL}${this.CONTEXT}/Ciudad`)
-      .pipe(catchError(this.manejoErrores));
-  }
+      var ciudades = this.http
+        .get<ICiudad[]>(this.API_URL + this.CONTEXT + '/Ciudad/order')
+        .pipe(catchError(this.manejoErrores));
+      console.log(ciudades);
+      return ciudades;
+    }
 
   manejoErrores(error: any) {
     const msg = error.error?.message || error.statusText || 'Error de red';

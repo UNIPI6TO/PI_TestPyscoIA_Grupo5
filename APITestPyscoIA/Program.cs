@@ -4,6 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Agregar servicio de configuracion de la base de datos
+var cn = builder.Configuration.GetConnectionString("cn")
+    ?? throw new InvalidOperationException("No existe la referencia a la conexion");
+builder.Services.AddDbContext<DatosDbContext>(opciones => opciones.UseSqlServer(cn));
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -21,14 +26,6 @@ builder.Services.AddCors(opciones => {
     });
 
 });
-
-// Agregar servicio de configuracion de la base de datos
-var cn = builder.Configuration.GetConnectionString("cn")
-    ?? throw new InvalidOperationException("No existe la referencia a la conexion");
-builder.Services.AddDbContext<DatosDbContext>(opciones => opciones.UseSqlServer(cn));
-
-
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -39,9 +36,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseCors("AllowAll");
-
 app.UseAuthorization();
 
 app.MapControllers();

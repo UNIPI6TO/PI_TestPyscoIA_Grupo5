@@ -3,6 +3,7 @@ import { environment } from '../../environments/environment';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 import { IPaciente } from '../Interfaces/ipaciente';
+import { ICiudad } from '../Interfaces/iciudad';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { IPaciente } from '../Interfaces/ipaciente';
 
 export class PacienteService {
   private API_URL = environment.apiUrl;
-  private CONTEXT = '/api';
+  private CONTEXT = 'api/config';
   constructor(private http: HttpClient) {}
   todos(): Observable<IPaciente[]> {
     var pacientes = this.http
@@ -25,7 +26,10 @@ export class PacienteService {
       new Error(msg);
     });
   }
-  guardar(paciente: IPaciente): Observable<IPaciente> {
-    return this.http.post<IPaciente>(this.API_URL + this.CONTEXT + '/Paciente', paciente).pipe(catchError(this.manejoErrores));
+
+  guardarPaciente(paciente: IPaciente): Observable<IPaciente> {
+    return this.http
+      .post<IPaciente>(this.API_URL + this.CONTEXT + '/Paciente', paciente)
+      .pipe(catchError(this.manejoErrores));
   }
 }
