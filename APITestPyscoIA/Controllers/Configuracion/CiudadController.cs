@@ -28,6 +28,11 @@ namespace APITestPyscoIA.Controllers.Configuracion
             return await _context.Ciudades.ToListAsync();
         }
 
+        [HttpGet("order")]
+        public async Task<ActionResult<IEnumerable<CiudadModel>>> GetCiudadesOrdernado()
+        {
+            return await _context.Ciudades.OrderBy(x=> x.Nombre).ToListAsync();
+        }
         // GET: api/config/Ciudad/5
         [HttpGet("{id}")]
         public async Task<ActionResult<CiudadModel>> GetCiudadModel(int id)

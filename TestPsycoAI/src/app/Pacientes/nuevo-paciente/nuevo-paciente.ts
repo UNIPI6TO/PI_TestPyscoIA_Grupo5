@@ -4,6 +4,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { IPaciente } from '../../Interfaces/ipaciente';
 import { ICiudad } from '../../Interfaces/iciudad';
 import { CiudadService } from '../../Service/ciudad';
+import { PacienteService } from '../../Service/paciente';
 
 @Component({
   selector: 'app-nuevo-paciente',
@@ -33,14 +34,14 @@ export class NuevoPacienteComponent implements OnInit {
 
   public ciudadesDisponibles: ICiudad[] = [];
 
-  constructor(private ciudadService: CiudadService) { }
+  constructor(private ciudadService: CiudadService, private pacienteService: PacienteService) { }
 
   ngOnInit(): void {
     this.cargarCiudades();
   }
 
   private cargarCiudades(): void {
-/*    this.ciudadService.getCiudades().subscribe({
+    this.ciudadService.getCiudades().subscribe({
       next: (ciudades) => {
         this.ciudadesDisponibles = ciudades;
         console.log('Ciudades cargadas:', this.ciudadesDisponibles);
@@ -48,15 +49,21 @@ export class NuevoPacienteComponent implements OnInit {
       error: (err) => {
         console.error('Error al cargar las ciudades:', err);
       }
-    });*/
+    });
   }
 
   public onSubmit(): void {
     if (this.pacienteForm.valid) {
       console.log('Formulario enviado. Datos:', this.paciente);
-      // Aquí va la lógica para enviar el objeto 'paciente' a la API
-      // Por ejemplo: this.pacienteService.crearPaciente(this.paciente).subscribe(...)
-      this.pacienteForm.resetForm();
+      this.pacienteService.guardarPaciente(this.paciente).subscribe({
+        next: (paciente: IPaciente) => {
+          console.log('Paciente guardado:', paciente);
+          this.pacienteForm.resetForm();
+        },
+        error: (err: any) => {
+          console.error('Error al guardar el paciente:', err);
+        }
+      });
     } else {
       console.log('El formulario no es válido. Revise los campos.');
     }

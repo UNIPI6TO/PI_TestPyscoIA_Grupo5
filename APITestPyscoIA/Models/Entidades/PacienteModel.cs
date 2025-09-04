@@ -26,12 +26,24 @@ namespace APITestPyscoIA.Models.Entidades
 
         [Required]
         public string Direccion { get; set; }
-        
+
         [Required]
         [ForeignKey("Ciudad")]
         public int IdCiudad { get; set; }
 
-        public CiudadModel? Ciudad { get; set; } 
+        public CiudadModel? Ciudad { get; set; }
+
+    }
+
+    public class PacienteDTO
+    {
+        public int? Id { get; set; }
+        public string Cedula { get; set; }
+        public string Nombre { get; set; }
+        public string? Email { get; set; }
+        public DateTime FechaNacimiento { get; set; }
+        public string Direccion { get; set; }
+        public int IdCiudad { get; set; }
 
     }
 }
