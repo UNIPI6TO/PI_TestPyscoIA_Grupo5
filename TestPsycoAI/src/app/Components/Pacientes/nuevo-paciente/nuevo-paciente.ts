@@ -39,7 +39,9 @@ export class NuevoPacienteComponent implements OnInit {
   constructor(private ciudadService: CiudadService, private pacienteService: PacienteService, private router: Router) { }
 
   ngOnInit(): void {
+    this.pacienteForm?.resetForm();
     this.cargarCiudades();
+
   }
 
   private cargarCiudades(): void {

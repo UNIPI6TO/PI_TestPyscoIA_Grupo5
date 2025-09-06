@@ -3,7 +3,6 @@ import { environment } from '../../environments/environment';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 import { IPaciente } from '../Interfaces/ipaciente';
-import { ICiudad } from '../Interfaces/iciudad';
 
 @Injectable({
   providedIn: 'root'
@@ -27,9 +26,22 @@ export class PacienteService {
     });
   }
 
+  actualizarPaciente(paciente: IPaciente): Observable<IPaciente> {
+    return this.http
+      .put<IPaciente>(`${this.API_URL}${this.CONTEXT}/Paciente/${paciente.id}`, paciente)
+      .pipe(catchError(this.manejoErrores));
+  }
+
   guardarPaciente(paciente: IPaciente): Observable<IPaciente> {
     return this.http
       .post<IPaciente>(this.API_URL + this.CONTEXT + '/Paciente', paciente)
       .pipe(catchError(this.manejoErrores));
+  }
+
+  obtenerUnPaciente(id: number): Observable<IPaciente>
+  { 
+    return this.http
+    .get<IPaciente>(`${this.API_URL}${this.CONTEXT}/Paciente/${id}`)
+    .pipe(catchError(this.manejoErrores));
   }
 }
