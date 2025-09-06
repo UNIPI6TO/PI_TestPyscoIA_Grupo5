@@ -1,0 +1,65 @@
+<div class="container mt-5">
+  <div class="card shadow-lg">
+    <div class="card-header bg-success text-white text-center d-flex justify-content-between align-items-center">
+      <h3 class="mb-0">Listado de Pacientes</h3>
+      <a class="btn btn-light" routerLink="/pacientes/nuevo">
+        <i class="fa-solid fa-person-circle-plus"></i> Nuevo Paciente
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="row mb-4">
+        <div class="col">
+          <label for="filtro" class="form-label">Filtro</label>
+          <input 
+            type="text" 
+            class="form-control" 
+            id="filtro" 
+            placeholder="Todos los pacientes"
+            [(ngModel)]="filtro" 
+            (ngModelChange)="aplicarFiltros()">
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-hover table-striped">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Cédula</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Email</th>
+              <th scope="col">Fecha Nacimiento</th>
+              <th scope="col">Dirección</th>
+              <th scope="col">Ciudad</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let paciente of pacientesFiltrados">
+              <td>{{ paciente.cedula }}</td>
+              <td>{{ paciente.nombre }}</td>
+              <td>{{ paciente.email }}</td>
+              <td>{{ paciente.fechaNacimiento | date:'yyyy/MM/dd' }}</td>
+              <td>{{ paciente.direccion }}</td>
+              <td>{{ paciente.ciudad?.nombre || 'N/A' }}</td>
+              <td>
+                <div class="d-flex align-items-center" style="min-width: 110px;">
+                  <button class="btn btn-sm btn-warning me-2" (click)="editarPaciente(paciente.id)">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </button>
+                  <button class="btn btn-sm btn-danger" (click)="eliminarPaciente(paciente.id)">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="pacientesFiltrados.length === 0">
+              <td colspan="7" class="text-center text-muted">
+                No se encontraron pacientes que coincidan con la búsqueda.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
