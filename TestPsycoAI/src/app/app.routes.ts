@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { NuevoPacienteComponent } from './Pacientes/nuevo-paciente/nuevo-paciente';
-import { PacientesComponent } from './Pacientes/pacientes';
+import { NuevoPacienteComponent } from './Components/Pacientes/nuevo-paciente/nuevo-paciente';
+import { PacientesComponent } from './Components/Pacientes/pacientes';
 
 export const routes: Routes = [
     

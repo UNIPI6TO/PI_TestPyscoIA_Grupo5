@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
-import { IPaciente } from '../../Interfaces/ipaciente';
-import { ICiudad } from '../../Interfaces/iciudad';
-import { CiudadService } from '../../Service/ciudad';
-import { PacienteService } from '../../Service/paciente';
+import { IPaciente } from '../../../Interfaces/ipaciente';
+import { ICiudad } from '../../../Interfaces/iciudad';
+import { CiudadService } from '../../../Service/ciudad';
+import { PacienteService } from '../../../Service/paciente';
 import { Router } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';

@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Inject } from '@angular/core';
-import { PacienteService } from '../Service/paciente';
-import { IPaciente } from '../Interfaces/ipaciente';
+import { PacienteService } from '../../Service/paciente';
+import { IPaciente } from '../../Interfaces/ipaciente';
 import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-pacientes',
