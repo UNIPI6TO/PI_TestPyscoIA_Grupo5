@@ -44,4 +44,9 @@ export class PacienteService {
     .get<IPaciente>(`${this.API_URL}${this.CONTEXT}/Paciente/${id}`)
     .pipe(catchError(this.manejoErrores));
   }
+  eliminarPaciente(id: number): Observable<void> {
+    return this.http
+      .delete<void>(`${this.API_URL}${this.CONTEXT}/Paciente/${id}`)
+      .pipe(catchError(this.manejoErrores));
+  }
 }

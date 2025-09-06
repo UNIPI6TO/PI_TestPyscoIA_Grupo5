@@ -25,7 +25,10 @@ namespace APITestPyscoIA.Controllers.Configuracion
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PacienteModel>>> GetPacientes()
         {
-            return await _context.Pacientes.Include(p => p.Ciudad).ToListAsync();
+            return await _context.Pacientes
+                .Where(p => p.Eliminado==false || p.Eliminado==null )
+                .Include(p => p.Ciudad)
+                .OrderBy(p => p.Nombre).ToListAsync();
         }
 
         // GET: api/config/Paciente/5
@@ -51,11 +54,12 @@ namespace APITestPyscoIA.Controllers.Configuracion
             {
                 return BadRequest();
             }
-
+            pacienteModel.Actualizado = DateTime.Now;
             _context.Entry(pacienteModel).State = EntityState.Modified;
 
             try
             {
+               
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -70,7 +74,7 @@ namespace APITestPyscoIA.Controllers.Configuracion
                 }
             }
 
-            return NoContent();
+            return Ok(pacienteModel);
         }
 
         // POST: api/config/Paciente
@@ -100,16 +104,33 @@ namespace APITestPyscoIA.Controllers.Configuracion
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePacienteModel(int id)
         {
-            var pacienteModel = await _context.Pacientes.FindAsync(id);
+
+            var pacienteModel = await _context.Pacientes.FindAsync( id);
             if (pacienteModel == null)
+                return BadRequest();
+
+            pacienteModel.Actualizado = DateTime.Now;
+            pacienteModel.Eliminado = true;
+            _context.Entry(pacienteModel).State = EntityState.Modified;
+
+            try
             {
-                return NotFound();
+
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!PacienteModelExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
 
-            _context.Pacientes.Remove(pacienteModel);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return Ok(pacienteModel);
         }
 
         private bool PacienteModelExists(int id)

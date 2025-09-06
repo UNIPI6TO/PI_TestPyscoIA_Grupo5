@@ -5,6 +5,7 @@ import { Inject } from '@angular/core';
 import { PacienteService } from '../../Service/paciente';
 import { IPaciente } from '../../Interfaces/ipaciente';
 import { RouterLink } from '@angular/router';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-pacientes',
   imports: [CommonModule, FormsModule, RouterLink],
@@ -13,12 +14,9 @@ import { RouterLink } from '@angular/router';
 
 })
 export class PacientesComponent implements OnInit {
-eliminarPaciente(arg0: any) {
-throw new Error('Method not implemented.');
-}
-editarPaciente(arg0: any) {
-throw new Error('Method not implemented.');
-}
+  
+  
+
 
 
   public pacientes: IPaciente[] = [];
@@ -62,7 +60,35 @@ throw new Error('Method not implemented.');
       );
     }
 
+    
 
     this.pacientesFiltrados = tempPacientes;
   }
+  
+  eliminarPaciente(id: number) {
+  Swal.fire({
+    title: '¿Estás seguro?',
+    text: 'Esta acción no se puede deshacer.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Sí, eliminar',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.pacienteService.eliminarPaciente(id).subscribe({
+        next: () => {
+          console.log(`Paciente con ID ${id} eliminado`);
+          this.cargarPacientes(); // Recargar la lista de pacientes
+        },
+        error: (err) => {
+          console.error('Error al eliminar el paciente:', err);
+          Swal.fire('Error', 'No se pudo eliminar el paciente.', 'error');
+        }
+      });
+    }
+  });
+}
+
 }
