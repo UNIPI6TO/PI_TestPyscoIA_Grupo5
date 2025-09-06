@@ -13,7 +13,7 @@ export class PacienteService {
   private API_URL = environment.apiUrl;
   private CONTEXT = 'api/config';
   constructor(private http: HttpClient) {}
-  todos(): Observable<IPaciente[]> {
+  getPacientes(): Observable<IPaciente[]> {
     var pacientes = this.http
       .get<IPaciente[]>(this.API_URL + this.CONTEXT + '/Paciente')
       .pipe(catchError(this.manejoErrores));

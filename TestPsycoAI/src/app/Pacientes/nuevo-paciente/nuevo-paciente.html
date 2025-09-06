@@ -2,8 +2,11 @@
   <div class="row justify-content-center">
     <div class="col-md-8">
       <div class="card shadow-lg">
-        <div class="card-header bg-primary text-white text-center">
-          <h3 class="mb-0">Crear Nuevo Paciente</h3>
+        <div class="card-header bg-secondary text-white text-center d-flex justify-content-between align-items-center">
+            <a class="text-white" [routerLink]="['/pacientes']">
+            <h3><i class="fa fa-arrow-left"></i></h3> 
+            </a>
+          <h3 class="mb-0 flex-grow-1 text-center"><i class="fa-solid fa-person-circle-plus"></i> Crear Nuevo Paciente</h3>
         </div>
         <div class="card-body">
           <form #pacienteForm="ngForm" (ngSubmit)="onSubmit()">

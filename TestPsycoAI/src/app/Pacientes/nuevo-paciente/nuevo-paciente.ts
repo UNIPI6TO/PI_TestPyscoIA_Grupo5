@@ -5,11 +5,13 @@ import { IPaciente } from '../../Interfaces/ipaciente';
 import { ICiudad } from '../../Interfaces/iciudad';
 import { CiudadService } from '../../Service/ciudad';
 import { PacienteService } from '../../Service/paciente';
-
+import { Router } from '@angular/router';
+import { RouterLink } from '@angular/router';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-nuevo-paciente',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './nuevo-paciente.html',
   styleUrls: ['./nuevo-paciente.css']
 })
@@ -34,7 +36,7 @@ export class NuevoPacienteComponent implements OnInit {
 
   public ciudadesDisponibles: ICiudad[] = [];
 
-  constructor(private ciudadService: CiudadService, private pacienteService: PacienteService) { }
+  constructor(private ciudadService: CiudadService, private pacienteService: PacienteService, private router: Router) { }
 
   ngOnInit(): void {
     this.cargarCiudades();
@@ -54,18 +56,47 @@ export class NuevoPacienteComponent implements OnInit {
 
   public onSubmit(): void {
     if (this.pacienteForm.valid) {
+
       console.log('Formulario enviado. Datos:', this.paciente);
       this.pacienteService.guardarPaciente(this.paciente).subscribe({
         next: (paciente: IPaciente) => {
           console.log('Paciente guardado:', paciente);
           this.pacienteForm.resetForm();
-        },
-        error: (err: any) => {
-          console.error('Error al guardar el paciente:', err);
-        }
+          this.paciente = {
+            id: 0,
+            creado: '',
+            actualizado: '',
+            eliminado: false,
+            cedula: '',
+            nombre: '',
+            email: '',
+            fechaNacimiento: '',
+            direccion: '',
+            idCiudad: 0
+          };
+        Swal.fire({
+          icon: 'success',
+          title: 'Paciente creado',
+          text: 'El paciente se guardó correctamente',
+          confirmButtonText: 'Aceptar'
+        }).then(() => {
+          this.router.navigate(['/paciente']);
+        });
+      },
+      error: (err: any) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo guardar el paciente'
+        });
+      }
       });
     } else {
-      console.log('El formulario no es válido. Revise los campos.');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Datos inválidos',
+        text: 'Por favor, revisa todos los campos del formulario.'
+      });
     }
   }
 
