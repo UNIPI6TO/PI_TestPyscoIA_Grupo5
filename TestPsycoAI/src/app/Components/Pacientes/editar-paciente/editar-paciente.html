@@ -6,7 +6,7 @@
             <a class="text-white" [routerLink]="['/pacientes']">
             <h3><i class="fa fa-arrow-left"></i></h3> 
             </a>
-          <h3 class="mb-0 flex-grow-1 text-center"><i class="fa-solid fa-person-circle-plus"></i> Editar Paciente</h3>
+          <h3 class="mb-0 flex-grow-1 text-center"><i class="fa-solid fa-person-circle-check"></i> Editar Paciente</h3>
         </div>
         <div class="card-body">
           <form #pacienteForm="ngForm" (ngSubmit)="onSubmit()">
@@ -117,9 +117,6 @@
             <div class="d-grid gap-2">
               <button type="submit" class="btn btn-warning" [disabled]="pacienteForm.invalid">
                 Editar Datos del Paciente
-              </button>
-              <button type="button" class="btn btn-secondary" (click)="pacienteForm.reset()">
-                Limpiar
               </button>
             </div>
 
