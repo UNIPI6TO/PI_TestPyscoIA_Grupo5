@@ -74,7 +74,7 @@ namespace APITestPyscoIA.Migrations
                     b.Property<bool?>("Eliminado")
                         .HasColumnType("bit");
 
-                    b.Property<int>("IdConfiguracionBancoPreguntas")
+                    b.Property<int>("IdConfiguracionPreguntas")
                         .HasColumnType("int");
 
                     b.Property<string>("Opcion")
@@ -93,7 +93,7 @@ namespace APITestPyscoIA.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdConfiguracionBancoPreguntas");
+                    b.HasIndex("IdConfiguracionPreguntas");
 
                     b.ToTable("ConfiguracionesOpciones");
                 });
@@ -117,6 +117,9 @@ namespace APITestPyscoIA.Migrations
 
                     b.Property<int>("IdConfiguracionSecciones")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Inversa")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Pregunta")
                         .IsRequired()
@@ -156,9 +159,6 @@ namespace APITestPyscoIA.Migrations
                     b.Property<int>("IdConfiguracionesTest")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdTipoSecciones")
-                        .HasColumnType("int");
-
                     b.Property<int>("NumeroPreguntas")
                         .HasColumnType("int");
 
@@ -172,8 +172,6 @@ namespace APITestPyscoIA.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("IdConfiguracionesTest");
-
-                    b.HasIndex("IdTipoSecciones");
 
                     b.ToTable("ConfiguracionesSecciones");
                 });
@@ -198,7 +196,7 @@ namespace APITestPyscoIA.Migrations
                     b.Property<bool?>("Eliminado")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("EvaluadorId")
+                    b.Property<int?>("EvaluadorModelId")
                         .HasColumnType("int");
 
                     b.Property<int>("IdTipoTest")
@@ -211,12 +209,9 @@ namespace APITestPyscoIA.Migrations
                     b.Property<bool?>("Sincronizado")
                         .HasColumnType("bit");
 
-                    b.Property<int>("TiempoExpiracion")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("EvaluadorId");
+                    b.HasIndex("EvaluadorModelId");
 
                     b.HasIndex("IdTipoTest");
 
@@ -529,55 +524,6 @@ namespace APITestPyscoIA.Migrations
                     b.ToTable("TestSecciones");
                 });
 
-            modelBuilder.Entity("APITestPyscoIA.Models.Entidades.TipoSeccionesModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime?>("Actualizado")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("Creado")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Duracion")
-                        .HasColumnType("int");
-
-                    b.Property<bool?>("Eliminado")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Icono")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("IdTipoTest")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Instrucciones")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("Sincronizado")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdTipoTest");
-
-                    b.ToTable("TipoSecciones");
-                });
-
             modelBuilder.Entity("APITestPyscoIA.Models.Entidades.TipoTestModel", b =>
                 {
                     b.Property<int>("Id")
@@ -630,13 +576,13 @@ namespace APITestPyscoIA.Migrations
 
             modelBuilder.Entity("APITestPyscoIA.Models.Entidades.ConfiguracionOpcionesModel", b =>
                 {
-                    b.HasOne("APITestPyscoIA.Models.Entidades.ConfiguracionPreguntasModel", "ConfiguracionBancoPreguntas")
+                    b.HasOne("APITestPyscoIA.Models.Entidades.ConfiguracionPreguntasModel", "ConfiguracionPreguntas")
                         .WithMany("Opciones")
-                        .HasForeignKey("IdConfiguracionBancoPreguntas")
+                        .HasForeignKey("IdConfiguracionPreguntas")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ConfiguracionBancoPreguntas");
+                    b.Navigation("ConfiguracionPreguntas");
                 });
 
             modelBuilder.Entity("APITestPyscoIA.Models.Entidades.ConfiguracionPreguntasModel", b =>
@@ -658,30 +604,20 @@ namespace APITestPyscoIA.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("APITestPyscoIA.Models.Entidades.TipoSeccionesModel", "TipoSecciones")
-                        .WithMany("ConfiguracionesSecciones")
-                        .HasForeignKey("IdTipoSecciones")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("ConfiguracionTest");
-
-                    b.Navigation("TipoSecciones");
                 });
 
             modelBuilder.Entity("APITestPyscoIA.Models.Entidades.ConfiguracionTestModel", b =>
                 {
-                    b.HasOne("APITestPyscoIA.Models.Entidades.EvaluadorModel", "Evaluador")
+                    b.HasOne("APITestPyscoIA.Models.Entidades.EvaluadorModel", null)
                         .WithMany("ConfiguracionesTest")
-                        .HasForeignKey("EvaluadorId");
+                        .HasForeignKey("EvaluadorModelId");
 
                     b.HasOne("APITestPyscoIA.Models.Entidades.TipoTestModel", "TipoTest")
                         .WithMany()
                         .HasForeignKey("IdTipoTest")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Evaluador");
 
                     b.Navigation("TipoTest");
                 });
@@ -773,17 +709,6 @@ namespace APITestPyscoIA.Migrations
                     b.Navigation("Test");
                 });
 
-            modelBuilder.Entity("APITestPyscoIA.Models.Entidades.TipoSeccionesModel", b =>
-                {
-                    b.HasOne("APITestPyscoIA.Models.Entidades.TipoTestModel", "TipoTest")
-                        .WithMany("Secciones")
-                        .HasForeignKey("IdTipoTest")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("TipoTest");
-                });
-
             modelBuilder.Entity("APITestPyscoIA.Models.Entidades.ConfiguracionPreguntasModel", b =>
                 {
                     b.Navigation("Opciones");
@@ -822,16 +747,6 @@ namespace APITestPyscoIA.Migrations
             modelBuilder.Entity("APITestPyscoIA.Models.Entidades.TestSeccionesModel", b =>
                 {
                     b.Navigation("Preguntas");
-                });
-
-            modelBuilder.Entity("APITestPyscoIA.Models.Entidades.TipoSeccionesModel", b =>
-                {
-                    b.Navigation("ConfiguracionesSecciones");
-                });
-
-            modelBuilder.Entity("APITestPyscoIA.Models.Entidades.TipoTestModel", b =>
-                {
-                    b.Navigation("Secciones");
                 });
 #pragma warning restore 612, 618
         }

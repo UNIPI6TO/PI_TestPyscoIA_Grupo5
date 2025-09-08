@@ -21,7 +21,6 @@ namespace APITestPyscoIA.Data
         public DbSet<TestModel> Tests { get; set; }
         public DbSet<TestPreguntasModel> TestsPreguntas { get; set; }
         public DbSet<TestSeccionesModel> TestsSecciones { get; set; }
-        public DbSet<TipoSeccionesModel> TiposSecciones { get; set; }
         public DbSet<TipoTestModel> TiposTest { get; set; }
 
     }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace APITestPyscoIA.Migrations
 {
     /// <inheritdoc />
-    public partial class Inicial : Migration
+    public partial class inicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -22,7 +22,8 @@ namespace APITestPyscoIA.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Creado = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Actualizado = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Eliminado = table.Column<bool>(type: "bit", nullable: false)
+                    Eliminado = table.Column<bool>(type: "bit", nullable: true),
+                    Sincronizado = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -38,7 +39,8 @@ namespace APITestPyscoIA.Migrations
                     Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Creado = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Actualizado = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Eliminado = table.Column<bool>(type: "bit", nullable: false)
+                    Eliminado = table.Column<bool>(type: "bit", nullable: true),
+                    Sincronizado = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -56,7 +58,8 @@ namespace APITestPyscoIA.Migrations
                     Instrucciones = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Creado = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Actualizado = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Eliminado = table.Column<bool>(type: "bit", nullable: false)
+                    Eliminado = table.Column<bool>(type: "bit", nullable: true),
+                    Sincronizado = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -73,7 +76,8 @@ namespace APITestPyscoIA.Migrations
                     IdPais = table.Column<int>(type: "int", nullable: false),
                     Creado = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Actualizado = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Eliminado = table.Column<bool>(type: "bit", nullable: false)
+                    Eliminado = table.Column<bool>(type: "bit", nullable: true),
+                    Sincronizado = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -93,52 +97,24 @@ namespace APITestPyscoIA.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TiempoExpiracion = table.Column<int>(type: "int", nullable: false),
                     IdTipoTest = table.Column<int>(type: "int", nullable: false),
-                    IdEvaluador = table.Column<int>(type: "int", nullable: false),
+                    Duracion = table.Column<int>(type: "int", nullable: false),
+                    EvaluadorModelId = table.Column<int>(type: "int", nullable: true),
                     Creado = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Actualizado = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Eliminado = table.Column<bool>(type: "bit", nullable: false)
+                    Eliminado = table.Column<bool>(type: "bit", nullable: true),
+                    Sincronizado = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ConfiguracionesTest", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ConfiguracionesTest_Evaluadores_IdEvaluador",
-                        column: x => x.IdEvaluador,
+                        name: "FK_ConfiguracionesTest_Evaluadores_EvaluadorModelId",
+                        column: x => x.EvaluadorModelId,
                         principalTable: "Evaluadores",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_ConfiguracionesTest_TipoTest_IdTipoTest",
-                        column: x => x.IdTipoTest,
-                        principalTable: "TipoTest",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TipoSecciones",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Duracion = table.Column<int>(type: "int", nullable: false),
-                    Orden = table.Column<int>(type: "int", nullable: false),
-                    Instrucciones = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Icono = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IdTipoTest = table.Column<int>(type: "int", nullable: false),
-                    Creado = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Actualizado = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Eliminado = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TipoSecciones", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_TipoSecciones_TipoTest_IdTipoTest",
                         column: x => x.IdTipoTest,
                         principalTable: "TipoTest",
                         principalColumn: "Id",
@@ -155,7 +131,8 @@ namespace APITestPyscoIA.Migrations
                     IdProvincia = table.Column<int>(type: "int", nullable: false),
                     Creado = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Actualizado = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Eliminado = table.Column<bool>(type: "bit", nullable: false)
+                    Eliminado = table.Column<bool>(type: "bit", nullable: true),
+                    Sincronizado = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -177,11 +154,11 @@ namespace APITestPyscoIA.Migrations
                     Seccion = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NumeroPreguntas = table.Column<int>(type: "int", nullable: false),
                     IdConfiguracionesTest = table.Column<int>(type: "int", nullable: false),
-                    IdTipoSecciones = table.Column<int>(type: "int", nullable: false),
                     FormulaAgregado = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Creado = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Actualizado = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Eliminado = table.Column<bool>(type: "bit", nullable: false)
+                    Eliminado = table.Column<bool>(type: "bit", nullable: true),
+                    Sincronizado = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -191,13 +168,7 @@ namespace APITestPyscoIA.Migrations
                         column: x => x.IdConfiguracionesTest,
                         principalTable: "ConfiguracionesTest",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ConfiguracionesSecciones_TipoSecciones_IdTipoSecciones",
-                        column: x => x.IdTipoSecciones,
-                        principalTable: "TipoSecciones",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -208,14 +179,14 @@ namespace APITestPyscoIA.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Cedula = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FechaNacimiento = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Direccion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Contrasena = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IdCiudad = table.Column<int>(type: "int", nullable: false),
                     Creado = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Actualizado = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Eliminado = table.Column<bool>(type: "bit", nullable: false)
+                    Eliminado = table.Column<bool>(type: "bit", nullable: true),
+                    Sincronizado = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -236,9 +207,11 @@ namespace APITestPyscoIA.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Pregunta = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IdConfiguracionSecciones = table.Column<int>(type: "int", nullable: false),
+                    Inversa = table.Column<bool>(type: "bit", nullable: false),
                     Creado = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Actualizado = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Eliminado = table.Column<bool>(type: "bit", nullable: false)
+                    Eliminado = table.Column<bool>(type: "bit", nullable: true),
+                    Sincronizado = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -261,9 +234,15 @@ namespace APITestPyscoIA.Migrations
                     IdConfiguracionTest = table.Column<int>(type: "int", nullable: false),
                     IdEvaluador = table.Column<int>(type: "int", nullable: false),
                     IdPaciente = table.Column<int>(type: "int", nullable: false),
+                    Duracion = table.Column<int>(type: "int", nullable: true),
+                    Contestadas = table.Column<int>(type: "int", nullable: true),
+                    NoContestadas = table.Column<int>(type: "int", nullable: true),
+                    Completado = table.Column<bool>(type: "bit", nullable: true),
+                    Iniciado = table.Column<bool>(type: "bit", nullable: true),
                     Creado = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Actualizado = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Eliminado = table.Column<bool>(type: "bit", nullable: false)
+                    Eliminado = table.Column<bool>(type: "bit", nullable: true),
+                    Sincronizado = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -297,17 +276,18 @@ namespace APITestPyscoIA.Migrations
                     Orden = table.Column<int>(type: "int", nullable: false),
                     Opcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Peso = table.Column<decimal>(type: "decimal(8,4)", precision: 8, scale: 4, nullable: false),
-                    IdConfiguracionBancoPreguntas = table.Column<int>(type: "int", nullable: false),
+                    IdConfiguracionPreguntas = table.Column<int>(type: "int", nullable: false),
                     Creado = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Actualizado = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Eliminado = table.Column<bool>(type: "bit", nullable: false)
+                    Eliminado = table.Column<bool>(type: "bit", nullable: true),
+                    Sincronizado = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ConfiguracionesOpciones", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ConfiguracionesOpciones_ConfiguracionesPreguntas_IdConfiguracionBancoPreguntas",
-                        column: x => x.IdConfiguracionBancoPreguntas,
+                        name: "FK_ConfiguracionesOpciones_ConfiguracionesPreguntas_IdConfiguracionPreguntas",
+                        column: x => x.IdConfiguracionPreguntas,
                         principalTable: "ConfiguracionesPreguntas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -323,17 +303,12 @@ namespace APITestPyscoIA.Migrations
                     Resultado = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FechaInicioTest = table.Column<DateTime>(type: "datetime2", nullable: true),
                     FechaFinTest = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Duracion = table.Column<int>(type: "int", nullable: true),
-                    Contestadas = table.Column<int>(type: "int", nullable: true),
-                    NoContestadas = table.Column<int>(type: "int", nullable: true),
-                    CantidadPreguntas = table.Column<int>(type: "int", nullable: true),
-                    Completado = table.Column<bool>(type: "bit", nullable: true),
-                    Iniciado = table.Column<bool>(type: "bit", nullable: true),
                     IdTest = table.Column<int>(type: "int", nullable: false),
                     IdConfiguracionSecciones = table.Column<int>(type: "int", nullable: false),
                     Creado = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Actualizado = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Eliminado = table.Column<bool>(type: "bit", nullable: false)
+                    Eliminado = table.Column<bool>(type: "bit", nullable: true),
+                    Sincronizado = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -365,7 +340,8 @@ namespace APITestPyscoIA.Migrations
                     IdTestSecciones = table.Column<int>(type: "int", nullable: false),
                     Creado = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Actualizado = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Eliminado = table.Column<bool>(type: "bit", nullable: false)
+                    Eliminado = table.Column<bool>(type: "bit", nullable: true),
+                    Sincronizado = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -390,9 +366,9 @@ namespace APITestPyscoIA.Migrations
                 column: "IdProvincia");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ConfiguracionesOpciones_IdConfiguracionBancoPreguntas",
+                name: "IX_ConfiguracionesOpciones_IdConfiguracionPreguntas",
                 table: "ConfiguracionesOpciones",
-                column: "IdConfiguracionBancoPreguntas");
+                column: "IdConfiguracionPreguntas");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ConfiguracionesPreguntas_IdConfiguracionSecciones",
@@ -405,14 +381,9 @@ namespace APITestPyscoIA.Migrations
                 column: "IdConfiguracionesTest");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ConfiguracionesSecciones_IdTipoSecciones",
-                table: "ConfiguracionesSecciones",
-                column: "IdTipoSecciones");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ConfiguracionesTest_IdEvaluador",
+                name: "IX_ConfiguracionesTest_EvaluadorModelId",
                 table: "ConfiguracionesTest",
-                column: "IdEvaluador");
+                column: "EvaluadorModelId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ConfiguracionesTest_IdTipoTest",
@@ -463,11 +434,6 @@ namespace APITestPyscoIA.Migrations
                 name: "IX_TestsPreguntas_IdTestSecciones",
                 table: "TestsPreguntas",
                 column: "IdTestSecciones");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TipoSecciones_IdTipoTest",
-                table: "TipoSecciones",
-                column: "IdTipoTest");
         }
 
         /// <inheritdoc />
@@ -490,9 +456,6 @@ namespace APITestPyscoIA.Migrations
 
             migrationBuilder.DropTable(
                 name: "Test");
-
-            migrationBuilder.DropTable(
-                name: "TipoSecciones");
 
             migrationBuilder.DropTable(
                 name: "ConfiguracionesTest");

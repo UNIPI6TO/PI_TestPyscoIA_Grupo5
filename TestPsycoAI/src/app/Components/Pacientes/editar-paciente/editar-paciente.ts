@@ -7,6 +7,7 @@ import { CiudadService } from '../../../Service/ciudad';
 import { PacienteService } from '../../../Service/paciente';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-editar-paciente',
@@ -37,11 +38,13 @@ export class EditarPacienteComponent implements OnInit {
     private ciudadService: CiudadService, 
     private pacienteService: PacienteService,
     private parametros: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private titleService: Title
   ) { }
   ngOnInit(): void {
     this.cargarCiudades();
     this.cargarPaciente();
+    this.titleService.setTitle('Editar Paciente - PsycoAI');
   }
 
   public onSubmit(): void {

@@ -17,9 +17,7 @@ namespace APITestPyscoIA.Models.Entidades
         [Required]
         [ForeignKey("ConfiguracionTest")] 
         public int IdConfiguracionesTest { get; set; }
-        [Required]
-        [ForeignKey("TipoSecciones")] public int IdTipoSecciones { get; set; }
-
+        
         [Required]
         [RegularExpression("AVG|SUM")] 
         public string FormulaAgregado { get; set; }
@@ -27,7 +25,6 @@ namespace APITestPyscoIA.Models.Entidades
         
         public ConfiguracionTestModel? ConfiguracionTest { get; set; }
         
-        public TipoSeccionesModel? TipoSecciones { get; set; }
         [JsonIgnore]
         public ICollection<ConfiguracionPreguntasModel>? BancoPreguntas { get; set; }
 
