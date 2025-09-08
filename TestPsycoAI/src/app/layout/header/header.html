@@ -8,10 +8,10 @@
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
       <ul class="navbar-nav nav-items"  style="margin-block: auto;">
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Test Disponibles</a>
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i class="fa-solid fa-list-check"></i> Evaluaciones</a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Autoestima</a></li>
-            <li><a class="dropdown-item" href="#">Personalidad</a></li>
+            <li><a class="dropdown-item" [routerLink]="['/test/tomar-evaluacion']">Autoestima</a></li>
+            <li><a class="dropdown-item" [routerLink]="['/test/tomar-evaluacion']">Personalidad</a></li>
           </ul>
         </li>
        

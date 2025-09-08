@@ -6,6 +6,7 @@ import { PacienteService } from '../../Service/paciente';
 import { IPaciente } from '../../Interfaces/ipaciente';
 import { RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
+import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-pacientes',
   imports: [CommonModule, FormsModule, RouterLink],
@@ -24,10 +25,12 @@ export class PacientesComponent implements OnInit {
   // Variables para los campos de búsqueda
   public filtro: string = '';
 
-  constructor(@Inject(PacienteService) private pacienteService: PacienteService) { }
+  constructor(@Inject(PacienteService) private pacienteService: PacienteService,
+              private titleService: Title) { }
 
   ngOnInit(): void {
     this.cargarPacientes();
+    this.titleService.setTitle('Gestión de Pacientes - PsycoAI');
   }
 
   /**

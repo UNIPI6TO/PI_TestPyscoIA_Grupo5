@@ -11,9 +11,7 @@ namespace APITestPyscoIA.Models.Entidades
 
         [Required]
         public string Nombre { get; set; }
-        [Required]
-        public int TiempoExpiracion { get; set; }
-
+        
         [Required]
         [ForeignKey("TipoTest")]
         public int IdTipoTest { get; set; }
@@ -23,7 +21,6 @@ namespace APITestPyscoIA.Models.Entidades
 
         public TipoTestModel? TipoTest { get; set; }
         
-        public EvaluadorModel? Evaluador { get; set; }
         [JsonIgnore]
         public ICollection<ConfiguracionSeccionesModel>? ConfiguracionesSecciones { get; set; }
     }

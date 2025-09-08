@@ -8,10 +8,15 @@ import { PacienteService } from '../../../Service/paciente';
 import { Router } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
+import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-nuevo-paciente',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    RouterLink
+  ],
   templateUrl: './nuevo-paciente.html',
   styleUrls: ['./nuevo-paciente.css']
 })
@@ -36,12 +41,15 @@ export class NuevoPacienteComponent implements OnInit {
 
   public ciudadesDisponibles: ICiudad[] = [];
 
-  constructor(private ciudadService: CiudadService, private pacienteService: PacienteService, private router: Router) { }
+  constructor(private ciudadService: CiudadService, 
+    private pacienteService: PacienteService, 
+    private router: Router,
+    private titleService: Title) { }
 
   ngOnInit(): void {
     this.pacienteForm?.resetForm();
     this.cargarCiudades();
-
+    this.titleService.setTitle('Nuevo Paciente - PsycoAI');
   }
 
   private cargarCiudades(): void {

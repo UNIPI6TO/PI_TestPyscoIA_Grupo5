@@ -14,10 +14,14 @@ namespace APITestPyscoIA.Models.Entidades
         [Required]
         [ForeignKey("ConfiguracionSecciones")]
         public int IdConfiguracionSecciones { get; set; }
-
-        public ConfiguracionSeccionesModel? ConfiguracionSecciones { get; set; }
+        [Required]
+        public bool Inversa { get; set; } = false;
+        
         [JsonIgnore]
+        public ConfiguracionSeccionesModel? ConfiguracionSecciones { get; set; }
+        
         public ICollection<ConfiguracionOpcionesModel>? Opciones { get; set; }
+
 
     }
 }
