@@ -1,13 +1,127 @@
 <div class="container mt-5">
   <div class="card shadow-lg">
-    <div class="card-header bg-success text-white text-center d-flex justify-content-between align-items-center">
-      <h3 class="mb-0">Configuraciones de Evaluaciones</h3>
-      <a class="btn btn-light" >
-        <i class="fa-regular fa-newspaper"></i> Nueva Configuración de Evaluación
-      </a>
-    </div>
+    
+    <div class="card-header bg-secondary text-white text-center d-flex justify-content-between align-items-center">
+            <a class="text-white" [routerLink]="['/configuraciones/evaluaciones']">
+            <h3><i class="fa fa-arrow-left"></i></h3> 
+            </a>
+          <h3 class="mb-0 flex-grow-1 text-center"><i class="fa-regular fa-newspaper"></i> Configuraciones de {{ evaluacion.nombre }}</h3>
+        </div>
+        
+    
+    
     <div class="card-body">
-        <p>Detalle de la configuración de la evaluación seleccionada.</p>
+             
+
+        <div class="row">
+            <div class="mb-3 col-md-4">
+                <label for="tipoTest" class="form-label "><strong>Descripción:</strong> {{ evaluacion.tipoTest.descripcion }} </label>
+            </div>
+
+                <div class="mb-3 col-md-4">
+                <label for="duracion" class="form-label"><strong>Duración:</strong> {{ evaluacion.duracion }} segundos <strong>ó</strong> {{ evaluacion.duracion/60 }} minutos</label>
+
+            </div> 
+        </div>
+        <div class="row">
+            <button type="button" class="btn btn-light " data-bs-toggle="modal" data-bs-target="#instruccionesModal">
+                <i class="fa fa-eye"></i> Vista Previa de Instrucciones
+            </button>
+        </div>
+     
+<div class="card">
+  <div class="card-header bg-success text-white">
+    <h5 class="mb-0">Secciones de {{ evaluacion.nombre }}</h5>
+  </div>
+<div class="card-body p-0">
+    <div class="list-group list-group-flush ">
+
+    @for (seccion of evaluacion.configuracionesSecciones; track $index) {
+            <a class="list-group-item  list-group-item-action bg-secondary text-white" 
+                 data-bs-toggle="collapse" 
+                 [attr.href]="'#' + seccion.id" 
+                 role="button" 
+                 [class.active]="true"
+                 aria-expanded="true" 
+                 [attr.aria-controls]="seccion.id">
+                 {{ seccion.seccion }}
+                 
+            </a>
+            
+            <div class="collapse show" [id]="seccion.id">
+                <div class="card card-body border-0 border-top rounded-0">
+                    <div>
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Configuración de {{ seccion.seccion }}</h5>
+                                    <label class="ms-3">Formato de Cálculo: {{ seccion.formulaAgregado }}</label>
+                                    <div>
+                                        <label class="ms-3">Las preguntas que se seleccionan en la evaluación son {{ seccion.numeroPreguntas }} seleccionadas aleatoriamente de {{ seccion.bancoPreguntas?.length }} configuradas para esta sección</label>
+                                    </div>
+
+                                    <br>
+                                    <div class="table-responsive mt-3">
+                                        <table class="table table-bordered">
+                                            <thead class="table-dark">
+                                                    <tr>
+                                                            <th>Pregunta</th>
+                                                            <th>Opciones</th>
+                                                    </tr>
+                                            </thead>
+                                            <tbody>
+                                                @for (pregunta of seccion.bancoPreguntas; track $index) {
+                                                    <tr>
+                                                        <td>{{ pregunta.pregunta }}</td>
+                                                        <td>
+                                                            <ul class="list-group">
+                                                                @for (opcion of pregunta.opciones; track $index) {
+                                                                        <li class="list-group-item">
+                                                                                {{ opcion.opcion }}
+                                                                        </li>
+                                                                }
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+</div>
+
+
+
+<!-- Modal de instrucciones -->
+<div class="modal fade" id="instruccionesModal" tabindex="-1" aria-labelledby="instruccionesModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-secondary text-white">
+        <h5 class="modal-title" id="instruccionesModalLabel">
+          Instrucciones de {{ evaluacion.tipoTest.nombre }}
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        
+             <div class="card" >
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item bg-success text-white text-center"><h4>Vista Previa Instrucciones</h4></li>
+
+                <li class="list-group-item"><div [innerHTML]="evaluacion.tipoTest.instrucciones"></div></li>
+            </ul>
+        </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
     </div>
   </div>
 </div>

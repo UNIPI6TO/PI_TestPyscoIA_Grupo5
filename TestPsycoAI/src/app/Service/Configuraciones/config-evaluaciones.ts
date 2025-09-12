@@ -25,9 +25,10 @@ export class ConfigEvaluacionesService {
       .pipe(catchError(this.manejoErrores));
     return configEvaluaciones;
   }
-  getUnaConfigEvaluacion(id: number): Observable<IConfigEvaluaciones> {
-    return this.http
-      .get<IConfigEvaluaciones>(`${this.API_URL}${this.CONTEXT}/ConfiguracionTest/detalle/${id}`)
+  getUnaConfigEvaluacion(id: number): Observable<IConfigEvaluacionesResumen> {
+    var configEvaluacion = this.http
+      .get<IConfigEvaluacionesResumen>(`${this.API_URL}${this.CONTEXT}/ConfiguracionTest/detalle/${id}`)
       .pipe(catchError(this.manejoErrores));
+    return configEvaluacion;
   }
 }

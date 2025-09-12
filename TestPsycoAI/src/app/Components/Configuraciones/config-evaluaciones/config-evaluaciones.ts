@@ -15,7 +15,7 @@ import { IConfigEvaluacionesResumen } from '../../../Interfaces/Configuraciones/
 export class ConfigEvaluacionesComponent implements OnInit {
 
   evaluaciones: IConfigEvaluacionesResumen[] = [];
-
+  isLoadingDetalle: boolean = false;
   constructor(private configEvaluacionesService: ConfigEvaluacionesService) { }
 
   ngOnInit(): void {

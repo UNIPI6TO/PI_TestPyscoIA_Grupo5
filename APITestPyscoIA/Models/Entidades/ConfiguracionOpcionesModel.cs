@@ -19,7 +19,7 @@ namespace APITestPyscoIA.Models.Entidades
         [ForeignKey("ConfiguracionPreguntas")]
         public int IdConfiguracionPreguntas { get; set; }
 
-
+        [JsonIgnore]
         public ConfiguracionPreguntasModel ? ConfiguracionPreguntas { get; set; }
     }
 }

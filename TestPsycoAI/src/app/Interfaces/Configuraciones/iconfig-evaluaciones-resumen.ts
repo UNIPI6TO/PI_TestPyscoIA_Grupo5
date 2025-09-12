@@ -1,3 +1,4 @@
+import { IConfigSecciones } from "./iconfig-secciones";
 import { ITipoTest } from "./itipo-test";
 
 export interface IConfigEvaluacionesResumen {
@@ -10,5 +11,5 @@ export interface IConfigEvaluacionesResumen {
     tipoTest: ITipoTest,
     numeroSecciones?: number,
     numeroPreguntas?: number
-
+    configuracionesSecciones?: IConfigSecciones[]
 }

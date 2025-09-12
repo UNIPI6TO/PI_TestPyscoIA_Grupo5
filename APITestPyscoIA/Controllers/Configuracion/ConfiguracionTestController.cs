@@ -82,6 +82,19 @@ namespace APITestPyscoIA.Controllers.Configuracion
 
             resumen.ConfiguracionesSecciones = await _context.ConfiguracionesSecciones
                 .Where(c=> c.IdConfiguracionesTest==resumen.Id).Include(c=> c.BancoPreguntas).ToListAsync();
+            if(resumen.ConfiguracionesSecciones!= null )
+                foreach (ConfiguracionSeccionesModel seccion in resumen.ConfiguracionesSecciones)
+                {
+                    if (seccion.BancoPreguntas!=null)
+                        foreach(ConfiguracionPreguntasModel preguntas in seccion.BancoPreguntas)
+                        {
+                            preguntas.Opciones = await _context.ConfiguracionesOpciones
+                                .Where(o => o.Eliminado == false && o.IdConfiguracionPreguntas==preguntas.Id)
+                                .OrderBy(o=> o.Orden)
+                                .ToListAsync();
+                        } 
+
+                }
             return Ok(resumen);
         }
 

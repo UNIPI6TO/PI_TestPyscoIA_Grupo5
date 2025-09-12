@@ -8,5 +8,6 @@ export interface IConfigEvaluaciones {
     nombre: string,
     idTipoTest?: number,
     duracion: number,
-    tipoTest?: ITipoTest    
+    tipoTest?: ITipoTest
+    
 }
