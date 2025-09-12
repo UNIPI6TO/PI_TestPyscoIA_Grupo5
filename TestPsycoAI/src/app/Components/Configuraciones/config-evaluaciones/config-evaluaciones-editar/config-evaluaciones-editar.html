@@ -1,0 +1,146 @@
+<div class="container mt-5">
+  <div class="card shadow-lg">
+    
+    <div class="card-header bg-secondary text-white text-center d-flex justify-content-between align-items-center">
+            <a class="text-white" [routerLink]="['/configuraciones/evaluaciones']">
+            <h3><i class="fa fa-arrow-left"></i></h3> 
+            </a>
+          <h3 class="mb-0 flex-grow-1 text-center"><i class="fa-regular fa-newspaper"></i> Editar Configuraciones de {{ evaluacion.nombre }}</h3>
+        </div>
+    <div class="card-body">
+        
+
+        <div class="row">
+            <div class="mb-3 col-md-4">
+                <label for="tipoTest" class="form-label "><strong>Descripción:</strong> {{ evaluacion.tipoTest.descripcion }} </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="mb-4 col-md-4">
+                <label for="duracion" class="form-label"><strong>Duración:</strong> {{ evaluacion.duracion }} segundos <strong>ó</strong> {{ evaluacion.duracion/60 }} minutos</label>
+
+            </div> 
+        </div>
+        <div>
+
+    </div>
+        <div class="row col-md-4">
+            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                <button type="button" class="btn btn-warning"  >
+                    <i class="fa fa-pen-to-square"></i> {{ evaluacion.nombre }}
+                </button>
+                <button type="button" class="btn btn-light " data-bs-toggle="modal" data-bs-target="#instruccionesModal">
+                    <i class="fa fa-eye"></i> Instrucciones
+                </button>
+
+
+                <button type="button" class="btn btn-primary "  >
+                    <i class="fa fa-plus"></i> Sección
+                </button>
+            </div>
+        </div>
+
+    <br>
+    <div class="card">
+    <div class="card-header bg-success text-white">
+        <h5 class="mb-0">Secciones de {{ evaluacion.nombre }}</h5>
+    </div>
+    <div class="card-body p-0">
+        <div class="list-group list-group-flush ">
+
+        @for (seccion of evaluacion.configuracionesSecciones; track $index) {
+                <a class="list-group-item  list-group-item-action bg-secondary text-white" 
+                    data-bs-toggle="collapse" 
+                    [attr.href]="'#' + seccion.id" 
+                    role="button" 
+                    [class.active]="true"
+                    aria-expanded="true" 
+                    [attr.aria-controls]="seccion.id">
+                    {{ seccion.seccion }}
+                    
+                </a>
+                
+                <div class="collapse show" [id]="seccion.id">
+                    <div class="card card-body border-0 border-top rounded-0">
+                        <div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Configuración de {{ seccion.seccion }}</h5> 
+                                        <label class="ms-3">Formato de Cálculo: {{ seccion.formulaAgregado }}</label>
+                                        <div>
+                                            <label class="ms-3">Las preguntas que se seleccionan en la evaluación son {{ seccion.numeroPreguntas }} seleccionadas aleatoriamente de {{ seccion.bancoPreguntas?.length }} configuradas para esta sección</label>
+                                        </div>
+                                        <button class="btn btn-sm btn-danger float-end"><i class="fa fa-trash"></i> Eliminar Sección</button>
+                                        <button class="btn btn-sm btn-warning float-end me-2"><i class="fa fa-pen-to-square"></i> Editar Sección</button>
+
+                                        <br>
+                                        <div class="table-responsive mt-3">
+                                            <table class="table table-bordered">
+                                                <thead class="table-dark">
+                                                        <tr>
+                                                                <th>Pregunta</th>
+                                                                <th>Opciones</th>
+                                                        </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @for (pregunta of seccion.bancoPreguntas; track $index) {
+                                                        <tr>
+                                                            <td>{{ pregunta.pregunta }} 
+                                                            <p>
+                                                                <button class="btn btn-sm btn-danger float-end "><i class="fa fa-trash"></i></button>
+                                                                <button class="btn btn-sm btn-warning float-end me-2"><i class="fa fa-pen-to-square"></i> </button>
+                                                            </p>
+                                                            </td>
+                                                            <td>
+                                                                <ul class="list-group">
+                                                                    @for (opcion of pregunta.opciones; track $index) {
+                                                                            <li class="list-group-item">
+                                                                                    {{ opcion.opcion }}
+                                                                            </li>
+                                                                    }
+                                                                </ul>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal de instrucciones -->
+<div class="modal fade" id="instruccionesModal" tabindex="-1" aria-labelledby="instruccionesModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-secondary text-white">
+        <h5 class="modal-title" id="instruccionesModalLabel">
+          Instrucciones de {{ evaluacion.tipoTest.nombre }}
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        
+             <div class="card" >
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item bg-success text-white text-center"><h4>Vista Previa Instrucciones</h4></li>
+
+                <li class="list-group-item"><div [innerHTML]="evaluacion.tipoTest.instrucciones"></div></li>
+            </ul>
+        </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>

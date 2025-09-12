@@ -24,7 +24,7 @@
             @for (evaluacion of evaluaciones; track $index)   {
               <tr >
                 <td>{{ evaluacion.nombre }}</td>
-                <td>{{ evaluacion.duracion }}</td>
+                <td>{{ evaluacion.duracion }} seg</td>
                 <td>{{ evaluacion.tipoTest.nombre }}</td>
                 <td>{{ evaluacion.numeroSecciones }}</td>
                 <td>{{ evaluacion.numeroPreguntas }}</td>
@@ -33,7 +33,7 @@
                     <a class="btn btn-sm btn-primary me-2" >
                       <i class="fa-solid fa-circle-info" [routerLink]="['/configuraciones/evaluaciones/detalle', evaluacion.id]"></i>
                     </a>
-                    <a class="btn btn-sm btn-warning me-2" [routerLink]="['/configuraciones/tipo-test/editar', evaluacion.id]" (click)="isLoadingDetalle = true">
+                    <a class="btn btn-sm btn-warning me-2" [routerLink]="['/configuraciones/evaluaciones/editar', evaluacion.id]" (click)="isLoadingDetalle = true">
                       <i class="fa-solid fa-pen-to-square"></i>
                     </a>
                     @if(isLoadingDetalle)
