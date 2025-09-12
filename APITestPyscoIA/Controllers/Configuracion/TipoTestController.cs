@@ -25,7 +25,7 @@ namespace APITestPyscoIA.Controllers.Configuracion
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TipoTestModel>>> GetTiposTest()
         {
-            return await _context.TiposTest.ToListAsync();
+            return await _context.TiposTest.Where(x=> x.Eliminado==false).ToListAsync();
         }
 
         // GET: api/TipoTest/5
@@ -51,11 +51,12 @@ namespace APITestPyscoIA.Controllers.Configuracion
             {
                 return BadRequest();
             }
-
+            tipoTestModel.Actualizado = DateTime.Now;
             _context.Entry(tipoTestModel).State = EntityState.Modified;
 
             try
             {
+
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -94,7 +95,9 @@ namespace APITestPyscoIA.Controllers.Configuracion
                 return NotFound();
             }
 
-            _context.TiposTest.Remove(tipoTestModel);
+            tipoTestModel.Eliminado = true;
+            tipoTestModel.Actualizado = DateTime.Now;
+            _context.TiposTest.Update(tipoTestModel);
             await _context.SaveChangesAsync();
 
             return NoContent();

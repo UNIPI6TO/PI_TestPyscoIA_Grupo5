@@ -1,0 +1,74 @@
+<div class="container mt-5">
+  <div class="card shadow-lg">
+    <div class="card-header bg-secondary text-white text-center d-flex justify-content-between align-items-center">
+        <a class="text-white" [routerLink]="['/configuraciones/tipo-test']">
+        <h3><i class="fa fa-arrow-left"></i></h3> 
+        </a>
+        <h3 class="mb-0 flex-grow-1 text-center"><i class="fa-regular fa-newspaper"></i> Nuevo Tipo de Evaluación</h3>
+    </div>
+    <div class="card-body">
+      <form #nuevoTipoTestForm="ngForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre Tipo de Evaluación</label>
+          <input
+            type="text"
+            id="nombre"
+            name="nombre"
+            class="form-control"
+            [(ngModel)]="tipoTest.nombre"
+            #nombre="ngModel"
+            required
+          />
+          <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="text-danger">
+            <small *ngIf="nombre.errors?.['required']">El nombre es obligatorio.</small>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="descripcion" class="form-label">Descripción</label>
+          <textarea
+            id="descripcion"
+            name="descripcion"
+            class="form-control"
+            [(ngModel)]="tipoTest.descripcion"
+            #descripcion="ngModel"
+            rows="3"
+            required
+          ></textarea>
+          <div *ngIf="descripcion.invalid && (descripcion.dirty || descripcion.touched)" class="text-danger">
+            <small *ngIf="descripcion.errors?.['required']">La descripción es obligatoria.</small>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="instrucciones" class="form-label">Instrucciones</label>
+          <textarea
+            id="instrucciones"
+            name="instrucciones"
+            class="form-control"
+            [(ngModel)]="tipoTest.instrucciones"
+            #instrucciones="ngModel"
+            rows="15"
+            required
+          ></textarea>
+          <div *ngIf="instrucciones.invalid && (instrucciones.dirty || instrucciones.touched)" class="text-danger">
+            <small *ngIf="instrucciones.errors?.['required']">Las instrucciones son obligatorias.</small>
+          </div>
+        </div>
+        <div class="card" >
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item bg-success text-white text-center"><h4>Vista Previa Instrucciones</h4></li>
+                <li class="list-group-item"><div [innerHTML]="tipoTest.instrucciones"></div></li>
+            </ul>
+        </div>
+        <div><br/></div>
+        <div class="d-flex justify-content-end">
+          <button type="submit" class="btn btn-success me-2" [disabled]="nuevoTipoTestForm.invalid">
+            <i class="fa-solid fa-floppy-disk"></i> Guardar Cambios
+          </button>
+          <button type="button" class="btn btn-secondary" routerLink="/configuraciones/tipo-test">
+            <i class="fa-solid fa-arrow-left"></i> Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,49 @@
+<div class="container mt-5">
+  <div class="card shadow-lg">
+    <div class="card-header bg-success text-white text-center d-flex justify-content-between align-items-center">
+      <h3 class="mb-0">Listado de Configuraciones Tipo de Evaluaciones</h3>
+      <a class="btn btn-light" [routerLink]="['/configuraciones/tipo-test/nuevo']">
+        <i class="fa-regular fa-newspaper"></i> Nuevo Tipo de Evaluación
+      </a>
+    </div>
+    <div class="card-body">
+
+      <div class="table-responsive">
+        <table class="table table-hover table-striped">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Evaluacion</th>
+              <th scope="col">Descripción</th>
+              <th scope="col">Instrucciones</th>
+              <th scope="col">Fecha Creación</th>
+              <th scope="col">Fecha Actualización</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (evaluacion of evaluaciones; track $index)   {
+              <tr >
+                <td>{{ evaluacion.nombre }}</td>
+                <td>{{ evaluacion.descripcion }}</td>
+                <td><div [innerHTML]="evaluacion.instrucciones"></div></td>
+                <td>{{ evaluacion.creado | date:'dd/MM/yyyy' }}</td>
+                <td>{{ evaluacion.actualizado | date:'dd/MM/yyyy' }}</td>
+                <td>
+                  <div class="d-flex align-items-center" style="min-width: 110px;">
+                    <a class="btn btn-sm btn-warning me-2" [routerLink]="['/configuraciones/tipo-test/editar', evaluacion.id]">
+                      <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                    <button class="btn btn-sm btn-danger" (click)="eliminarTipoTest(evaluacion)">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              
+              </tr>
+          }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
