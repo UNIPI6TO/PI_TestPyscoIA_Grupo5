@@ -68,10 +68,10 @@ namespace APITestPyscoIA.Controllers.Configuracion
                     Actualizado = a.Actualizado,
                     Eliminado = a.Eliminado,
                     TipoTest = a.TipoTest,
-                    NumeroSecciones = _context.ConfiguracionesSecciones.Count(s => s.IdConfiguracionesTest == a.Id),
+                    NumeroSecciones = _context.ConfiguracionesSecciones.Count(s => s.IdConfiguracionesTest == a.Id && a.Eliminado== false),
                     NumeroPreguntas = (from b in _context.ConfiguracionesSecciones
-                                       join c in _context.ConfiguracionesPreguntas on b.Id equals c.IdConfiguracionSecciones
-                                       where b.IdConfiguracionesTest == a.Id
+                                       join c in _context.ConfiguracionesPreguntas on b.Id equals c.IdConfiguracionSecciones 
+                                       where b.IdConfiguracionesTest == a.Id && c.Eliminado == false
                                        select c).Count()
                 })
                 .FirstOrDefaultAsync();
@@ -81,10 +81,15 @@ namespace APITestPyscoIA.Controllers.Configuracion
             }
 
             resumen.ConfiguracionesSecciones = await _context.ConfiguracionesSecciones
-                .Where(c=> c.IdConfiguracionesTest==resumen.Id).Include(c=> c.BancoPreguntas).ToListAsync();
+                .Where(c=> c.IdConfiguracionesTest==resumen.Id && c.Eliminado== false)
+                
+                .ToListAsync();
             if(resumen.ConfiguracionesSecciones!= null )
                 foreach (ConfiguracionSeccionesModel seccion in resumen.ConfiguracionesSecciones)
                 {
+                    seccion.BancoPreguntas =await _context.ConfiguracionesPreguntas
+                        .Where(p => p.IdConfiguracionSecciones == seccion.Id && p.Eliminado == false)
+                        .ToListAsync();
                     if (seccion.BancoPreguntas!=null)
                         foreach(ConfiguracionPreguntasModel preguntas in seccion.BancoPreguntas)
                         {
