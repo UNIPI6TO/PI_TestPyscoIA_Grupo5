@@ -16,14 +16,12 @@ export class TipoTestService {
         var tiposTest = this.http
           .get<ITipoTest[]>(this.API_URL + this.CONTEXT + '/TipoTest')
           .pipe(catchError(this.manejoErrores));
-        console.log(tiposTest);
         return tiposTest;
     }
     getTipoTestById(id: string): Observable<ITipoTest> {
       var tipoTest = this.http
         .get<ITipoTest>(this.API_URL + this.CONTEXT + '/TipoTest/' + id)
         .pipe(catchError(this.manejoErrores));
-      console.log(tipoTest);
       return tipoTest;
     }
     updateTipoTest(tipoTest: ITipoTest): Observable<void> {

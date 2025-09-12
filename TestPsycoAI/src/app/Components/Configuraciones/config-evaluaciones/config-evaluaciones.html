@@ -1,0 +1,52 @@
+<div class="container mt-5">
+  <div class="card shadow-lg">
+    <div class="card-header bg-success text-white text-center d-flex justify-content-between align-items-center">
+      <h3 class="mb-0">Configuraciones de Evaluaciones</h3>
+      <a class="btn btn-light" [routerLink]="['/configuraciones']">
+        <i class="fa-regular fa-newspaper"></i> Nueva Configuración de Evaluación
+      </a>
+    </div>
+    <div class="card-body">
+
+      <div class="table-responsive">
+        <table class="table table-hover table-striped">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Evaluacion</th>
+              <th scope="col">Duración</th>
+              <th scope="col">Tipo</th>
+              <th scope="col"># Secciones</th>
+              <th scope="col"># Preguntas</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (evaluacion of evaluaciones; track $index)   {
+              <tr >
+                <td>{{ evaluacion.nombre }}</td>
+                <td>{{ evaluacion.duracion }}</td>
+                <td>{{ evaluacion.tipoTest.nombre }}</td>
+                <td>{{ evaluacion.numeroSecciones }}</td>
+                <td>{{ evaluacion.numeroPreguntas }}</td>
+                <td>
+                  <div class="d-flex align-items-center" style="min-width: 110px;">
+                    <a class="btn btn-sm btn-primary me-2" >
+                      <i class="fa-solid fa-circle-info" [routerLink]="['/configuraciones/evaluaciones/detalle', evaluacion.id]"></i>
+                    </a>
+                    <a class="btn btn-sm btn-warning me-2" [routerLink]="['/configuraciones/tipo-test/editar', evaluacion.id]">
+                      <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                    <a class="btn btn-sm btn-danger">
+                      <i class="fa-solid fa-trash"></i>
+                    </a>
+                  </div>
+                </td>
+              
+              </tr>
+          }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -19,7 +19,7 @@ export class PacienteService {
     console.log(pacientes);
     return pacientes;
   }
-    manejoErrores(error: HttpErrorResponse) {
+  manejoErrores(error: HttpErrorResponse) {
     const msg = error.error?.message || error.statusText || 'Error de red';
     return throwError(() => {
       new Error(msg);
