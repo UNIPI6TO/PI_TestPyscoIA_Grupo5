@@ -26,7 +26,7 @@
     </div>
         <div class="row col-md-4">
             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                <button type="button" class="btn btn-warning"  >
+                <button type="button" class="btn btn-warning"  data-bs-toggle="modal" (click)="cargarEdicion()" data-bs-target="#editarEvaluacionModal">
                     <i class="fa fa-pen-to-square"></i> {{ evaluacion.nombre }}
                 </button>
                 <button type="button" class="btn btn-light " data-bs-toggle="modal" data-bs-target="#instruccionesModal">
@@ -72,7 +72,7 @@
                                         </div>
                                         <button class="btn btn-sm btn-danger float-end me-2" (click)="eliminarSeccion(seccion.id!)"><i class="fa fa-trash"></i> Sección</button>
                                         <button class="btn btn-sm btn-warning float-end me-2"><i class="fa fa-pen-to-square" ></i> Sección</button>
-                                        <button class="btn btn-sm btn-primary float-end me-2"><i class="fa fa-plus"></i> Pregunta</button>
+                                        <button class="btn btn-sm btn-primary float-end me-2" data-bs-toggle="modal" data-bs-target="#agregarPreguntaModal" (click)="cargarPreguntaNueva(seccion)" ><i class="fa fa-plus"></i> Pregunta</button>
 
                                         <br>
                                         <div class="table-responsive mt-3">
@@ -84,25 +84,66 @@
                                                         </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @for (pregunta of seccion.bancoPreguntas; track $index) {
-                                                        <tr>
-                                                            <td>{{ pregunta.pregunta }} 
-                                                            <p>
-                                                                <button class="btn btn-sm btn-danger float-end "><i class="fa fa-trash"></i></button>
-                                                                <button class="btn btn-sm btn-warning float-end me-2"><i class="fa fa-pen-to-square"></i> </button>
-                                                            </p>
-                                                            </td>
-                                                            <td>
-                                                                <ul class="list-group">
-                                                                    @for (opcion of pregunta.opciones; track $index) {
-                                                                            <li class="list-group-item">
-                                                                                    {{ opcion.opcion }}
-                                                                            </li>
-                                                                    }
-                                                                </ul>
-                                                            </td>
-                                                        </tr>
-                                                    }
+                                                  @for (pregunta of seccion.bancoPreguntas; track $index) {
+                                                    <tr>
+                                                      <td>
+                                                        {{ pregunta.pregunta }}
+                                                        <div class="mt-2">
+                                                          <div class="d-grid gap-2 d-md-flex flex-md-row flex-wrap">
+                                                          <button class="btn btn-sm btn-primary me-2 mb-2" >
+                                                            <i class="fa fa-plus"></i>
+                                                          </button>
+                                                            
+                                                          <button class="btn btn-sm btn-danger me-2 mb-2" >
+                                                            <i class="fa fa-trash"></i>
+                                                          </button>
+                                                          <button class="btn btn-sm btn-warning mb-2">
+                                                            <i class="fa fa-pen-to-square"></i>
+                                                          </button>
+                                                          </div>
+                                                        </div>
+                                                      </td>
+                                                      <td>
+                                                        <ul class="list-group">
+                                                          @for (opcion of pregunta.opciones; track $index) {
+                                                            <li class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                                                              <span class="mb-2 mb-md-0">
+                                                                <button class="btn btn-sm btn-outline-primary me-2 mb-2 mb-md-0" (click)="eliminarOpcion(pregunta, opcion)">
+                                                                  <i class="fa fa-pen-to-square"></i>
+                                                                </button>
+                                                                {{ opcion.orden }} - {{ opcion.opcion }} (Calificación: {{ opcion.peso }})  
+                                                              </span>
+                                                              <span class="d-grid gap-2 d-md-flex flex-md-row flex-wrap">
+                                                                @if($index > 0)
+                                                                {
+                                                                  <button class="btn btn-sm btn-outline-secondary me-1 mb-2" (click)="moverOpcionArriba(pregunta, opcion)">
+                                                                    <i class="fa fa-arrow-up"></i>
+                                                                  </button>
+                                                                } @else {
+                                                                  <button class="btn btn-sm btn-outline-secondary me-1 mb-2" disabled>
+                                                                    <i class="fa fa-arrow-up"></i>
+                                                                  </button>
+                                                                }
+                                                                @if($index < (pregunta.opciones?.length ?? 0) - 1)
+                                                                {
+                                                                  <button class="btn btn-sm btn-outline-secondary me-2 mb-2" (click)="moverOpcionAbajo(pregunta, opcion)">
+                                                                    <i class="fa fa-arrow-down"></i>
+                                                                  </button>
+                                                                }@else {
+                                                                  <button class="btn btn-sm btn-outline-secondary me-2 mb-2" disabled>
+                                                                    <i class="fa fa-arrow-down"></i>
+                                                                  </button>
+                                                                }
+                                                                <button class="btn btn-sm btn-outline-danger mb-2" (click)="eliminarOpcion(pregunta, opcion)">
+                                                                  <i class="fa fa-trash"></i>
+                                                                </button>
+                                                              </span>
+                                                            </li>
+                                                          }
+                                                        </ul>
+                                                      </td>
+                                                    </tr>
+                                                }
                                                 </tbody>
                                             </table>
                                         </div>
@@ -206,3 +247,116 @@
     </div>
   </div>
 </div>
+
+<!-- Modal para editar evaluación -->
+<div class="modal fade" id="editarEvaluacionModal" tabindex="-1" aria-labelledby="editarEvaluacionModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form #editarEvaluacionForm="ngForm" (ngSubmit)="editarEvaluacion()">
+        <div class="modal-header bg-warning text-dark">
+          <h5 class="modal-title" id="editarEvaluacionModalLabel">Editar Evaluación</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="nombreEvaluacion" class="form-label">Nombre de la Evaluación</label>
+            <input
+              type="text"
+              id="nombreEvaluacion"
+              name="nombreEvaluacion"
+              class="form-control"
+              [(ngModel)]="evaluacion.nombre"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="duracionEvaluacion" class="form-label">Duración (segundos)</label>
+            <input
+              type="number"
+              id="duracionEvaluacion"
+              name="duracionEvaluacion"
+              class="form-control"
+              [(ngModel)]="evaluacionEditable.duracion"
+              min="1"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="tipoTestEvaluacion" class="form-label">Tipo de Test</label>
+            <select
+              id="tipoTestEvaluacion"
+              name="tipoTestEvaluacion"
+              class="form-select"
+              [(ngModel)]="evaluacionEditable.idTipoTest"
+              required
+            >
+              <option value="" disabled selected>Seleccione una opción</option>
+              @for (tipo of tiposTest; track $index) {
+                  @if (tipo.id === evaluacion.tipoTest.id) {
+                    <option [value]="tipo.id" selected>{{ tipo.nombre }}</option>
+                  } @else {
+                    <option [value]="tipo.id">{{ tipo.nombre }}</option>
+                  }
+              }
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success" [disabled]="editarEvaluacionForm.invalid" (click)="editarEvaluacion()">
+            <i class="fa fa-save"></i> Guardar Cambios
+          </button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal para agregar pregunta -->
+<div class="modal fade" id="agregarPreguntaModal" tabindex="-1" aria-labelledby="agregarPreguntaModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form #agregarPreguntaForm="ngForm" (ngSubmit)="agregarPregunta()">
+        <div class="modal-header bg-primary text-white">
+
+          <h5 class="modal-title" id="agregarPreguntaModalLabel">Agregar Pregunta de {{ seccionSelecionada.seccion }}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+            <div class="mb-6">
+            <label for="preguntaTexto" class="form-label">Pregunta</label>
+            <input
+              type="text"
+              id="preguntaTexto"
+              name="preguntaTexto"
+              class="form-control"
+              [(ngModel)]="nuevaPregunta.pregunta"
+              required
+            />
+            </div>
+          <div class="mb-3">
+            
+            <input
+              type="checkbox"
+              id="inversa"
+              name="inversa"
+              class="form-check-input me-2"
+              [(ngModel)]="nuevaPregunta.inversa"
+              
+            />
+            <label for="inversa" class="form-label">Invertida</label>
+          </div>
+         
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success" [disabled]="agregarPreguntaForm.invalid">
+            <i class="fa fa-plus"></i> Agregar
+          </button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

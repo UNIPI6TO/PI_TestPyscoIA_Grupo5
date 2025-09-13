@@ -51,7 +51,8 @@ namespace APITestPyscoIA.Controllers.Configuracion
             {
                 return BadRequest();
             }
-
+            configuracionOpcionesModel.Actualizado = DateTime.Now;
+            
             _context.Entry(configuracionOpcionesModel).State = EntityState.Modified;
 
             try
@@ -93,8 +94,9 @@ namespace APITestPyscoIA.Controllers.Configuracion
             {
                 return NotFound();
             }
-
-            _context.ConfiguracionesOpciones.Remove(configuracionOpcionesModel);
+            configuracionOpcionesModel.Eliminado = true;
+            configuracionOpcionesModel.Actualizado = DateTime.Now;
+            _context.ConfiguracionesOpciones.Update(configuracionOpcionesModel);
             await _context.SaveChangesAsync();
 
             return NoContent();

@@ -78,6 +78,8 @@ namespace APITestPyscoIA.Controllers.Configuracion
         [HttpPost]
         public async Task<ActionResult<ConfiguracionPreguntasModel>> PostConfiguracionPreguntasModel(ConfiguracionPreguntasModel configuracionPreguntasModel)
         {
+            configuracionPreguntasModel.Creado = DateTime.Now;
+            configuracionPreguntasModel.Eliminado = false;
             _context.ConfiguracionesPreguntas.Add(configuracionPreguntasModel);
             await _context.SaveChangesAsync();
 
@@ -93,8 +95,9 @@ namespace APITestPyscoIA.Controllers.Configuracion
             {
                 return NotFound();
             }
-
-            _context.ConfiguracionesPreguntas.Remove(configuracionPreguntasModel);
+            configuracionPreguntasModel.Eliminado = true;
+            configuracionPreguntasModel.Actualizado = DateTime.Now;
+            _context.ConfiguracionesPreguntas.Update(configuracionPreguntasModel);
             await _context.SaveChangesAsync();
 
             return NoContent();
