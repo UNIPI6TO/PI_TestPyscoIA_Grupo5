@@ -4,6 +4,7 @@ import { ConfigEvaluacionesService } from '../../../../Service/Configuraciones/c
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-config-evaluaciones-detalle',
@@ -27,8 +28,36 @@ export class ConfigEvaluacionesDetalleComponent implements OnInit {
     };
   }
 
-  ngOnInit(): void {
+ngOnInit(): void {
+    // Mostrar spinner al iniciar la carga
+    Swal.fire({
+      title: 'Cargando...',
+      allowOutsideClick: false,
+      didOpen: () => {
+      Swal.showLoading();
+      }
+    });
+
     const idParam = this.route.snapshot.paramMap.get('id');
+    if (idParam) {
+      const id = Number(idParam);
+      this.configuracionesService.getUnaConfigEvaluacion(id).subscribe({
+      next: (data: IConfigEvaluacionesResumen) => {
+        this.evaluacion = data;
+        Swal.close(); // Cerrar spinner al terminar de cargar
+      },
+      error: () => {
+        Swal.close();
+        Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Ocurrió un error al cargar la evaluación.'
+        });
+      }
+      });
+    } else {
+      Swal.close();
+    }
     if (idParam) {
       const id = Number(idParam);
       this.configuracionesService.getUnaConfigEvaluacion(id).subscribe((data: IConfigEvaluacionesResumen) => {

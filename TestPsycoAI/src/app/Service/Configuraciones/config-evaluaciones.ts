@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { IConfigEvaluaciones } from '../../Interfaces/Configuraciones/iconfig-evaluaciones';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { catchError, Observable, throwError } from 'rxjs';
@@ -31,4 +30,6 @@ export class ConfigEvaluacionesService {
       .pipe(catchError(this.manejoErrores));
     return configEvaluacion;
   }
+
+
 }

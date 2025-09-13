@@ -22,12 +22,32 @@ export class ConfigEvaluacionesComponent implements OnInit {
     this.cargarEvaluaciones();
   }
   cargarEvaluaciones() {
+    this.isLoadingDetalle = true;
+    // Mostrar spinner con SweetAlert2
+    // @ts-ignore
+    Swal.fire({
+      title: 'Cargando...',
+      allowOutsideClick: false,
+      didOpen: () => {
+      // @ts-ignore
+      Swal.showLoading();
+      }
+    });
+
     this.configEvaluacionesService.getConfigEvaluaciones().subscribe({
       next: (configEvaluacionForm) => {
-        this.evaluaciones = configEvaluacionForm;
+      this.evaluaciones = configEvaluacionForm;
+      this.isLoadingDetalle = false;
+      // @ts-ignore
+      Swal.close();
       },
       error: (error) => {
-        console.error('Error al cargar las evaluaciones:', error);
+      this.isLoadingDetalle = false;
+      // @ts-ignore
+      Swal.close();
+      console.error('Error al cargar las evaluaciones:', error);
+      // @ts-ignore
+      Swal.fire('Error', 'Error al cargar las evaluaciones', 'error');
       }
     });
 

@@ -33,18 +33,10 @@
                     <a class="btn btn-sm btn-primary me-2" >
                       <i class="fa-solid fa-circle-info" [routerLink]="['/configuraciones/evaluaciones/detalle', evaluacion.id]"></i>
                     </a>
-                    <a class="btn btn-sm btn-warning me-2" [routerLink]="['/configuraciones/evaluaciones/editar', evaluacion.id]" (click)="isLoadingDetalle = true">
+                    <a class="btn btn-sm btn-warning me-2" [routerLink]="['/configuraciones/evaluaciones/editar', evaluacion.id]">
                       <i class="fa-solid fa-pen-to-square"></i>
                     </a>
-                    @if(isLoadingDetalle)
-                    {
-                        <div class="text-center my-3">
-                        <div class="spinner-border text-primary" role="status">
-                            <span class="visually-hidden">Cargando...</span>
-                        </div>
-                        <div>Por favor, espere...</div>
-                        </div>
-                    }
+                    
                     <a class="btn btn-sm btn-danger">
                       <i class="fa-solid fa-trash"></i>
                     </a>
