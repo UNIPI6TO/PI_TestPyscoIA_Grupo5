@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { catchError, Observable, throwError } from 'rxjs';
 import { IConfigEvaluacionesResumen } from '../../Interfaces/Configuraciones/iconfig-evaluaciones-resumen';
+import { IConfigEvaluaciones } from '../../Interfaces/Configuraciones/iconfig-evaluaciones';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,14 @@ export class ConfigEvaluacionesService {
       .pipe(catchError(this.manejoErrores));
     return configEvaluacion;
   }
-
-
+  eliminarEvaluacion(id: number): Observable<void> {
+    return this.http
+      .delete<void>(`${this.API_URL}${this.CONTEXT}/ConfiguracionTest/${id}`)
+      .pipe(catchError(this.manejoErrores));
+  }
+  editarEvaluacion(evaluacion: IConfigEvaluaciones): Observable<void> {
+    return this.http
+      .put<void>(`${this.API_URL}${this.CONTEXT}/ConfiguracionTest/${evaluacion.id}`, evaluacion)
+      .pipe(catchError(this.manejoErrores));
+  }
 }

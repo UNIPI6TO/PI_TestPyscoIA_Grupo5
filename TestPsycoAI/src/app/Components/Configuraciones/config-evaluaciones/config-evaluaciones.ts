@@ -5,6 +5,7 @@ import { ConfigEvaluacionesService } from '../../../Service/Configuraciones/conf
 import { IConfigEvaluaciones } from '../../../Interfaces/Configuraciones/iconfig-evaluaciones';
 import { Form, FormsModule } from '@angular/forms';
 import { IConfigEvaluacionesResumen } from '../../../Interfaces/Configuraciones/iconfig-evaluaciones-resumen';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-config-evaluaciones',
@@ -52,4 +53,30 @@ export class ConfigEvaluacionesComponent implements OnInit {
     });
 
   }
+
+  eliminarEvaluacion(id: number) {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Esta acción no se puede deshacer.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.configEvaluacionesService.eliminarEvaluacion(id).subscribe({
+          next: () => {
+            Swal.fire('Eliminado', 'La evaluación ha sido eliminada', 'success');
+            this.cargarEvaluaciones();
+          },
+          error: (error) => {
+            console.error('Error al eliminar la evaluación:', error);
+            Swal.fire('Error', 'Error al eliminar la evaluación', 'error');
+          }
+        });
+      }
+    });
+  }
+
 }
+ 

@@ -89,6 +89,7 @@ namespace APITestPyscoIA.Controllers.Configuracion
                 {
                     seccion.BancoPreguntas =await _context.ConfiguracionesPreguntas
                         .Where(p => p.IdConfiguracionSecciones == seccion.Id && p.Eliminado == false)
+                        .OrderByDescending(p=> p.Creado)
                         .ToListAsync();
                     if (seccion.BancoPreguntas!=null)
                         foreach(ConfiguracionPreguntasModel preguntas in seccion.BancoPreguntas)
@@ -159,6 +160,7 @@ namespace APITestPyscoIA.Controllers.Configuracion
             return CreatedAtAction("GetConfiguracionTestModel", new { id = configuracionTestModel.Id }, configuracionTestModel);
         }
 
+
         // DELETE: api/config/ConfiguracionTest/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteConfiguracionTestModel(int id)
@@ -168,8 +170,9 @@ namespace APITestPyscoIA.Controllers.Configuracion
             {
                 return NotFound();
             }
-
-            _context.ConfiguracionesTest.Remove(configuracionTestModel);
+            configuracionTestModel.Eliminado = true;
+            configuracionTestModel.Actualizado = DateTime.Now;
+            _context.ConfiguracionesTest.Update(configuracionTestModel);
             await _context.SaveChangesAsync();
 
             return NoContent();
