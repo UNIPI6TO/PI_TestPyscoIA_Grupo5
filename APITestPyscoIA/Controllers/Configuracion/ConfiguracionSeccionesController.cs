@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using APITestPyscoIA.Data;
 using APITestPyscoIA.Models.Entidades;
+using APITestPyscoIA.Models.DTO;
 
 namespace APITestPyscoIA.Controllers.Configuracion
 {
@@ -76,8 +77,15 @@ namespace APITestPyscoIA.Controllers.Configuracion
         // POST: api/config/ConfiguracionSecciones
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<ConfiguracionSeccionesModel>> PostConfiguracionSeccionesModel(ConfiguracionSeccionesModel configuracionSeccionesModel)
+        public async Task<ActionResult<ConfiguracionSeccionesModel>> PostConfiguracionSeccionesModel(ConfiguracionesSecionDTO configuracionSeccionesDTO)
         {
+            ConfiguracionSeccionesModel configuracionSeccionesModel = new ConfiguracionSeccionesModel();
+            configuracionSeccionesModel.Seccion=configuracionSeccionesDTO.Seccion;
+            configuracionSeccionesModel.FormulaAgregado = configuracionSeccionesDTO.FormulaAgregado;
+            configuracionSeccionesModel.NumeroPreguntas = configuracionSeccionesDTO.NumeroPreguntas;
+            configuracionSeccionesModel.Eliminado = false;
+            configuracionSeccionesModel.Creado = DateTime.Now;
+            configuracionSeccionesModel.IdConfiguracionesTest = configuracionSeccionesDTO.IdConfiguracionesTest;
             _context.ConfiguracionesSecciones.Add(configuracionSeccionesModel);
             await _context.SaveChangesAsync();
 
@@ -93,8 +101,9 @@ namespace APITestPyscoIA.Controllers.Configuracion
             {
                 return NotFound();
             }
-
-            _context.ConfiguracionesSecciones.Remove(configuracionSeccionesModel);
+            configuracionSeccionesModel.Eliminado= true;
+            configuracionSeccionesModel.Actualizado = DateTime.Now;
+            _context.ConfiguracionesSecciones.Update(configuracionSeccionesModel);
             await _context.SaveChangesAsync();
 
             return NoContent();

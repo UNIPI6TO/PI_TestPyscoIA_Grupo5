@@ -1,5 +1,11 @@
-SELECT *
-  FROM [PI-5toGrupoApi].[dbo].[ConfiguracionesOpciones]
+
+INSERT INTO [dbo].[ConfiguracionesOpciones]
+           ([Orden]
+           ,[Opcion]
+           ,[Peso]
+           ,[IdConfiguracionPreguntas]
+           ,[Creado]
+           ,[Eliminado])
 
 SELECT 1 Orden,
 	'Totalmente en desacuerdo' Opcion,
@@ -53,4 +59,6 @@ FROM [PI-5toGrupoApi].[dbo].[ConfiguracionesPreguntas]
 
 order by IdPregunta,Orden
 
+go 
 
+select * from [dbo].[ConfiguracionesOpciones]

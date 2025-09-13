@@ -25,7 +25,6 @@ namespace APITestPyscoIA.Models.Entidades
         
         public ConfiguracionTestModel? ConfiguracionTest { get; set; }
         
-        [JsonIgnore]
         public ICollection<ConfiguracionPreguntasModel>? BancoPreguntas { get; set; }
 
 

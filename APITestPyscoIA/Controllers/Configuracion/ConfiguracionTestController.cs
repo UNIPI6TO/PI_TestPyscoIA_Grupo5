@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using APITestPyscoIA.Data;
 using APITestPyscoIA.Models.Entidades;
+using APITestPyscoIA.Models.ViewModel;
 
 namespace APITestPyscoIA.Controllers.Configuracion
 {
@@ -25,7 +26,81 @@ namespace APITestPyscoIA.Controllers.Configuracion
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ConfiguracionTestModel>>> GetConfiguracionesTest()
         {
-            return await _context.ConfiguracionesTest.ToListAsync();
+            return await _context.ConfiguracionesTest.Include(x=> x.TipoTest).ToListAsync();
+        }
+
+        [HttpGet("resumen")]
+        public async Task<ActionResult<IEnumerable<ConfiguracionesTestViewModel>>> GetConfiguracionesResumen()
+        {
+            var resumen = await _context.ConfiguracionesTest
+                .Where(a => a.Eliminado == false)
+                .Select(a => new ConfiguracionesTestViewModel
+                {
+                    Id = a.Id,
+                    Nombre = a.Nombre,
+                    Duracion = a.Duracion,
+                    Creado = a.Creado,
+                    Actualizado = a.Actualizado,
+                    Eliminado = a.Eliminado,
+                    TipoTest = a.TipoTest,
+                    NumeroSecciones = _context.ConfiguracionesSecciones.Count(s => s.IdConfiguracionesTest == a.Id),
+                    NumeroPreguntas = (from b in _context.ConfiguracionesSecciones
+                                       join c in _context.ConfiguracionesPreguntas on b.Id equals c.IdConfiguracionSecciones
+                                       where b.IdConfiguracionesTest == a.Id
+                                       select c).Count()
+                })
+                .ToListAsync();
+
+            return resumen;
+        }
+
+        [HttpGet("detalle/{id}")]
+        public async Task<ActionResult<ConfiguracionesTestViewModel>> GetConfiguracionTestModelDataill(int id)
+        {
+            var resumen = await _context.ConfiguracionesTest
+                .Where(a => a.Eliminado == false && a.Id==id)
+                .Select(a => new ConfiguracionesTestViewModel
+                {
+                    Id = a.Id,
+                    Nombre = a.Nombre,
+                    Duracion = a.Duracion,
+                    Creado = a.Creado,
+                    Actualizado = a.Actualizado,
+                    Eliminado = a.Eliminado,
+                    TipoTest = a.TipoTest,
+                    NumeroSecciones = _context.ConfiguracionesSecciones.Count(s => s.IdConfiguracionesTest == a.Id && a.Eliminado== false),
+                    NumeroPreguntas = (from b in _context.ConfiguracionesSecciones
+                                       join c in _context.ConfiguracionesPreguntas on b.Id equals c.IdConfiguracionSecciones 
+                                       where b.IdConfiguracionesTest == a.Id && c.Eliminado == false
+                                       select c).Count()
+                })
+                .FirstOrDefaultAsync();
+            if (resumen == null || resumen.Id != id)
+            {
+                return NotFound(new { Mensaje="No se encontro la configuracion de evaluacion"});
+            }
+
+            resumen.ConfiguracionesSecciones = await _context.ConfiguracionesSecciones
+                .Where(c=> c.IdConfiguracionesTest==resumen.Id && c.Eliminado== false)
+                
+                .ToListAsync();
+            if(resumen.ConfiguracionesSecciones!= null )
+                foreach (ConfiguracionSeccionesModel seccion in resumen.ConfiguracionesSecciones)
+                {
+                    seccion.BancoPreguntas =await _context.ConfiguracionesPreguntas
+                        .Where(p => p.IdConfiguracionSecciones == seccion.Id && p.Eliminado == false)
+                        .ToListAsync();
+                    if (seccion.BancoPreguntas!=null)
+                        foreach(ConfiguracionPreguntasModel preguntas in seccion.BancoPreguntas)
+                        {
+                            preguntas.Opciones = await _context.ConfiguracionesOpciones
+                                .Where(o => o.Eliminado == false && o.IdConfiguracionPreguntas==preguntas.Id)
+                                .OrderBy(o=> o.Orden)
+                                .ToListAsync();
+                        } 
+
+                }
+            return Ok(resumen);
         }
 
         // GET: api/config/ConfiguracionTest/5

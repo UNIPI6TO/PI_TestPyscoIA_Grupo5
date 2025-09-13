@@ -6,6 +6,9 @@ import { TestComponent } from './Components/Test/test';
 import { TipoTestComponent } from './Components/Configuraciones/tipo-test/tipo-test';
 import { EditarTipoTestComponent } from './Components/Configuraciones/tipo-test/editar-tipo-test/editar-tipo-test';
 import { NuevoTipoTestComponent } from './Components/Configuraciones/tipo-test/nuevo-tipo-test/nuevo-tipo-test';
+import { ConfigEvaluacionesComponent } from './Components/Configuraciones/config-evaluaciones/config-evaluaciones';
+import { ConfigEvaluacionesDetalleComponent } from './Components/Configuraciones/config-evaluaciones/config-evaluaciones-detalle/config-evaluaciones-detalle';
+import { ConfigEvaluacionesEditarComponent } from './Components/Configuraciones/config-evaluaciones/config-evaluaciones-editar/config-evaluaciones-editar';
 
 export const routes: Routes = [
     
@@ -49,6 +52,18 @@ export const routes: Routes = [
                 {
                     path: 'tipo-test/editar/:id',
                     component: EditarTipoTestComponent
+                },
+                {
+                    path: 'evaluaciones',
+                    component: ConfigEvaluacionesComponent
+                },
+                {
+                    path: 'evaluaciones/detalle/:id',
+                    component: ConfigEvaluacionesDetalleComponent
+                },
+                {
+                    path: 'evaluaciones/editar/:id',
+                    component: ConfigEvaluacionesEditarComponent
                 }
             ]
         }
