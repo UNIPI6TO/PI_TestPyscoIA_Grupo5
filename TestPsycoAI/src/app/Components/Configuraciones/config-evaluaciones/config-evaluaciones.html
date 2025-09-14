@@ -2,7 +2,11 @@
   <div class="card shadow-lg">
     <div class="card-header bg-success text-white text-center d-flex justify-content-between align-items-center">
       <h3 class="mb-0">Configuraciones de Evaluaciones</h3>
-      <a class="btn btn-light" [routerLink]="['/configuraciones']">
+      <a class="btn btn-light" 
+        data-bs-toggle="modal" 
+        data-bs-target="#agregarEvaluacionModal"
+        (click)="cargarNuevaEvaluacion()"
+      >
         <i class="fa-regular fa-newspaper"></i> Nueva Configuración de Evaluación
       </a>
     </div>
@@ -52,3 +56,63 @@
   </div>
 </div>
 
+
+<!-- Modal para agregar configuración de evaluación -->
+<div class="modal fade" id="agregarEvaluacionModal" tabindex="-1" aria-labelledby="agregarEvaluacionModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form #agregarEvaluacionForm="ngForm" (ngSubmit)="agregarEvaluacion()">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title" id="agregarEvaluacionModalLabel">Nueva Configuración de Evaluación</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="nombreEvaluacion" class="form-label">Nombre</label>
+            <input
+              type="text"
+              id="nombreEvaluacion"
+              name="nombreEvaluacion"
+              class="form-control"
+              [(ngModel)]="nuevaEvaluacion.nombre"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="duracionEvaluacion" class="form-label">Duración (segundos)</label>
+            <input
+              type="number"
+              id="duracionEvaluacion"
+              name="duracionEvaluacion"
+              class="form-control"
+              [(ngModel)]="nuevaEvaluacion.duracion"
+              min="1"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="tipoTestEvaluacion" class="form-label">Tipo de Test</label>
+            <select
+              id="tipoTestEvaluacion"
+              name="tipoTestEvaluacion"
+              class="form-select"
+              [(ngModel)]="nuevaEvaluacion.idTipoTest"
+              required
+            >
+              <option value="" disabled selected>Seleccione un tipo</option>
+              @for (item of tiposTest; track $index) {
+                <option [value]="item.id">{{ item.nombre }}</option>
+              }
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success" [disabled]="agregarEvaluacionForm.invalid">
+            <i class="fa fa-save"></i> Guardar
+          </button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
