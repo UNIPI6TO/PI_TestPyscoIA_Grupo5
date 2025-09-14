@@ -5,7 +5,7 @@
             <a class="text-white" [routerLink]="['/configuraciones/evaluaciones']">
             <h3><i class="fa fa-arrow-left"></i></h3> 
             </a>
-          <h3 class="mb-0 flex-grow-1 text-center"><i class="fa-regular fa-newspaper"></i> Editar Configuraciones de {{ evaluacion.nombre }}</h3>
+          <h3 class="mb-0 flex-grow-1 text-center"><i class="fa-solid fa-screwdriver-wrench"></i> Editar Configuraciones de {{ evaluacion.nombre }}</h3>
         </div>
     <div class="card-body">
         
@@ -68,7 +68,7 @@
                                     <h5 class="card-title">Configuración de {{ seccion.seccion }}</h5> 
                                         <label class="ms-3">Formato de Cálculo: {{ seccion.formulaAgregado }}</label>
                                         <div>
-                                            <label class="ms-3">Las preguntas que se seleccionan en la evaluación son {{ seccion.bancoPreguntas?.length }} seleccionadas aleatoriamente de {{ seccion.bancoPreguntas?.length }} configuradas para esta sección</label>
+                                            <label class="ms-3">Las preguntas que se seleccionan en la evaluación son {{ seccion.numeroPreguntas }} seleccionadas aleatoriamente de {{ seccion.bancoPreguntas?.length }} configuradas para esta sección</label>
                                         </div>
                                         <button class="btn btn-sm btn-danger float-end me-2" (click)="eliminarSeccion(seccion.id!)"><i class="fa fa-trash"></i> Sección</button>
                                         <button class="btn btn-sm btn-warning float-end me-2" 

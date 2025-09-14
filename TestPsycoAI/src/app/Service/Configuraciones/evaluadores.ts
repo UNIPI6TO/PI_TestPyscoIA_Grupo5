@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { catchError, throwError } from 'rxjs';
+import { IEvaluadores } from '../../Interfaces/Configuraciones/ievaluadores';
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +19,19 @@ export class EvaluadoresService {
     });
   }
   getEvaluadores() {
-    return this.http.get(`${this.API_URL}${this.CONTEXT}/Evaluadores`).pipe(
+    return this.http.get(`${this.API_URL}${this.CONTEXT}/Evaluador`).pipe(
       catchError(this.manejoErrores)
     );
   }
+  guardarEvaluador(evaluador: IEvaluadores) {
+    return this.http
+      .post<IEvaluadores>(`${this.API_URL}${this.CONTEXT}/Evaluador`, evaluador)
+      .pipe(catchError(this.manejoErrores));
+  }
 
+  eliminarEvaluador(id: number) {
+    return this.http
+      .delete<void>(`${this.API_URL}${this.CONTEXT}/Evaluador/${id}`)
+      .pipe(catchError(this.manejoErrores));
+  }
 }

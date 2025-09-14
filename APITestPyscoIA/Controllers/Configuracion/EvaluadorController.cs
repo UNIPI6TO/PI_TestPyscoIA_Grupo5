@@ -25,7 +25,11 @@ namespace APITestPyscoIA.Controllers.Configuracion
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EvaluadorModel>>> GetEvaluadores()
         {
-            return await _context.Evaluadores.ToListAsync();
+
+            return await _context.Evaluadores
+                .Where(e=> e.Eliminado== false)
+                .Include(e=> e.Ciudad)
+                .ToListAsync();
         }
 
         // GET: api/config/Evaluador/5
@@ -93,8 +97,9 @@ namespace APITestPyscoIA.Controllers.Configuracion
             {
                 return NotFound();
             }
-
-            _context.Evaluadores.Remove(evaluadorModel);
+            evaluadorModel.Actualizado = DateTime.Now;
+            evaluadorModel.Eliminado = true;
+            _context.Evaluadores.Update(evaluadorModel);
             await _context.SaveChangesAsync();
 
             return NoContent();
