@@ -68,11 +68,23 @@
                                     <h5 class="card-title">Configuración de {{ seccion.seccion }}</h5> 
                                         <label class="ms-3">Formato de Cálculo: {{ seccion.formulaAgregado }}</label>
                                         <div>
-                                            <label class="ms-3">Las preguntas que se seleccionan en la evaluación son {{ seccion.numeroPreguntas }} seleccionadas aleatoriamente de {{ seccion.bancoPreguntas?.length }} configuradas para esta sección</label>
+                                            <label class="ms-3">Las preguntas que se seleccionan en la evaluación son {{ seccion.bancoPreguntas?.length }} seleccionadas aleatoriamente de {{ seccion.bancoPreguntas?.length }} configuradas para esta sección</label>
                                         </div>
                                         <button class="btn btn-sm btn-danger float-end me-2" (click)="eliminarSeccion(seccion.id!)"><i class="fa fa-trash"></i> Sección</button>
-                                        <button class="btn btn-sm btn-warning float-end me-2"><i class="fa fa-pen-to-square" ></i> Sección</button>
-                                        <button class="btn btn-sm btn-primary float-end me-2" data-bs-toggle="modal" data-bs-target="#agregarPreguntaModal" (click)="cargarPreguntaNueva(seccion)" ><i class="fa fa-plus"></i> Pregunta</button>
+                                        <button class="btn btn-sm btn-warning float-end me-2" 
+                                          data-bs-toggle="modal" 
+                                          data-bs-target="#editarSeccionModal" 
+                                          (click)="cargarSeccionEditable(seccion)"
+                                        >
+                                          <i class="fa fa-pen-to-square" ></i> Sección
+                                        </button>
+                                        <button class="btn btn-sm btn-primary float-end me-2" 
+                                          data-bs-toggle="modal" 
+                                          data-bs-target="#agregarPreguntaModal" 
+                                          (click)="cargarPreguntaNueva(seccion)" 
+                                        >
+                                          <i class="fa fa-plus"></i> Pregunta
+                                        </button>
 
                                         <br>
                                         <div class="table-responsive mt-3">
@@ -90,15 +102,27 @@
                                                         {{ pregunta.pregunta }}
                                                         <div class="mt-2">
                                                           <div class="d-grid gap-2 d-md-flex flex-md-row flex-wrap">
-                                                          <button class="btn btn-sm btn-primary me-2 mb-2" >
+                                                          <button class="btn btn-sm btn-primary me-2 mb-2" 
+                                                            data-toggle="tooltip" 
+                                                            data-placement="top" 
+                                                            title="Agregar Opción" 
+                                                            data-bs-toggle="modal" 
+                                                            data-bs-target="#agregarOpcionModal" 
+                                                            (click)="cargarOpcionNueva(pregunta)">
                                                             <i class="fa fa-plus"></i>
                                                           </button>
                                                             
-                                                          <button class="btn btn-sm btn-danger me-2 mb-2" >
-                                                            <i class="fa fa-trash"></i>
-                                                          </button>
-                                                          <button class="btn btn-sm btn-warning mb-2">
+                                                          <button class="btn btn-sm btn-warning mb-2"
+                                                            (click)="cargarEdicionPregunta(pregunta)"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#editarPreguntaModal"
+                                                            >
                                                             <i class="fa fa-pen-to-square"></i>
+                                                          </button>
+                                                          
+                                                          <button class="btn btn-sm btn-danger me-2 mb-2"
+                                                            (click)="eliminarPregunta(pregunta)">
+                                                            <i class="fa fa-trash"></i>
                                                           </button>
                                                           </div>
                                                         </div>
@@ -108,7 +132,11 @@
                                                           @for (opcion of pregunta.opciones; track $index) {
                                                             <li class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
                                                               <span class="mb-2 mb-md-0">
-                                                                <button class="btn btn-sm btn-outline-primary me-2 mb-2 mb-md-0" (click)="eliminarOpcion(pregunta, opcion)">
+                                                                <button class="btn btn-sm btn-outline-primary me-2 mb-2 mb-md-0" 
+                                                                (click)="cargarEdicionOpcion(opcion)"
+                                                                data-bs-toggle="modal" 
+                                                                data-bs-target="#editarOpcionModal"
+                                                                >
                                                                   <i class="fa fa-pen-to-square"></i>
                                                                 </button>
                                                                 {{ opcion.orden }} - {{ opcion.opcion }} (Calificación: {{ opcion.peso }})  
@@ -116,21 +144,25 @@
                                                               <span class="d-grid gap-2 d-md-flex flex-md-row flex-wrap">
                                                                 @if($index > 0)
                                                                 {
-                                                                  <button class="btn btn-sm btn-outline-secondary me-1 mb-2" (click)="moverOpcionArriba(pregunta, opcion)">
+                                                                  <button class="btn btn-sm btn-outline-secondary me-1 mb-2" 
+                                                                  (click)="moverOpcionArriba(pregunta, opcion)">
                                                                     <i class="fa fa-arrow-up"></i>
                                                                   </button>
                                                                 } @else {
-                                                                  <button class="btn btn-sm btn-outline-secondary me-1 mb-2" disabled>
+                                                                  <button class="btn btn-sm btn-outline-secondary me-1 mb-2" 
+                                                                  disabled>
                                                                     <i class="fa fa-arrow-up"></i>
                                                                   </button>
                                                                 }
                                                                 @if($index < (pregunta.opciones?.length ?? 0) - 1)
                                                                 {
-                                                                  <button class="btn btn-sm btn-outline-secondary me-2 mb-2" (click)="moverOpcionAbajo(pregunta, opcion)">
+                                                                  <button class="btn btn-sm btn-outline-secondary me-2 mb-2" 
+                                                                  (click)="moverOpcionAbajo(pregunta, opcion)">
                                                                     <i class="fa fa-arrow-down"></i>
                                                                   </button>
                                                                 }@else {
-                                                                  <button class="btn btn-sm btn-outline-secondary me-2 mb-2" disabled>
+                                                                  <button class="btn btn-sm btn-outline-secondary me-2 mb-2" 
+                                                                  disabled>
                                                                     <i class="fa fa-arrow-down"></i>
                                                                   </button>
                                                                 }
@@ -240,6 +272,65 @@
         <div class="modal-footer">
           <button type="submit" class="btn btn-success" [disabled]="agregarSeccionForm.invalid">
             <i class="fa fa-plus"></i> Agregar
+          </button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para editar sección -->
+<div class="modal fade" id="editarSeccionModal" tabindex="-1" aria-labelledby="editarSeccionModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form #editarSeccionForm="ngForm" (ngSubmit)="editarSeccion()">
+        <div class="modal-header bg-warning text-dark">
+          <h5 class="modal-title" id="editarSeccionModalLabel">Editar Sección</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="editarSeccionNombre" class="form-label">Nombre de la Sección</label>
+            <input
+              type="text"
+              id="editarSeccionNombre"
+              name="editarSeccionNombre"
+              class="form-control"
+              [(ngModel)]="seccionSelecionada.seccion"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="editarNumeroPreguntas" class="form-label">Número de Preguntas</label>
+            <input
+              type="number"
+              id="editarNumeroPreguntas"
+              name="editarNumeroPreguntas"
+              class="form-control"
+              [(ngModel)]="seccionSelecionada.numeroPreguntas"
+              min="1"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="editarFormulaAgregado" class="form-label">Fórmula de Agregado</label>
+            <select
+              id="editarFormulaAgregado"
+              name="editarFormulaAgregado"
+              class="form-select"
+              [(ngModel)]="seccionSelecionada.formulaAgregado"
+              required
+            >
+              <option value="" disabled>Seleccione una opción</option>
+              <option value="AVG">AVG</option>
+              <option value="SUM">SUM</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success" [disabled]="editarSeccionForm.invalid">
+            <i class="fa fa-save"></i> Guardar Cambios
           </button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
         </div>
@@ -360,3 +451,149 @@
   </div>
 </div>
 
+<!-- Modal para editar pregunta -->
+<div class="modal fade" id="editarPreguntaModal" tabindex="-1" aria-labelledby="editarPreguntaModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form #editarPreguntaForm="ngForm" (ngSubmit)="editarPregunta()">
+        <div class="modal-header bg-warning text-dark">
+          <h5 class="modal-title" id="editarPreguntaModalLabel">Editar Pregunta de {{ seccionSelecionada.seccion }}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="editarPreguntaTexto" class="form-label">Pregunta</label>
+            <input
+              type="text"
+              id="editarPreguntaTexto"
+              name="editarPreguntaTexto"
+              class="form-control"
+              [(ngModel)]="preguntaEditable.pregunta"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <input
+              type="checkbox"
+              id="editarInversa"
+              name="editarInversa"
+              class="form-check-input me-2"
+              [(ngModel)]="preguntaEditable.inversa"
+            />
+            <label for="editarInversa" class="form-label">Invertida</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success" [disabled]="editarPreguntaForm.invalid">
+            <i class="fa fa-save"></i> Guardar Cambios
+          </button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para añadir opción -->
+<div class="modal fade" id="agregarOpcionModal" tabindex="-1" aria-labelledby="agregarOpcionModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form #agregarOpcionForm="ngForm" (ngSubmit)="agregarOpcion()">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title" id="agregarOpcionModalLabel">Añadir Opción</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3 d-flex align-items-center">
+            <label class="form-label me-2 mb-0"><strong>Pregunta:</strong></label>
+            <div class="form-control-plaintext mb-0">{{ preguntaSeleccionada.pregunta }}</div>
+          </div>
+          <div class="mb-3 d-flex align-items-center">
+            <label class="form-label me-2 mb-0"><strong>Orden:</strong></label>
+            <div class="form-control-plaintext mb-0">{{ nuevaOpcion.orden }}</div>
+          </div>
+          <div class="mb-3">
+            <label for="opcionTexto" class="form-label">Opción</label>
+            <input
+              type="text"
+              id="opcionTexto"
+              name="opcionTexto"
+              class="form-control"
+              [(ngModel)]="nuevaOpcion.opcion"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="pesoOpcion" class="form-label">Peso</label>
+            <input
+              type="number"
+              id="pesoOpcion"
+              name="pesoOpcion"
+              class="form-control"
+              [(ngModel)]="nuevaOpcion.peso"
+              required
+            />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success" [disabled]="agregarOpcionForm.invalid">
+            <i class="fa fa-plus"></i> Añadir
+          </button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para editar opción -->
+<div class="modal fade" id="editarOpcionModal" tabindex="-1" aria-labelledby="editarOpcionModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form #editarOpcionForm="ngForm" (ngSubmit)="editarOpcion()">
+        <div class="modal-header bg-warning text-dark">
+          <h5 class="modal-title" id="editarOpcionModalLabel">Editar Opción</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3 d-flex align-items-center">
+            <label class="form-label me-2 mb-0"><strong>Pregunta:</strong></label>
+            <div class="form-control-plaintext mb-0">{{ preguntaSeleccionada.pregunta }}</div>
+          </div>
+          <div class="mb-3 d-flex align-items-center">
+            <label class="form-label me-2 mb-0"><strong>Orden:</strong></label>
+            <div class="form-control-plaintext mb-0">{{ opcionEditable.orden }}</div>
+          </div>
+          <div class="mb-3">
+            <label for="editarOpcionTexto" class="form-label">Opción</label>
+            <input
+              type="text"
+              id="editarOpcionTexto"
+              name="editarOpcionTexto"
+              class="form-control"
+              [(ngModel)]="opcionEditable.opcion"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="editarPesoOpcion" class="form-label">Peso</label>
+            <input
+              type="number"
+              id="editarPesoOpcion"
+              name="editarPesoOpcion"
+              class="form-control"
+              [(ngModel)]="opcionEditable.peso"
+              required
+            />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success" [disabled]="editarOpcionForm.invalid">
+            <i class="fa fa-save"></i> Guardar Cambios
+          </button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

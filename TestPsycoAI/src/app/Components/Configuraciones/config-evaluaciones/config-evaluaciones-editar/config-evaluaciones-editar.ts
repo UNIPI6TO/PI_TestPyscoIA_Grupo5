@@ -22,6 +22,7 @@ import { ConfigPreguntasService } from '../../../../Service/Configuraciones/conf
   styleUrls: ['./config-evaluaciones-editar.css']
 })
 export class ConfigEvaluacionesEditarComponent implements OnInit {
+
   evaluacion: IConfigEvaluacionesResumen;
   evaluacionEditable: IConfigEvaluaciones = {
     id: 0,
@@ -61,6 +62,46 @@ export class ConfigEvaluacionesEditarComponent implements OnInit {
       inversa: false,
       opciones: [],
   };
+  preguntaEditable: IConfigPreguntas = {
+      id: 0,
+      creado: new Date(),
+      actualizado: new Date(),
+      eliminado: false,
+      pregunta: '',
+      idConfiguracionSecciones: 0,
+      inversa: false,
+      opciones: [],
+  };
+  opcionEditable: IConfigOpciones = {
+      id: 0,
+      creado: new Date(),
+      eliminado: false,
+      orden: 0,
+      opcion: '',
+      peso: 0,
+      idConfiguracionPreguntas: 0
+  };
+
+  preguntaSeleccionada: IConfigPreguntas = {
+      id: 0,
+      creado: new Date(),
+      eliminado: false,
+      pregunta: '',
+      idConfiguracionSecciones: 0,
+      inversa: false,
+      opciones: [],
+  };
+
+  nuevaOpcion: IConfigOpciones = {
+      id: 0,
+      creado: new Date(), 
+      eliminado: false,
+      orden: 0,
+      opcion: '',
+      peso: 0,
+      idConfiguracionPreguntas: 0
+  };
+
   constructor(
     private configuracionesService: ConfigEvaluacionesService,
     private configuracionesSeccionesService: ConfigSeccionesService,
@@ -120,6 +161,10 @@ export class ConfigEvaluacionesEditarComponent implements OnInit {
       });
     }
   }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                               EVALUACIONES                                                         ///
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
   cargarEdicion(): void {
     this.tiposTestService.getTipoTest().subscribe({
       next: (data: ITipoTest[]) => {
@@ -138,7 +183,7 @@ export class ConfigEvaluacionesEditarComponent implements OnInit {
     };
   }
 
-    editarEvaluacion(): void {
+  editarEvaluacion(): void {
     if (this.evaluacionEditable.nombre && this.evaluacionEditable.duracion > 0 && this.evaluacionEditable.idTipoTest) {
       this.configuracionesService.editarEvaluacion(this.evaluacionEditable).subscribe({
         next: () => {
@@ -172,27 +217,9 @@ export class ConfigEvaluacionesEditarComponent implements OnInit {
     }
   }
 
-  cerrarModal(modalName: string): void {
-    const modal = document.getElementById(modalName);
-    if (modal) {
-      // If using native <dialog>
-      if (typeof (modal as any).close === 'function') {
-        (modal as any).close();
-        document.body.style.overflow = 'auto';
-        // Remove Bootstrap modal classes and backdrop if present
-        document.body.classList.remove('modal-open');
-        const backdrops = document.querySelectorAll('.modal-backdrop');
-        backdrops.forEach((backdrop) => backdrop.parentNode?.removeChild(backdrop));
-      } else {
-        // For other modal implementations (e.g., Bootstrap, custom)
-        modal.style.display = 'none';
-        document.body.classList.remove('modal-open');
-        const backdrops = document.querySelectorAll('.modal-backdrop');
-        backdrops.forEach((backdrop) => backdrop.parentNode?.removeChild(backdrop));
-      }
-    }
-  }
-   
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                 SECCIONES                                                          ///
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   agregarSeccion(): void {
     if (this.evaluacion.id && this.nuevaSeccion.seccion) {
@@ -235,6 +262,45 @@ export class ConfigEvaluacionesEditarComponent implements OnInit {
     }
   }
 
+  
+  cargarSeccionEditable(seccion: IConfigSecciones): void {
+    this.seccionSelecionada = { ...seccion };
+  }
+
+  editarSeccion(): void {
+    if (this.seccionSelecionada.seccion && this.seccionSelecionada.id) {
+      this.configuracionesSeccionesService.editarSeccion(this.seccionSelecionada).subscribe({
+        next: () => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Sección Actualizada con Éxito',
+          }).then(() => {
+            this.cerrarModal('editarSeccionModal');
+            if (this.evaluacion.id) {
+              this.configuracionesService.getUnaConfigEvaluacion(this.evaluacion.id).subscribe((data: IConfigEvaluacionesResumen) => {
+                this.evaluacion = data;
+              });
+            }
+          });
+        },
+        error: (err) => {
+          console.error('Error al actualizar la sección:', err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Ocurrió un error al actualizar la sección. Intente nuevamente.',
+          });
+        }
+      });
+    } else {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Datos Incompletos',
+        text: 'Por favor, complete todos los campos requeridos antes de actualizar la sección.',
+      });
+    }
+  }
+
   eliminarSeccion(id: number): void {
     Swal.fire({
       title: '¿Está seguro?',
@@ -265,6 +331,11 @@ export class ConfigEvaluacionesEditarComponent implements OnInit {
     });
   }
 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                 PREGUNTAS                                                          ///
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   cargarPreguntaNueva(seccion: IConfigSecciones): void {
     
     this.nuevaPregunta = {
@@ -279,16 +350,17 @@ export class ConfigEvaluacionesEditarComponent implements OnInit {
     };
     this.seccionSelecionada = seccion;
   }
+
   agregarPregunta(): void {
     if (this.seccionSelecionada.id && this.nuevaPregunta.pregunta) {
       this.nuevaPregunta.idConfiguracionSecciones = this.seccionSelecionada.id;
-      this.configuracionesPreguntasService.agregarPregunta(this.nuevaPregunta).subscribe({
-        next: () => {
-            // Agregar la nueva pregunta al inicio del array de preguntas de la sección seleccionada
-            if (this.seccionSelecionada.bancoPreguntas) {
-              this.seccionSelecionada.bancoPreguntas.unshift({ ...this.nuevaPregunta });
-            } else {
-              this.seccionSelecionada.bancoPreguntas = [{ ...this.nuevaPregunta }];
+       this.configuracionesPreguntasService.agregarPregunta(this.nuevaPregunta).subscribe({
+        next: (preguntaCreada) => {
+          // Agregar la nueva pregunta al inicio del array de preguntas de la sección seleccionada
+          if (this.seccionSelecionada.bancoPreguntas) {
+              this.seccionSelecionada.bancoPreguntas.unshift({ ...preguntaCreada });
+          } else {
+            this.seccionSelecionada.bancoPreguntas = [{ ...preguntaCreada }];
             }
             this.cerrarModal('agregarPreguntaModal');
             this.nuevaPregunta = {
@@ -324,22 +396,180 @@ export class ConfigEvaluacionesEditarComponent implements OnInit {
       });
     }
   }
-  agregarOpcion(): void {
+
+  cargarEdicionPregunta(pregunta: IConfigPreguntas): void {
+    this.preguntaEditable = { ...pregunta };
+    this.seccionSelecionada = this.evaluacion.configuracionesSecciones!.find(seccion => seccion.id === pregunta.idConfiguracionSecciones)!;
+  }
+  editarPregunta() {
+    if (this.preguntaEditable.pregunta && this.preguntaEditable.idConfiguracionSecciones) {
+      this.configuracionesPreguntasService.editarPregunta(this.preguntaEditable).subscribe({
+        next: () => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Pregunta Actualizada con Éxito',
+          }).then(() => {
+            this.cerrarModal('editarPreguntaModal');
+            if (this.evaluacion.id) {
+              this.configuracionesService.getUnaConfigEvaluacion(this.evaluacion.id).subscribe((data: IConfigEvaluacionesResumen) => {
+                this.evaluacion = data;
+              });
+            }
+          });
+        },
+        error: (err) => {
+          console.error('Error al actualizar la pregunta:', err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Ocurrió un error al actualizar la pregunta. Intente nuevamente.',
+          });
+        }
+      });
+    } else {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Datos Incompletos',
+        text: 'Por favor, complete todos los campos requeridos antes de actualizar la pregunta.',
+      });
+    }
+  }
+  eliminarPregunta(pregunta: IConfigPreguntas): void {
     Swal.fire({
-      icon: 'info',
-      title: 'Funcionalidad en Desarrollo',
-      text: 'La funcionalidad para agregar opciones está en desarrollo y estará disponible próximamente.',
+      title: '¿Está seguro?',
+      text: 'Esta acción no se puede deshacer.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.configuracionesPreguntasService.eliminarPregunta(pregunta.id!).subscribe({
+          next: () => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Pregunta Eliminada con Éxito',
+            }).then(() => {
+              if (this.evaluacion.id) {
+                this.configuracionesService.getUnaConfigEvaluacion(this.evaluacion.id).subscribe((data: IConfigEvaluacionesResumen) => {
+                  this.evaluacion = data;
+                });
+              }
+            });
+          },
+          error: (err) => {
+            console.error('Error al eliminar la pregunta:', err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Ocurrió un error al eliminar la pregunta. Intente nuevamente.',
+            });
+          }
+        });
+      }
     });
-    this.nuevaPregunta.opciones = this.nuevaPregunta.opciones || [];
-    this.nuevaPregunta.opciones.push({
-      id: 0,
+  }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                 OPCIONES                                                          ///
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+  cargarEdicionOpcion(opcion: IConfigOpciones): void {
+    this.opcionEditable = { ...opcion };
+  }
+
+  editarOpcion() {
+    if (this.opcionEditable.opcion && this.opcionEditable.peso >= 0) {
+      this.configuracionesOpcionesService.editarOpcion(this.opcionEditable).subscribe({
+        next: () => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Opción Actualizada con Éxito',
+          }).then(() => {
+            this.cerrarModal('editarOpcionModal');
+            if (this.evaluacion.id) {
+              this.configuracionesService.getUnaConfigEvaluacion(this.evaluacion.id).subscribe((data: IConfigEvaluacionesResumen) => {
+                this.evaluacion = data;
+              });
+            }
+          });
+        },
+        error: (err) => {
+          console.error('Error al actualizar la opción:', err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Ocurrió un error al actualizar la opción. Intente nuevamente.',
+          });
+        }
+      });
+    } else {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Datos Incompletos',
+        text: 'Por favor, complete todos los campos requeridos antes de actualizar la opción.',
+      });
+    }
+  }
+
+
+  cargarOpcionNueva(pregunta: IConfigPreguntas): void {
+    this.nuevaOpcion = {
+      id: 0,  
       creado: new Date(),
       eliminado: false,
-      orden: 0,
+      orden: pregunta.opciones ? pregunta.opciones.length + 1 : 1,
       opcion: '',
-      peso: 0,
-      idConfigPreguntas: 0
-    });
+      peso: pregunta.opciones ? pregunta.opciones.length + 1 : 1,
+      idConfiguracionPreguntas: pregunta.id!
+    };
+    this.preguntaSeleccionada = pregunta;
+    
+  }
+
+  agregarOpcion(): void {
+   
+  
+    if (!this.preguntaSeleccionada.id || !this.nuevaOpcion.opcion) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Datos Incompletos',
+        text: 'Por favor, complete todos los campos requeridos antes de agregar la opción.',
+      });
+      return;
+    }
+    // Asegurarse de que la opción tenga el ID correcto de la pregunta
+    this.nuevaOpcion.idConfiguracionPreguntas = this.preguntaSeleccionada.id;
+    this.configuracionesOpcionesService.agregarOpcion(this.nuevaOpcion).subscribe({
+      next: (opcionCreada) => {
+        // Agregar la nueva opción al final del array de opciones de la pregunta seleccionada
+            if (this.preguntaSeleccionada.opciones) {
+              this.preguntaSeleccionada.opciones.push(opcionCreada);
+            } else {
+              this.preguntaSeleccionada.opciones = [opcionCreada];
+            } 
+            this.cerrarModal('agregarOpcionModal');
+            this.nuevaOpcion = {
+              id: 0,
+              creado: new Date(),
+              eliminado: false,
+              orden: 0,
+              opcion: '',
+              peso: 0,
+              idConfiguracionPreguntas: 0
+            };
+            Swal.fire({
+            icon: 'success',
+            title: 'Opción Agregada con Éxito',
+            });
+          },
+          error: (err) => {
+            console.error('Error al agregar la opción:', err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Ocurrió un error al agregar la opción. Intente nuevamente.',
+            });
+          }
+        });
   }
   eliminarOpcion(pregunta: IConfigPreguntas, opcion: IConfigOpciones): void {
     Swal.fire({
@@ -438,4 +668,27 @@ export class ConfigEvaluacionesEditarComponent implements OnInit {
       });
     }
   }
+
+  
+ cerrarModal(modalName: string): void {
+    const modal = document.getElementById(modalName);
+    if (modal) {
+      // If using native <dialog>
+      if (typeof (modal as any).close === 'function') {
+        (modal as any).close();
+        document.body.style.overflow = 'auto';
+        // Remove Bootstrap modal classes and backdrop if present
+        document.body.classList.remove('modal-open');
+        const backdrops = document.querySelectorAll('.modal-backdrop');
+        backdrops.forEach((backdrop) => backdrop.parentNode?.removeChild(backdrop));
+      } else {
+        // For other modal implementations (e.g., Bootstrap, custom)
+        modal.style.display = 'none';
+        document.body.classList.remove('modal-open');
+        const backdrops = document.querySelectorAll('.modal-backdrop');
+        backdrops.forEach((backdrop) => backdrop.parentNode?.removeChild(backdrop));
+      }
+    }
+  }
+   
 }

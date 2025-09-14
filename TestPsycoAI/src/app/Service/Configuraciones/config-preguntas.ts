@@ -8,6 +8,7 @@ import { IConfigPreguntas } from '../../Interfaces/Configuraciones/iconfig-pregu
   providedIn: 'root'
 })
 export class ConfigPreguntasService {
+  
   constructor(private http: HttpClient) { }
   private API_URL = environment.apiUrl;
   private CONTEXT = 'api/config';
@@ -22,5 +23,17 @@ export class ConfigPreguntasService {
       .pipe(
         catchError(this.manejoErrores)
       );
+  }
+  editarPregunta(pregunta: IConfigPreguntas): Observable<IConfigPreguntas> {
+    return this.http.put<IConfigPreguntas>(`${this.API_URL}${this.CONTEXT}/ConfiguracionPreguntas/${pregunta.id}`, pregunta)
+      .pipe(
+        catchError(this.manejoErrores)
+      );
+  }
+  
+  eliminarPregunta(id: number): Observable<void> {
+    return this.http
+      .delete<void>(`${this.API_URL}${this.CONTEXT}/ConfiguracionPreguntas/${id}`)
+      .pipe(catchError(this.manejoErrores));
   }
 }
