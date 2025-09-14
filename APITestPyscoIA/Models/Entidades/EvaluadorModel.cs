@@ -21,6 +21,12 @@ namespace APITestPyscoIA.Models.Entidades
         [EmailAddress]
         public string Email { get; set; }
 
+        [Required]
+        [ForeignKey("Ciudad")]
+        public int IdCiudad { get; set; }
+
+        [JsonIgnore]
+        public CiudadModel? Ciudad { get; set; }
         public ICollection<TestModel>? Evaluaciones { get; set; }
 
 
