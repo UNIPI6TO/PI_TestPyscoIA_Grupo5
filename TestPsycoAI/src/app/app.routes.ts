@@ -10,6 +10,8 @@ import { ConfigEvaluacionesComponent } from './Components/Configuraciones/config
 import { ConfigEvaluacionesDetalleComponent } from './Components/Configuraciones/config-evaluaciones/config-evaluaciones-detalle/config-evaluaciones-detalle';
 import { ConfigEvaluacionesEditarComponent } from './Components/Configuraciones/config-evaluaciones/config-evaluaciones-editar/config-evaluaciones-editar';
 import { ConfigEvaluadoresComponent } from './Components/Configuraciones/config-evaluadores/config-evaluadores';
+import { NuevoEvaluadorComponent } from './Components/Configuraciones/config-evaluadores/nuevo-evaluador/nuevo-evaluador';
+import { EditarEvaluadorComponent } from './Components/Configuraciones/config-evaluadores/editar-evaluador/editar-evaluador';
 
 export const routes: Routes = [
     
@@ -69,6 +71,14 @@ export const routes: Routes = [
                 {
                     path: 'evaluadores',
                     component: ConfigEvaluadoresComponent
+                },
+                {
+                    path: 'evaluadores/nuevo',
+                    component: NuevoEvaluadorComponent
+                },
+                {
+                    path: 'evaluadores/editar/:id',
+                    component: EditarEvaluadorComponent
                 }
             ]
         }

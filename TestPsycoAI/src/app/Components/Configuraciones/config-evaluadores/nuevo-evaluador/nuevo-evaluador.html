@@ -1,0 +1,155 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-lg">
+        <div class="card-header bg-secondary text-white text-center d-flex justify-content-between align-items-center">
+            <a class="text-white" [routerLink]="['/configuraciones/evaluadores']">
+            <h3><i class="fa fa-arrow-left"></i></h3> 
+            </a>
+          <h3 class="mb-0 flex-grow-1 text-center"><i class="fa-solid fa-user-doctor"></i> Crear Nuevo Evaluador</h3>
+        </div>
+        <div class="card-body">
+          <form #evaluadorForm="ngForm" (ngSubmit)="guardarEvaluador()">
+            <fieldset class="mb-4 p-3 border rounded">
+              <legend class="float-none w-auto px-1 fs-6 text-primary">Datos Personales</legend>
+                <div class="mb-3">
+                <label for="cedula" class="form-label">Cédula</label>
+                <input type="text" 
+                        class="form-control" 
+                        id="cedula" 
+                        name="cedula" 
+                        [(ngModel)]="evaluador.cedula" 
+                        required 
+                        pattern="[0-9]{10}"
+                        #cedula="ngModel">
+                    <div *ngIf="cedula.invalid && (cedula.dirty || cedula.touched)" class="text-danger mt-1">
+                        <div *ngIf="cedula.errors?.['required']">
+                        La cédula es obligatoria.
+                        </div>
+                        <div *ngIf="cedula.errors?.['pattern']">
+                        La cédula debe contener 10 dígitos.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="nombre" class="form-label">Nombre</label>
+                  <input
+                    type="text"
+                    id="nombre"
+                    name="nombre"
+                    class="form-control"
+                    [(ngModel)]="evaluador.nombre"
+                    required
+                    #nombre="ngModel"
+                  />
+                  <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="text-danger mt-1">
+                    <div *ngIf="nombre.errors?.['required']">
+                      El nombre es obligatorio.
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="email" class="form-label">Correo electrónico</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    class="form-control"
+                    [(ngModel)]="evaluador.email"
+                    required
+                    pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                    #email="ngModel"
+                  />
+                  <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger mt-1">
+                    <div *ngIf="email.errors?.['required']">
+                      El correo electrónico es obligatorio.
+                    </div>
+                    <div *ngIf="email.errors?.['pattern']"></div>
+                      El formato del correo no es válido.
+                    </div>
+                  </div>
+            </fieldset>
+            <fieldset class="mb-4 p-3 border rounded">
+              <legend class="float-none w-auto px-1 fs-6 text-primary">Datos Laborales</legend>
+              <div class="mb-3">
+                <label for="cargo" class="form-label">Cargo</label>
+                <input
+                  type="text"
+                  id="cargo"
+                  name="cargo"
+                  class="form-control"
+                  [(ngModel)]="evaluador.cargo"
+                  required
+                  #cargo="ngModel"
+                />
+                <div *ngIf="cargo.invalid && (cargo.dirty || cargo.touched)" class="text-danger mt-1">
+                  <div *ngIf="cargo.errors?.['required']">
+                    El cargo es obligatorio.
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="especialidad" class="form-label">Especialidad</label>
+                <input
+                  type="text"
+                  id="especialidad"
+                  name="especialidad"
+                  class="form-control"
+                  [(ngModel)]="evaluador.especialidad"
+                  required
+                  #especialidad="ngModel"
+                />
+                <div *ngIf="especialidad.invalid && (especialidad.dirty || especialidad.touched)" class="text-danger mt-1">
+                  <div *ngIf="especialidad.errors?.['required']">
+                    La especialidad es obligatoria.
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="mb-4 p-3 border rounded">
+              <legend class="float-none w-auto px-1 fs-6 text-primary">Contacto</legend>
+            
+              <div class="mb-3">
+                <label for="telefono" class="form-label">Teléfono</label>
+                <input
+                  type="text"
+                  id="telefono"
+                  name="telefono"
+                  class="form-control"
+                  [(ngModel)]="evaluador.telefono"
+                  required
+                  pattern="[0-9]{10}"
+                  #telefono="ngModel"
+                />
+                <div *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)" class="text-danger mt-1">
+                  <div *ngIf="telefono.errors?.['required']">
+                    El teléfono es obligatorio.
+                  </div>
+                  <div *ngIf="telefono.errors?.['pattern']">
+                    El teléfono debe contener 10 dígitos.
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="idCiudad" class="form-label">Ciudad</label>
+                <select class="form-select" id="idCiudad" name="idCiudad" [(ngModel)]="evaluador.idCiudad" required>
+                  <option [ngValue]="null" disabled>Selecciona una ciudad</option>
+                  <option *ngFor="let ciudad of ciudadesDisponibles" [ngValue]="ciudad.id">{{ ciudad.nombre }}</option>
+                </select>
+                </div>
+            </fieldset>
+            <div class="d-flex justify-content-end">
+              <button type="submit" class="btn btn-success me-2" [disabled]="evaluadorForm.invalid">
+                <i class="fa-solid fa-floppy-disk"></i> Guardar
+              </button>
+              <button type="button" class="btn btn-secondary" routerLink="/configuraciones/evaluadores">
+                <i class="fa-solid fa-arrow-left"></i> Cancelar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
