@@ -6,6 +6,6 @@ export interface IConfigOpciones  {
         orden: number;
         opcion: string;
         peso: number;
-        idConfigPreguntas: number;
+        idConfiguracionPreguntas: number;
 }
  

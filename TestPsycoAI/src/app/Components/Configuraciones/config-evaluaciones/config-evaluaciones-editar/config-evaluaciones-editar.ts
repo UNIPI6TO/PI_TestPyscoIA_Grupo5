@@ -61,6 +61,26 @@ export class ConfigEvaluacionesEditarComponent implements OnInit {
       inversa: false,
       opciones: [],
   };
+
+  preguntaSeleccionada: IConfigPreguntas = {
+      id: 0,
+      creado: new Date(),
+      eliminado: false,
+      pregunta: '',
+      idConfiguracionSecciones: 0,
+      inversa: false,
+      opciones: [],
+  };
+  nuevaOpcion: IConfigOpciones = {
+      id: 0,
+      creado: new Date(), 
+      eliminado: false,
+      orden: 0,
+      opcion: '',
+      peso: 0,
+      idConfiguracionPreguntas: 0
+  };
+
   constructor(
     private configuracionesService: ConfigEvaluacionesService,
     private configuracionesSeccionesService: ConfigSeccionesService,
@@ -138,7 +158,7 @@ export class ConfigEvaluacionesEditarComponent implements OnInit {
     };
   }
 
-    editarEvaluacion(): void {
+  editarEvaluacion(): void {
     if (this.evaluacionEditable.nombre && this.evaluacionEditable.duracion > 0 && this.evaluacionEditable.idTipoTest) {
       this.configuracionesService.editarEvaluacion(this.evaluacionEditable).subscribe({
         next: () => {
@@ -173,24 +193,24 @@ export class ConfigEvaluacionesEditarComponent implements OnInit {
   }
 
   cerrarModal(modalName: string): void {
-    const modal = document.getElementById(modalName);
-    if (modal) {
-      // If using native <dialog>
-      if (typeof (modal as any).close === 'function') {
-        (modal as any).close();
-        document.body.style.overflow = 'auto';
-        // Remove Bootstrap modal classes and backdrop if present
-        document.body.classList.remove('modal-open');
-        const backdrops = document.querySelectorAll('.modal-backdrop');
-        backdrops.forEach((backdrop) => backdrop.parentNode?.removeChild(backdrop));
+    // Cerrar modal Bootstrap por id
+    const modalElement = document.getElementById(modalName);
+    if (modalElement) {
+      // Si Bootstrap Modal está disponible (Bootstrap 5)
+      const modalInstance = (window as any).bootstrap?.Modal.getInstance(modalElement)
+        || new ((window as any).bootstrap?.Modal)(modalElement);
+      if (modalInstance) {
+        modalInstance.hide();
       } else {
-        // For other modal implementations (e.g., Bootstrap, custom)
-        modal.style.display = 'none';
-        document.body.classList.remove('modal-open');
-        const backdrops = document.querySelectorAll('.modal-backdrop');
-        backdrops.forEach((backdrop) => backdrop.parentNode?.removeChild(backdrop));
+        // Fallback: ocultar manualmente
+        modalElement.style.display = 'none';
       }
     }
+    // Limpiar clases y backdrop
+    document.body.style.overflow = 'auto';
+    document.body.classList.remove('modal-open');
+    const backdrops = document.querySelectorAll('.modal-backdrop');
+    backdrops.forEach((backdrop) => backdrop.parentNode?.removeChild(backdrop));
   }
    
 
@@ -279,16 +299,29 @@ export class ConfigEvaluacionesEditarComponent implements OnInit {
     };
     this.seccionSelecionada = seccion;
   }
+  cargarOpcionNueva(pregunta: IConfigPreguntas): void {
+    this.nuevaOpcion = {
+      id: 0,  
+      creado: new Date(),
+      eliminado: false,
+      orden: pregunta.opciones ? pregunta.opciones.length + 1 : 1,
+      opcion: '',
+      peso: pregunta.opciones ? pregunta.opciones.length + 1 : 1,
+      idConfiguracionPreguntas: pregunta.id!
+    };
+    this.preguntaSeleccionada = pregunta;
+    
+  }
   agregarPregunta(): void {
     if (this.seccionSelecionada.id && this.nuevaPregunta.pregunta) {
       this.nuevaPregunta.idConfiguracionSecciones = this.seccionSelecionada.id;
-      this.configuracionesPreguntasService.agregarPregunta(this.nuevaPregunta).subscribe({
-        next: () => {
-            // Agregar la nueva pregunta al inicio del array de preguntas de la sección seleccionada
-            if (this.seccionSelecionada.bancoPreguntas) {
-              this.seccionSelecionada.bancoPreguntas.unshift({ ...this.nuevaPregunta });
-            } else {
-              this.seccionSelecionada.bancoPreguntas = [{ ...this.nuevaPregunta }];
+       this.configuracionesPreguntasService.agregarPregunta(this.nuevaPregunta).subscribe({
+        next: (preguntaCreada) => {
+          // Agregar la nueva pregunta al inicio del array de preguntas de la sección seleccionada
+          if (this.seccionSelecionada.bancoPreguntas) {
+              this.seccionSelecionada.bancoPreguntas.unshift({ ...preguntaCreada });
+          } else {
+            this.seccionSelecionada.bancoPreguntas = [{ ...preguntaCreada }];
             }
             this.cerrarModal('agregarPreguntaModal');
             this.nuevaPregunta = {
@@ -325,22 +358,51 @@ export class ConfigEvaluacionesEditarComponent implements OnInit {
     }
   }
   agregarOpcion(): void {
-    Swal.fire({
-      icon: 'info',
-      title: 'Funcionalidad en Desarrollo',
-      text: 'La funcionalidad para agregar opciones está en desarrollo y estará disponible próximamente.',
-    });
-    this.nuevaPregunta.opciones = this.nuevaPregunta.opciones || [];
-    this.nuevaPregunta.opciones.push({
-      id: 0,
-      creado: new Date(),
-      eliminado: false,
-      orden: 0,
-      opcion: '',
-      peso: 0,
-      idConfigPreguntas: 0
-    });
-  }
+   
+  
+    if (!this.preguntaSeleccionada.id || !this.nuevaOpcion.opcion) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Datos Incompletos',
+        text: 'Por favor, complete todos los campos requeridos antes de agregar la opción.',
+      });
+      return;
+    }
+    // Asegurarse de que la opción tenga el ID correcto de la pregunta
+    this.nuevaOpcion.idConfiguracionPreguntas = this.preguntaSeleccionada.id;
+    this.configuracionesOpcionesService.agregarOpcion(this.nuevaOpcion).subscribe({
+      next: (opcionCreada) => {
+        // Agregar la nueva opción al final del array de opciones de la pregunta seleccionada
+            if (this.preguntaSeleccionada.opciones) {
+              this.preguntaSeleccionada.opciones.push(opcionCreada);
+            } else {
+              this.preguntaSeleccionada.opciones = [opcionCreada];
+            } 
+            this.cerrarModal('agregarOpcionModal');
+            this.nuevaOpcion = {
+              id: 0,
+              creado: new Date(),
+              eliminado: false,
+              orden: 0,
+              opcion: '',
+              peso: 0,
+              idConfiguracionPreguntas: 0
+            };
+            Swal.fire({
+            icon: 'success',
+            title: 'Opción Agregada con Éxito',
+            });
+          },
+          error: (err) => {
+            console.error('Error al agregar la opción:', err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Ocurrió un error al agregar la opción. Intente nuevamente.',
+            });
+          }
+        });
+      }
   eliminarOpcion(pregunta: IConfigPreguntas, opcion: IConfigOpciones): void {
     Swal.fire({
       title: '¿Está seguro?',
