@@ -2,8 +2,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterModule } from '@angular/router';
 import { ConfigEvaluacionesService } from '../../../Service/Configuraciones/config-evaluaciones';
-import { IConfigEvaluaciones } from '../../../Interfaces/Configuraciones/iconfig-evaluaciones';
-import { Form, FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { IConfigEvaluacionesResumen } from '../../../Interfaces/Configuraciones/iconfig-evaluaciones-resumen';
 import Swal from 'sweetalert2';
 

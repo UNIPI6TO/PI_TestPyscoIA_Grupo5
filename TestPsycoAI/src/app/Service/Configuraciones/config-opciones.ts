@@ -33,4 +33,10 @@ export class ConfigOpcionesService {
       .delete<void>(`${this.API_URL}${this.CONTEXT}/ConfiguracionOpciones/${id}`)
       .pipe(catchError(this.manejoErrores));
   }
+  editarOpcion(opcion: IConfigOpciones): Observable<IConfigOpciones> {
+    return this.http.put<IConfigOpciones>(`${this.API_URL}${this.CONTEXT}/ConfiguracionOpciones/${opcion.id}`, opcion)
+      .pipe(
+        catchError(this.manejoErrores)
+      );
+  }
 }
