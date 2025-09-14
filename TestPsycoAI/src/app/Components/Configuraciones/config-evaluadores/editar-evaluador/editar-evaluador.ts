@@ -1,26 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { IEvaluadores } from '../../../../Interfaces/Configuraciones/ievaluadores';
+import { ICiudad } from '../../../../Interfaces/iciudad';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { ICiudad } from '../../../../Interfaces/iciudad';
-import { CiudadService } from '../../../../Service/ciudad';
 import Swal from 'sweetalert2';
+import { CiudadService } from '../../../../Service/ciudad';
 import { EvaluadoresService } from '../../../../Service/Configuraciones/evaluadores';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-nuevo-evaluador',
+  selector: 'app-editar-evaluador',
   imports: [
-    CommonModule, 
+    CommonModule,
     FormsModule,
     RouterLink
   ],
-  templateUrl: './nuevo-evaluador.html',
-  styleUrls: ['./nuevo-evaluador.css']
+  templateUrl: './editar-evaluador.html',
+  styleUrls: ['./editar-evaluador.css']
 })
-export class NuevoEvaluadorComponent implements OnInit {
-  ciudadesDisponibles: ICiudad[] = [];
+export class EditarEvaluadorComponent implements OnInit {
   evaluador: IEvaluadores = {
     id: 0,
     creado: new Date(),
@@ -33,79 +32,73 @@ export class NuevoEvaluadorComponent implements OnInit {
     telefono: '',
     especialidad: ''
   };
+  ciudadesDisponibles: ICiudad[] = [];
+
   constructor(
     private ciudadService: CiudadService,
     private evaluadorService: EvaluadoresService,
+    private parametros: ActivatedRoute,
     private titleService: Title
   ) { }
+
   ngOnInit() {
     Swal.fire({
       title: 'Cargando...',
       allowOutsideClick: false,
       didOpen: () => {
-        Swal.showLoading();
+      Swal.showLoading();
       }
     });
+
     this.cargarCiudades();
-    this.titleService.setTitle('Crear Nuevo Evaluador - PsycoAI');
+    this.cargarUnEvaluador();
+    this.titleService.setTitle('Editar Evaluador - PsycoAI');
     setTimeout(() => {
       Swal.close();
     }, 1000);
   }
-
   cargarCiudades() {
     this.ciudadService.getCiudades().subscribe({
       next: (data: ICiudad[]) => {
         this.ciudadesDisponibles = data;
       },
       error: (err) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'No se pudieron cargar las ciudades.'
-        });
-      },
-      complete: () => {
-        // Ocultar el spinner de carga
-        Swal.close();
+        console.error('Error al cargar ciudades:', err);
       }
     });
   }
-  guardarEvaluador() {
-    // Mostrar el spinner de carga con SweetAlert2
+  cargarUnEvaluador() {
+    this.parametros.params.subscribe(params => {
+      const id = params['id'];
+      this.evaluadorService.obtenerUnEvaluador(id).subscribe({
+          next: (data) => {
+            this.evaluador = data as IEvaluadores;
+            console.log('Evaluador cargado:', this.evaluador);
+          },
+        error: (err) => {
+          console.error('Error al cargar evaluador:', err);
+        }
+      });
+  });
+  }
 
-    this.evaluadorService.guardarEvaluador(this.evaluador).subscribe({
+  editarEvaluador(){
+    this.evaluadorService.editarEvaluador(this.evaluador).subscribe({
       next: (data) => {
         Swal.fire({
           icon: 'success',
           title: 'Éxito',
-          text: 'Evaluador guardado correctamente.'
+          text: 'Evaluador editado correctamente.'
         });
-        // Volver a la lista de evaluadores
-        this.evaluador = {
-          id: 0,
-          creado: new Date(),
-          nombre: '',
-          email: '',
-          cargo: '',
-          idCiudad: 0,
-          eliminado: false,
-          cedula: '',
-          telefono: '',
-          especialidad: ''
-        };
-        // Navegar a la lista de evaluadores
         window.location.href = '/configuraciones/evaluadores';
-        
       },
       error: (err) => {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: 'No se pudo guardar el evaluador.'
+          text: 'No se pudo editar el evaluador.'
         });
-      },
-
+      }
     });
   }
 }

@@ -36,7 +36,9 @@ namespace APITestPyscoIA.Controllers.Configuracion
         [HttpGet("{id}")]
         public async Task<ActionResult<EvaluadorModel>> GetEvaluadorModel(int id)
         {
-            var evaluadorModel = await _context.Evaluadores.FindAsync(id);
+            var evaluadorModel = await _context.Evaluadores
+                .Include(e=> e.Ciudad)
+                .FirstOrDefaultAsync(e=> e.Id ==id);
 
             if (evaluadorModel == null)
             {

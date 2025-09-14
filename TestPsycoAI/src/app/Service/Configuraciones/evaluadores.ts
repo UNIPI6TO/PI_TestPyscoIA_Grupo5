@@ -23,12 +23,22 @@ export class EvaluadoresService {
       catchError(this.manejoErrores)
     );
   }
+  obtenerUnEvaluador(id: number) {
+    return this.http.get<IEvaluadores>(`${this.API_URL}${this.CONTEXT}/Evaluador/${id}`).pipe(
+      catchError(this.manejoErrores)
+    );
+  }
   guardarEvaluador(evaluador: IEvaluadores) {
     return this.http
       .post<IEvaluadores>(`${this.API_URL}${this.CONTEXT}/Evaluador`, evaluador)
       .pipe(catchError(this.manejoErrores));
   }
 
+  editarEvaluador(evaluador: IEvaluadores) {
+    return this.http
+      .put<IEvaluadores>(`${this.API_URL}${this.CONTEXT}/Evaluador/${evaluador.id}`, evaluador)
+      .pipe(catchError(this.manejoErrores));
+  }
   eliminarEvaluador(id: number) {
     return this.http
       .delete<void>(`${this.API_URL}${this.CONTEXT}/Evaluador/${id}`)

@@ -32,7 +32,7 @@
                 <td>{{ evaluador.email }}</td>
                 <td>{{ evaluador.ciudad!.nombre }}</td>
                 <td>
-                  <button type="button" class="btn btn-warning btn-sm">
+                  <button type="button" class="btn btn-warning btn-sm" [routerLink]="['/configuraciones/evaluadores/editar', evaluador.id]">
                     <i class="fa fa-pen-to-square"></i> 
                   </button>
                   <button type="button" class="btn btn-danger btn-sm" (click)="eliminarEvaluador(evaluador)">
