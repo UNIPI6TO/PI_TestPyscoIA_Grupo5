@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APITestPyscoIA.Migrations
 {
     [DbContext(typeof(DatosDbContext))]
-    [Migration("20250908045044_inicial")]
+    [Migration("20250914042401_inicial")]
     partial class inicial
     {
         /// <inheritdoc />
@@ -199,9 +199,6 @@ namespace APITestPyscoIA.Migrations
                     b.Property<bool?>("Eliminado")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("EvaluadorModelId")
-                        .HasColumnType("int");
-
                     b.Property<int>("IdTipoTest")
                         .HasColumnType("int");
 
@@ -213,8 +210,6 @@ namespace APITestPyscoIA.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EvaluadorModelId");
 
                     b.HasIndex("IdTipoTest");
 
@@ -612,10 +607,6 @@ namespace APITestPyscoIA.Migrations
 
             modelBuilder.Entity("APITestPyscoIA.Models.Entidades.ConfiguracionTestModel", b =>
                 {
-                    b.HasOne("APITestPyscoIA.Models.Entidades.EvaluadorModel", null)
-                        .WithMany("ConfiguracionesTest")
-                        .HasForeignKey("EvaluadorModelId");
-
                     b.HasOne("APITestPyscoIA.Models.Entidades.TipoTestModel", "TipoTest")
                         .WithMany()
                         .HasForeignKey("IdTipoTest")
@@ -725,11 +716,6 @@ namespace APITestPyscoIA.Migrations
             modelBuilder.Entity("APITestPyscoIA.Models.Entidades.ConfiguracionTestModel", b =>
                 {
                     b.Navigation("ConfiguracionesSecciones");
-                });
-
-            modelBuilder.Entity("APITestPyscoIA.Models.Entidades.EvaluadorModel", b =>
-                {
-                    b.Navigation("ConfiguracionesTest");
                 });
 
             modelBuilder.Entity("APITestPyscoIA.Models.Entidades.PaisModel", b =>
