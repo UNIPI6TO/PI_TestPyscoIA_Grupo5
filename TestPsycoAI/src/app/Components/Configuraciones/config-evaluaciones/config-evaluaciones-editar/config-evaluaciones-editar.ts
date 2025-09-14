@@ -192,26 +192,27 @@ export class ConfigEvaluacionesEditarComponent implements OnInit {
     }
   }
 
-  cerrarModal(modalName: string): void {
-    // Cerrar modal Bootstrap por id
-    const modalElement = document.getElementById(modalName);
-    if (modalElement) {
-      // Si Bootstrap Modal está disponible (Bootstrap 5)
-      const modalInstance = (window as any).bootstrap?.Modal.getInstance(modalElement)
-        || new ((window as any).bootstrap?.Modal)(modalElement);
-      if (modalInstance) {
-        modalInstance.hide();
+ cerrarModal(modalName: string): void {
+    const modal = document.getElementById(modalName);
+    if (modal) {
+      // If using native <dialog>
+      if (typeof (modal as any).close === 'function') {
+        (modal as any).close();
+        document.body.style.overflow = 'auto';
+        // Remove Bootstrap modal classes and backdrop if present
+        document.body.classList.remove('modal-open');
+        const backdrops = document.querySelectorAll('.modal-backdrop');
+        backdrops.forEach((backdrop) => backdrop.parentNode?.removeChild(backdrop));
       } else {
-        // Fallback: ocultar manualmente
-        modalElement.style.display = 'none';
+        // For other modal implementations (e.g., Bootstrap, custom)
+        modal.style.display = 'none';
+        document.body.classList.remove('modal-open');
+        const backdrops = document.querySelectorAll('.modal-backdrop');
+        backdrops.forEach((backdrop) => backdrop.parentNode?.removeChild(backdrop));
       }
     }
-    // Limpiar clases y backdrop
-    document.body.style.overflow = 'auto';
-    document.body.classList.remove('modal-open');
-    const backdrops = document.querySelectorAll('.modal-backdrop');
-    backdrops.forEach((backdrop) => backdrop.parentNode?.removeChild(backdrop));
   }
+   
    
 
   agregarSeccion(): void {
