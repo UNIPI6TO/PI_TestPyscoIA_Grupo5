@@ -21,7 +21,8 @@ namespace APITestPyscoIA.Models.Entidades
         [EmailAddress]
         public string Email { get; set; }
 
-                
-        public ICollection<ConfiguracionTestModel>? ConfiguracionesTest { get; set; }
+        public ICollection<TestModel>? Evaluaciones { get; set; }
+
+
     }
 }
