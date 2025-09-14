@@ -79,6 +79,8 @@ namespace APITestPyscoIA.Controllers.Configuracion
         [HttpPost]
         public async Task<ActionResult<ConfiguracionOpcionesModel>> PostConfiguracionOpcionesModel(ConfiguracionOpcionesModel configuracionOpcionesModel)
         {
+            configuracionOpcionesModel.Creado = DateTime.Now;
+            configuracionOpcionesModel.Eliminado = false;
             _context.ConfiguracionesOpciones.Add(configuracionOpcionesModel);
             await _context.SaveChangesAsync();
 

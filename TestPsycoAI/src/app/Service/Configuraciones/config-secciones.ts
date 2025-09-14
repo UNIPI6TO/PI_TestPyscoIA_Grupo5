@@ -29,4 +29,10 @@ export class ConfigSeccionesService {
       .delete<void>(`${this.API_URL}${this.CONTEXT}/ConfiguracionSecciones/${id}`)
       .pipe(catchError(this.manejoErrores));
   }
+  editarSeccion(seccion: IConfigSecciones): Observable<IConfigSecciones> {
+    return this.http.put<IConfigSecciones>(`${this.API_URL}${this.CONTEXT}/ConfiguracionSecciones/${seccion.id}`, seccion)
+      .pipe(
+        catchError(this.manejoErrores)
+      );
+  }
 }

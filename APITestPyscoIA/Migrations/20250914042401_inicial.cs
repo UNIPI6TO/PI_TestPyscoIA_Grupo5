@@ -99,7 +99,6 @@ namespace APITestPyscoIA.Migrations
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IdTipoTest = table.Column<int>(type: "int", nullable: false),
                     Duracion = table.Column<int>(type: "int", nullable: false),
-                    EvaluadorModelId = table.Column<int>(type: "int", nullable: true),
                     Creado = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Actualizado = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Eliminado = table.Column<bool>(type: "bit", nullable: true),
@@ -108,11 +107,6 @@ namespace APITestPyscoIA.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ConfiguracionesTest", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ConfiguracionesTest_Evaluadores_EvaluadorModelId",
-                        column: x => x.EvaluadorModelId,
-                        principalTable: "Evaluadores",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_ConfiguracionesTest_TipoTest_IdTipoTest",
                         column: x => x.IdTipoTest,
@@ -381,11 +375,6 @@ namespace APITestPyscoIA.Migrations
                 column: "IdConfiguracionesTest");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ConfiguracionesTest_EvaluadorModelId",
-                table: "ConfiguracionesTest",
-                column: "EvaluadorModelId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ConfiguracionesTest_IdTipoTest",
                 table: "ConfiguracionesTest",
                 column: "IdTipoTest");
@@ -461,10 +450,10 @@ namespace APITestPyscoIA.Migrations
                 name: "ConfiguracionesTest");
 
             migrationBuilder.DropTable(
-                name: "Pacientes");
+                name: "Evaluadores");
 
             migrationBuilder.DropTable(
-                name: "Evaluadores");
+                name: "Pacientes");
 
             migrationBuilder.DropTable(
                 name: "TipoTest");

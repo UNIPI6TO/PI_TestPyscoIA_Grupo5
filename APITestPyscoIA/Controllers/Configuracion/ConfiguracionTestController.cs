@@ -71,7 +71,7 @@ namespace APITestPyscoIA.Controllers.Configuracion
                     NumeroSecciones = _context.ConfiguracionesSecciones.Count(s => s.IdConfiguracionesTest == a.Id && a.Eliminado== false),
                     NumeroPreguntas = (from b in _context.ConfiguracionesSecciones
                                        join c in _context.ConfiguracionesPreguntas on b.Id equals c.IdConfiguracionSecciones 
-                                       where b.IdConfiguracionesTest == a.Id && c.Eliminado == false
+                                       where b.IdConfiguracionesTest == a.Id && c.Eliminado == false && b.Eliminado== false
                                        select c).Count()
                 })
                 .FirstOrDefaultAsync();

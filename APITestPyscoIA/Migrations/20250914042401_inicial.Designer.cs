@@ -4,6 +4,7 @@ using APITestPyscoIA.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APITestPyscoIA.Migrations
 {
     [DbContext(typeof(DatosDbContext))]
-    partial class DatosDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250914042401_inicial")]
+    partial class inicial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -644,7 +647,7 @@ namespace APITestPyscoIA.Migrations
                         .IsRequired();
 
                     b.HasOne("APITestPyscoIA.Models.Entidades.EvaluadorModel", "Evaluador")
-                        .WithMany("Evaluaciones")
+                        .WithMany()
                         .HasForeignKey("IdEvaluador")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -713,11 +716,6 @@ namespace APITestPyscoIA.Migrations
             modelBuilder.Entity("APITestPyscoIA.Models.Entidades.ConfiguracionTestModel", b =>
                 {
                     b.Navigation("ConfiguracionesSecciones");
-                });
-
-            modelBuilder.Entity("APITestPyscoIA.Models.Entidades.EvaluadorModel", b =>
-                {
-                    b.Navigation("Evaluaciones");
                 });
 
             modelBuilder.Entity("APITestPyscoIA.Models.Entidades.PaisModel", b =>

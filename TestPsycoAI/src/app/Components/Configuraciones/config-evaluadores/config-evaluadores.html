@@ -1,0 +1,35 @@
+<div class="container mt-5">
+  <div class="card shadow-lg">
+    <div class="card-header bg-success text-white text-center d-flex justify-content-between align-items-center">
+      <h3 class="mb-0">Configuraciones de Evaluaciones</h3>
+      <a class="btn btn-light" 
+      >
+        <i class="fa-regular fa-newspaper"></i> Nueva Configuración de Evaluación
+      </a>
+    </div>
+    <div class="card-body">
+
+      <div class="table-responsive">
+        <table class="table table-hover table-striped">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Evaluacion</th>
+              
+            </tr>
+          </thead>
+          <tbody>
+            @for (evaluador of evaluadores; track $index)   {
+              <tr >
+
+                <td>{{ evaluador.nombre }}</td>
+
+
+              </tr>
+          }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+

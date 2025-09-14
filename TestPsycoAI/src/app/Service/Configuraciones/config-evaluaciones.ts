@@ -9,6 +9,7 @@ import { IConfigEvaluaciones } from '../../Interfaces/Configuraciones/iconfig-ev
   providedIn: 'root'
 })
 export class ConfigEvaluacionesService {
+
     constructor(private http: HttpClient) { }
     private API_URL = environment.apiUrl;
     private CONTEXT = 'api/config';
@@ -39,6 +40,11 @@ export class ConfigEvaluacionesService {
   editarEvaluacion(evaluacion: IConfigEvaluaciones): Observable<void> {
     return this.http
       .put<void>(`${this.API_URL}${this.CONTEXT}/ConfiguracionTest/${evaluacion.id}`, evaluacion)
+      .pipe(catchError(this.manejoErrores));
+  }
+  agregarEvaluacion(nuevaEvaluacion: IConfigEvaluaciones) {
+    return this.http
+      .post<IConfigEvaluaciones>(`${this.API_URL}${this.CONTEXT}/ConfiguracionTest`, nuevaEvaluacion)
       .pipe(catchError(this.manejoErrores));
   }
 }

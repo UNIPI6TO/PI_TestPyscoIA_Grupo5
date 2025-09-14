@@ -17,6 +17,12 @@ export class ConfigOpcionesService {
       new Error(msg);
     });
   }
+  agregarOpcion(opcion: IConfigOpciones): Observable<IConfigOpciones> {
+    return this.http.post<IConfigOpciones>(`${this.API_URL}${this.CONTEXT}/ConfiguracionOpciones`, opcion)
+      .pipe(
+        catchError(this.manejoErrores)
+      );
+  }
   modificarOrden(opciones: IConfigOpciones[]): Observable<IConfigOpciones[]>[] {
     return opciones.map(opcion => this.http.put<IConfigOpciones[]>(`${this.API_URL}${this.CONTEXT}/ConfiguracionOpciones/${opcion.id}`, opcion).pipe(
       catchError(this.manejoErrores)
@@ -26,5 +32,11 @@ export class ConfigOpcionesService {
     return this.http
       .delete<void>(`${this.API_URL}${this.CONTEXT}/ConfiguracionOpciones/${id}`)
       .pipe(catchError(this.manejoErrores));
+  }
+  editarOpcion(opcion: IConfigOpciones): Observable<IConfigOpciones> {
+    return this.http.put<IConfigOpciones>(`${this.API_URL}${this.CONTEXT}/ConfiguracionOpciones/${opcion.id}`, opcion)
+      .pipe(
+        catchError(this.manejoErrores)
+      );
   }
 }
