@@ -5,8 +5,8 @@ using System.Text.Json.Serialization;
 
 namespace APITestPyscoIA.Models.Entidades
 {
-    [Table("Test")]
-    public class TestModel : BaseModel  
+    [Table("Evaluaciones")]
+    public class EvaluacionesModel : BaseModel  
     {
         public int CantidadPreguntas { get; set; }
 
@@ -20,19 +20,29 @@ namespace APITestPyscoIA.Models.Entidades
         [ForeignKey("Paciente")] 
         public int IdPaciente { get; set; }
 
+        [Required]
+        public string Evaluacion { get; set; }
         public int? Duracion { get; set; }
         public int? Contestadas { get; set; }
         public int? NoContestadas { get; set; }
         public bool? Completado { get; set; }
         public bool? Iniciado { get; set; }
+        
+        public int? TiempoTranscurrido { get; set; }
+        public DateTime? FechaInicioTest { get; set; }
+        public DateTime? FechaFinTest { get; set; }
 
 
-        public ConfiguracionTestModel? ConfiguracionTest { get; set; }
-        
-        public EvaluadorModel? Evaluador { get; set; }
-        
-        public PacienteModel? Paciente { get; set; }
         [JsonIgnore]
-        public ICollection<TestSeccionesModel>? Secciones { get; set; }
+        public ConfiguracionTestModel? ConfiguracionTest { get; set; }
+
+        [JsonIgnore]
+        public EvaluadorModel? Evaluador { get; set; }
+
+        [JsonIgnore]
+        public PacienteModel? Paciente { get; set; }
+
+       
+        public ICollection<SeccionesModel>? Secciones { get; set; }
     }
 }

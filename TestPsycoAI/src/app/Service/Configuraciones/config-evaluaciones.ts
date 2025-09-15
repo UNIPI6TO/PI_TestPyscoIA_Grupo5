@@ -20,6 +20,12 @@ export class ConfigEvaluacionesService {
     });
   }
 
+  obtenerEvaluaciones(): Observable<IConfigEvaluaciones[]> {
+    var evaluaciones = this.http
+      .get<IConfigEvaluaciones[]>(this.API_URL + this.CONTEXT + '/ConfiguracionTest')
+      .pipe(catchError(this.manejoErrores));
+    return evaluaciones;
+  }
   getConfigEvaluaciones(): Observable<IConfigEvaluacionesResumen[]> {
     var configEvaluaciones = this.http
       .get<IConfigEvaluacionesResumen[]>(this.API_URL + this.CONTEXT + '/ConfiguracionTest/resumen')

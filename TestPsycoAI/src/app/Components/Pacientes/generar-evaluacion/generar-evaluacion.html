@@ -1,0 +1,101 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      <div class="card shadow-lg">
+        <div class="card-header bg-secondary text-white text-center d-flex justify-content-between align-items-center">
+            <a class="text-white" [routerLink]="['/pacientes']">
+            <h3><i class="fa fa-arrow-left"></i></h3> 
+            </a>
+          <h3 class="mb-0 flex-grow-1 text-center"><i class="fa-solid fa-qrcode"></i> Generar Evaluaciones</h3>
+        </div>
+        <div class="card-body">
+            <div class="d-flex justify">
+                <fieldset class="col-md-8 mb-4 p-3 border rounded">
+                    <div class="mb-4"></div>
+                    <h5 class="text-primary mb-3"><i class="fa-solid fa-user"></i> Información del Paciente</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span class="fw-semibold">Cédula:</span>
+                            <span> {{ paciente.cedula }} </span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span class="fw-semibold">Nombre:</span>
+                            <span> {{ paciente.nombre }} </span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span class="fw-semibold">Email:</span>
+                            <span> {{ paciente.email }} </span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span class="fw-semibold">Fecha de Nacimiento:</span>
+                            <span> {{ paciente.fechaNacimiento | date:'dd/MM/yyyy' }} </span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span class="fw-semibold">Dirección:</span>
+                            <span> {{ paciente.direccion }} </span>
+                        </li>
+                    </ul>
+                </fieldset>
+            </div>
+        
+            <div class="d-flex justify-content-center">
+                <fieldset class="col-md-12 mb-4 p-3 border rounded">
+                    <legend class="float-none w-auto px-1 fs-6 text-primary">Generar Evaluación</legend>
+                    <form (ngSubmit)="generarEvaluacion()" #evaluacionForm="ngForm">
+                        <div class="mb-3 col-md-6">
+                            <label for="evaluacion" class="form-label">Plantilla de Evaluaciones</label>
+                            <select 
+                                id="evaluacion" 
+                                class="form-select" 
+                                [(ngModel)]="evaluacionSeleccionada" 
+                                name="evaluacion" 
+                                required
+                                #evaluacion="ngModel">
+                                <option value="" disabled selected>Seleccione una plantilla de evaluación</option>
+                                <option *ngFor="let evaluacion of evaluaciones" [value]="evaluacion.id">{{ evaluacion.nombre }}</option>
+                            </select>
+                            <div *ngIf="evaluacion.invalid && (evaluacion.dirty || evaluacion.touched)" class="text-danger mt-1">
+                                <div *ngIf="evaluacion.errors?.['required']">
+                                    La plantilla de evaluación es obligatoria.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify">
+                            <button type="submit" class="btn btn-primary" [disabled]="evaluacionForm.invalid || cargando">
+                                <i class="fa-solid fa-qrcode"></i> Generar Evaluación
+                            </button>
+                        </div>
+                    </form>
+                </fieldset> 
+           
+            </div>
+
+            <div class="d-flex justify-content-center">
+                <fieldset class="col-md-12 mb-4 p-3 border rounded">
+                    <legend class="float-none w-auto px-1 fs-6 text-primary">Evaluaciones Asignadas</legend>
+                    <div class="row">
+                        <div class="col-md-4 mb-3" *ngFor="let evaluacion of evaluacionesGeneradas">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-semibold">Evaluación</h5>
+                                    <p class="card-text">{{ evaluacion.evaluacion }}</p>
+                                    <span *ngIf="evaluacion.completado" class="badge bg-success">Completada</span>
+                                    <span *ngIf="!evaluacion.completado && evaluacion.iniciado" class="badge bg-warning text-dark">Inconclusa</span>
+                                    <span *ngIf="!evaluacion.completado && !evaluacion.iniciado" class="badge bg-secondary">No iniciada</span>
+                                    <div class="mt-2">
+                                        <div *ngIf="evaluacion.fechaInicioTest">
+                                            <small class="text-muted">Inicio: {{ evaluacion.fechaInicioTest | date:'dd/MM/yyyy HH:mm' }}</small>
+                                        </div>
+                                        <div *ngIf="evaluacion.fechaFinTest">
+                                            <small class="text-muted">Fin: {{ evaluacion.fechaFinTest | date:'dd/MM/yyyy HH:mm' }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</div>

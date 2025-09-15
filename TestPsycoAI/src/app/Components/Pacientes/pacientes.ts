@@ -57,7 +57,7 @@ export class PacientesComponent implements OnInit {
       paciente.cedula?.toLowerCase().includes(filtroLower) ||
       paciente.nombre?.toLowerCase().includes(filtroLower) ||
       paciente.email?.toLowerCase().includes(filtroLower) ||
-      paciente.fechaNacimiento?.toLowerCase().includes(filtroLower) ||
+      
       paciente.direccion?.toLowerCase().includes(filtroLower) ||
       paciente.ciudad?.nombre?.toLowerCase().includes(filtroLower)
       );
