@@ -8,6 +8,31 @@ namespace APITestPyscoIA.Models.Entidades
     [Table("Evaluaciones")]
     public class EvaluacionesModel : BaseModel  
     {
+        public EvaluacionesModel()
+        {
+            CantidadPreguntas = 0;
+            IdConfiguracionTest = 0;
+            IdEvaluador = 0;
+            IdPaciente = 0;
+            Evaluacion = string.Empty;
+            Duracion = 0;
+            Contestadas = 0;
+            NoContestadas = 0;
+            Completado = false;
+            Iniciado = false;
+            TiempoTranscurrido = 0;
+            FechaInicioTest = null;
+            FechaFinTest = null;
+            ConfiguracionTest = null;
+            Evaluador= null;
+            Paciente = null;
+            Secciones =new List<SeccionesModel>();
+            base.Id = 0;
+            base.Creado = DateTime.Now;
+            base.Eliminado = false;
+
+
+        }
         public int CantidadPreguntas { get; set; }
 
         [Required]

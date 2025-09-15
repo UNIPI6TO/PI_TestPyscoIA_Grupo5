@@ -1,4 +1,5 @@
 import { ITipoTest } from "../Configuraciones/itipo-test"
+import { ISecciones } from "./isecciones"
 
 export interface IEvaluacion {
     id?: number,
@@ -19,4 +20,9 @@ export interface IEvaluacion {
     fechaFinTest?: Date,
     evaluacion: String,
     tipoTest?: ITipoTest
+    secciones: ISecciones[]
+}
+
+export interface IValidacionGenerarEvaluacion {
+    generar: boolean,
 }

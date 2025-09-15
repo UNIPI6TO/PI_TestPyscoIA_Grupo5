@@ -9,65 +9,66 @@
           <h3 class="mb-0 flex-grow-1 text-center"><i class="fa-solid fa-qrcode"></i> Generar Evaluaciones</h3>
         </div>
         <div class="card-body">
-            <div class="d-flex justify">
-                <fieldset class="col-md-8 mb-4 p-3 border rounded">
-                    <div class="mb-4"></div>
-                    <h5 class="text-primary mb-3"><i class="fa-solid fa-user"></i> Información del Paciente</h5>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <span class="fw-semibold">Cédula:</span>
-                            <span> {{ paciente.cedula }} </span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <span class="fw-semibold">Nombre:</span>
-                            <span> {{ paciente.nombre }} </span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <span class="fw-semibold">Email:</span>
-                            <span> {{ paciente.email }} </span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <span class="fw-semibold">Fecha de Nacimiento:</span>
-                            <span> {{ paciente.fechaNacimiento | date:'dd/MM/yyyy' }} </span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <span class="fw-semibold">Dirección:</span>
-                            <span> {{ paciente.direccion }} </span>
-                        </li>
-                    </ul>
-                </fieldset>
-            </div>
-        
-            <div class="d-flex justify-content-center">
-                <fieldset class="col-md-12 mb-4 p-3 border rounded">
-                    <legend class="float-none w-auto px-1 fs-6 text-primary">Generar Evaluación</legend>
-                    <form (ngSubmit)="generarEvaluacion()" #evaluacionForm="ngForm">
-                        <div class="mb-3 col-md-6">
-                            <label for="evaluacion" class="form-label">Plantilla de Evaluaciones</label>
-                            <select 
-                                id="evaluacion" 
-                                class="form-select" 
-                                [(ngModel)]="evaluacionSeleccionada" 
-                                name="evaluacion" 
-                                required
-                                #evaluacion="ngModel">
-                                <option value="" disabled selected>Seleccione una plantilla de evaluación</option>
-                                <option *ngFor="let evaluacion of evaluaciones" [value]="evaluacion.id">{{ evaluacion.nombre }}</option>
-                            </select>
-                            <div *ngIf="evaluacion.invalid && (evaluacion.dirty || evaluacion.touched)" class="text-danger mt-1">
-                                <div *ngIf="evaluacion.errors?.['required']">
-                                    La plantilla de evaluación es obligatoria.
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <fieldset class="mb-4 p-3 border rounded h-100">
+                        <div class="mb-4"></div>
+                        <h5 class="text-primary mb-3"><i class="fa-solid fa-user"></i> Información del Paciente</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span class="fw-semibold">Cédula:</span>
+                                <span> {{ paciente.cedula }} </span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span class="fw-semibold">Nombre:</span>
+                                <span> {{ paciente.nombre }} </span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span class="fw-semibold">Email:</span>
+                                <span> {{ paciente.email }} </span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span class="fw-semibold">Fecha de Nacimiento:</span>
+                                <span> {{ paciente.fechaNacimiento | date:'dd/MM/yyyy' }} </span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span class="fw-semibold">Dirección:</span>
+                                <span> {{ paciente.direccion }} </span>
+                            </li>
+                        </ul>
+                    </fieldset>
+                </div>
+                <div class="col-md-6">
+                    <fieldset class="mb-4 p-3 border rounded h-100">
+                        
+                        <form (ngSubmit)="generarEvaluacion()" #evaluacionForm="ngForm">
+                            <div class="mb-3">
+                                <label for="evaluacion" class="form-label">Plantilla de Evaluaciones</label>
+                                <select 
+                                    id="evaluacion" 
+                                    class="form-select" 
+                                    [(ngModel)]="evaluacionSeleccionada" 
+                                    name="evaluacion" 
+                                    required
+                                    #evaluacion="ngModel">
+                                    <option value="" disabled selected>Seleccione una plantilla de evaluación</option>
+                                    <option *ngFor="let evaluacion of evaluacionesConfig" [value]="evaluacion.id">{{ evaluacion.nombre }}</option>
+                                </select>
+                                <div *ngIf="evaluacion.invalid && (evaluacion.dirty || evaluacion.touched)" class="text-danger mt-1">
+                                    <div *ngIf="evaluacion.errors?.['required']">
+                                        La plantilla de evaluación es obligatoria.
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="d-flex justify">
-                            <button type="submit" class="btn btn-primary" [disabled]="evaluacionForm.invalid || cargando">
-                                <i class="fa-solid fa-qrcode"></i> Generar Evaluación
-                            </button>
-                        </div>
-                    </form>
-                </fieldset> 
-           
+                            <div class="d-flex justify-content-end mt-4">
+                                <button type="submit" class="btn btn-primary" [disabled]="evaluacionForm.invalid || cargando">
+                                    <i class="fa-solid fa-qrcode"></i> Generar Evaluación
+                                </button>
+                            </div>
+
+                        </form>
+                    </fieldset>
+                </div>
             </div>
 
             <div class="d-flex justify-content-center">
@@ -76,18 +77,62 @@
                     <div class="row">
                         <div class="col-md-4 mb-3" *ngFor="let evaluacion of evaluacionesGeneradas">
                             <div class="card h-100">
-                                <div class="card-body">
-                                    <h5 class="card-title fw-semibold">Evaluación</h5>
+                                <div class="card-body d-flex flex-column">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <h5 class="card-title fw-semibold mb-0">Evaluación</h5>
+                                        <div>
+                                            <button type="button" class="btn btn-outline-primary btn-sm" title="Vista Previa">
+                                                <i class="fa fa-eye"></i>
+                                            </button>
+                                            @if(!evaluacion.completado) {
+                                            <button type="button" class="btn btn-outline-danger btn-sm" title="Eliminar" (click)="eliminarEvaluacion(evaluacion)">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                            }@else {
+                                            <button type="button" class="btn btn-outline-danger btn-sm" disabled title="Eliminar">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                            }
+                                        </div>
+                                    </div>
                                     <p class="card-text">{{ evaluacion.evaluacion }}</p>
-                                    <span *ngIf="evaluacion.completado" class="badge bg-success">Completada</span>
-                                    <span *ngIf="!evaluacion.completado && evaluacion.iniciado" class="badge bg-warning text-dark">Inconclusa</span>
-                                    <span *ngIf="!evaluacion.completado && !evaluacion.iniciado" class="badge bg-secondary">No iniciada</span>
-                                    <div class="mt-2">
+                                    <div class="mb-2">
+                                        <span *ngIf="evaluacion.completado" class="badge bg-success">Completada</span>
+                                        <span *ngIf="!evaluacion.completado && evaluacion.iniciado" class="badge bg-warning text-dark">Inconclusa</span>
+                                        <span *ngIf="!evaluacion.completado && !evaluacion.iniciado" class="badge bg-secondary">No iniciada</span>
+                                    </div>
+                                    <div class="mb-2">
                                         <div *ngIf="evaluacion.fechaInicioTest">
                                             <small class="text-muted">Inicio: {{ evaluacion.fechaInicioTest | date:'dd/MM/yyyy HH:mm' }}</small>
                                         </div>
                                         <div *ngIf="evaluacion.fechaFinTest">
                                             <small class="text-muted">Fin: {{ evaluacion.fechaFinTest | date:'dd/MM/yyyy HH:mm' }}</small>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <span class="badge bg-info text-dark me-3">
+                                            {{ evaluacion.contestadas || 0 }}/{{ evaluacion.cantidadPreguntas || 0 }} contestadas
+                                        </span>
+                                        <span *ngIf="evaluacion.tiempoTranscurrido! >0" class="badge bg-secondary">
+                                            <!-- Tiempo transcurrido -->
+                                            {{ (evaluacion.tiempoTranscurrido! / 60) | number:'1.0-0' }}:{{ (evaluacion.tiempoTranscurrido! % 60) | number:'2.0-0' }} min
+                                        </span> de
+                                        <span *ngIf="evaluacion.tiempoTranscurrido! >0" class="badge bg-secondary">
+                                            <!-- Tiempo transcurrido -->
+                                            {{ (evaluacion.duracion/60) | number:'1.0-0' }}:{{ (evaluacion.duracion % 60) | number:'2.0-0' }} min
+                                        </span>
+                                    </div>
+                                    <div class="mb-2">
+                                        <div class="progress" style="height: 20px;">
+                                            <div 
+                                                class="progress-bar" 
+                                                role="progressbar" 
+                                                [style.width.%]="(evaluacion?.contestadas && evaluacion?.cantidadPreguntas) ? (evaluacion.contestadas! / evaluacion.cantidadPreguntas! * 100) : 0" 
+                                                [attr.aria-valuenow]="(evaluacion?.contestadas && evaluacion?.cantidadPreguntas) ? (evaluacion.contestadas! / evaluacion.cantidadPreguntas! * 100) : 0" 
+                                                aria-valuemin="0" 
+                                                aria-valuemax="100">
+                                                {{ (evaluacion?.contestadas && evaluacion?.cantidadPreguntas) ? (evaluacion.contestadas! / evaluacion.cantidadPreguntas! * 100) : 0 }}%
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

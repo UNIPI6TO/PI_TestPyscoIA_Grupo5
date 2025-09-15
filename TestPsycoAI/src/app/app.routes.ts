@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { NuevoPacienteComponent } from './Components/Pacientes/nuevo-paciente/nuevo-paciente';
 import { PacientesComponent } from './Components/Pacientes/pacientes';
 import { EditarPacienteComponent } from './Components/Pacientes/editar-paciente/editar-paciente';
-import { TestComponent } from './Components/Test/test';
+
 import { TipoTestComponent } from './Components/Configuraciones/tipo-test/tipo-test';
 import { EditarTipoTestComponent } from './Components/Configuraciones/tipo-test/editar-tipo-test/editar-tipo-test';
 import { NuevoTipoTestComponent } from './Components/Configuraciones/tipo-test/nuevo-tipo-test/nuevo-tipo-test';
@@ -14,6 +14,7 @@ import { NuevoEvaluadorComponent } from './Components/Configuraciones/config-eva
 import { EditarEvaluadorComponent } from './Components/Configuraciones/config-evaluadores/editar-evaluador/editar-evaluador';
 import { GenerarEvaluacionComponent } from './Components/Pacientes/generar-evaluacion/generar-evaluacion';
 import { SiteMapComponent } from './layout/site-map/site-map';
+import { EvaluacionComponent } from './Components/Evaluacion/evaluacion';
 
 export const routes: Routes = [
     
@@ -44,7 +45,7 @@ export const routes: Routes = [
             children: [
                 {
                     path: 'tomar-evaluacion',
-                    component: TestComponent
+                    component: EvaluacionComponent
                 }
             ]
         },

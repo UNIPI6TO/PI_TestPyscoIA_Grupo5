@@ -9,6 +9,18 @@ namespace APITestPyscoIA.Models.Entidades
     [Table("Opciones")]
     public class OpcionesModel: BaseModel
     {
+        public OpcionesModel()
+        {
+            Orden = 0;
+            Opcion = string.Empty;
+            Peso = 0;
+            seleccionado = false;
+            IdPreguntas = 0;
+            Preguntas = null;
+            base.Id = 0;
+            base.Creado = DateTime.Now;
+            base.Eliminado = false;
+        }
         [Required] public int Orden { get; set; }
         [Required] public string Opcion { get; set; }
 

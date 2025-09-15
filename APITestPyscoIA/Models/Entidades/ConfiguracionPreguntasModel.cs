@@ -8,7 +8,7 @@ namespace APITestPyscoIA.Models.Entidades
     [Table("ConfiguracionesPreguntas")]
     public class ConfiguracionPreguntasModel:BaseModel
     {
-
+        
         [Required] 
         public string Pregunta { get; set; }
         [Required]
