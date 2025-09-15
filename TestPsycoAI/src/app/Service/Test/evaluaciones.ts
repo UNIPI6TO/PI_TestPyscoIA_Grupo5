@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 import { IEvaluacion } from '../../Interfaces/Evaluaciones/ievaluacion';
 
@@ -12,9 +12,14 @@ export class EvaluacionesService {
   private CONTEXT = 'api/Evaluacion';
 
   constructor(private http: HttpClient) { }
-    manejoErrores(error: any) {
-      const msg = error.error?.message || error.statusText || 'Error de red';
-      console.error(msg);
+    manejoErrores(error: HttpErrorResponse) {
+    const msg = error.error?.message || error.statusText || 'Error de red';
+    return throwError(() => {
+      new Error(msg);
+    });
+  }
+    manejoErroresHttp(error: any) {
+      const msg = error.error?.message || error.error || error.statusText || 'Error de red';
       return throwError(() => new Error(msg));
     }
   obtenerEvaluacionesPorPaciente(idPaciente: number): Observable<IEvaluacion[]> {
@@ -22,6 +27,21 @@ export class EvaluacionesService {
       catchError(this.manejoErrores)
     );
 
+  }
+  generarEvaluacion(idPaciente: number, idConfiguracionTest: number, idEvaluador: number): Observable<IEvaluacion> {
+    const payload = {
+      idPaciente: idPaciente,
+      idConfiguracionTest: idConfiguracionTest,
+      idEvaluador: idEvaluador
+    };
+    return this.http.post<IEvaluacion>(`${this.API_URL}${this.CONTEXT}/generar-evaluacion`, payload).pipe(
+      catchError(this.manejoErroresHttp)
+    );
+  }
+  eliminarEvaluacion(id: number): Observable<void> {
+    return this.http
+      .delete<void>(`${this.API_URL}${this.CONTEXT}/${id}`)
+      .pipe(catchError(this.manejoErrores));
   }
 }
 

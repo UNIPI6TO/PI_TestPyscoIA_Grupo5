@@ -25,14 +25,14 @@ namespace APITestPyscoIA.Controllers.Evaluacion
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PreguntasModel>>> GetTestsPreguntas()
         {
-            return await _context.TestsPreguntas.ToListAsync();
+            return await _context.Preguntas.ToListAsync();
         }
 
         // GET: api/TestPreguntas/5
         [HttpGet("{id}")]
         public async Task<ActionResult<PreguntasModel>> GetTestPreguntasModel(int id)
         {
-            var testPreguntasModel = await _context.TestsPreguntas.FindAsync(id);
+            var testPreguntasModel = await _context.Preguntas.FindAsync(id);
 
             if (testPreguntasModel == null)
             {
@@ -78,7 +78,7 @@ namespace APITestPyscoIA.Controllers.Evaluacion
         [HttpPost]
         public async Task<ActionResult<PreguntasModel>> PostTestPreguntasModel(PreguntasModel testPreguntasModel)
         {
-            _context.TestsPreguntas.Add(testPreguntasModel);
+            _context.Preguntas.Add(testPreguntasModel);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetTestPreguntasModel", new { id = testPreguntasModel.Id }, testPreguntasModel);
@@ -88,13 +88,13 @@ namespace APITestPyscoIA.Controllers.Evaluacion
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTestPreguntasModel(int id)
         {
-            var testPreguntasModel = await _context.TestsPreguntas.FindAsync(id);
+            var testPreguntasModel = await _context.Preguntas.FindAsync(id);
             if (testPreguntasModel == null)
             {
                 return NotFound();
             }
 
-            _context.TestsPreguntas.Remove(testPreguntasModel);
+            _context.Preguntas.Remove(testPreguntasModel);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -102,7 +102,7 @@ namespace APITestPyscoIA.Controllers.Evaluacion
 
         private bool TestPreguntasModelExists(int id)
         {
-            return _context.TestsPreguntas.Any(e => e.Id == id);
+            return _context.Preguntas.Any(e => e.Id == id);
         }
     }
 }

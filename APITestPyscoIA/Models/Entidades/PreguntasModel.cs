@@ -9,12 +9,28 @@ namespace APITestPyscoIA.Models.Entidades
     [Table("Preguntas")]
     public class PreguntasModel: BaseModel  
     {
+        public PreguntasModel()
+        {
+            Pregunta = string.Empty;
+            Respuesta= string.Empty;
+            Valor = 0;
+            Orden = 0;
+            IdConfiguracionPreguntas = 0;
+            IdSecciones = 0;
+            Secciones = null;
+            ConfiguracionPreguntas = null;
+            Opciones = new List<OpcionesModel>();
+            base.Id = 0;
+            base.Creado = DateTime.Now;
+            base.Eliminado = false;
+        }
 
         [Required] public string Pregunta { get; set; }
         public string Respuesta { get; set; }
         [Precision(8, 4)]
         public decimal Valor { get; set; }
 
+        
         [Required][ForeignKey("ConfiguracionPreguntas")] 
         public int IdConfiguracionPreguntas { get; set; }
         
@@ -26,6 +42,10 @@ namespace APITestPyscoIA.Models.Entidades
         [JsonIgnore]
         public ConfiguracionPreguntasModel? ConfiguracionPreguntas { get; set; }
         
-        
+        public ICollection<OpcionesModel> Opciones { get; set; }
+
+        [Required]
+        public int Orden { get; set; }
+
     }
 }

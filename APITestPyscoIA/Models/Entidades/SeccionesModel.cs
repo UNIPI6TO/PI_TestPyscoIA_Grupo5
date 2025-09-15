@@ -8,16 +8,34 @@ namespace APITestPyscoIA.Models.Entidades
     [Table("Secciones")] 
     public class SeccionesModel:BaseModel
     {
+        public SeccionesModel()
+        {
+            Score = 0;
+            Seccion = String.Empty;
+            IdEvaluaciones = 0;
+            Evaluaciones = null;
+            IdConfiguracionSecciones = 0;
+            ConfiguracionSecciones = null;
+            Preguntas =  new List<PreguntasModel>();
+            FormulaAgregado = "SUM";
+            base.Id = 0;
+            base.Creado = DateTime.Now;
+            base.Eliminado = false;
+        }
         public float? Score { get; set; }
-        public string? Resultado { get; set; }
-        public DateTime? FechaInicioTest { get; set; }
-        public DateTime? FechaFinTest { get; set; }
+
+        [Required]
+        public string Seccion { get; set; }
 
         [Required]
         [ForeignKey("Evaluaciones")] 
         public int IdEvaluaciones { get; set; }
         [JsonIgnore]
         public EvaluacionesModel? Evaluaciones { get; set; }
+
+        [Required]
+        [RegularExpression("AVG|SUM")]
+        public string FormulaAgregado { get; set; }
 
         [Required]
         [ForeignKey("ConfiguracionSecciones")] 
@@ -28,7 +46,6 @@ namespace APITestPyscoIA.Models.Entidades
         [JsonIgnore]
         public ConfiguracionSeccionesModel? ConfiguracionSecciones { get; set; }
 
-        [JsonIgnore]
         public ICollection<PreguntasModel>? Preguntas { get; set; }
 
     }

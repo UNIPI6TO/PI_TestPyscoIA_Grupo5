@@ -4,6 +4,7 @@ using APITestPyscoIA.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APITestPyscoIA.Migrations
 {
     [DbContext(typeof(DatosDbContext))]
-    partial class DatosDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250915162548_edit-modeles-Evaluacion8")]
+    partial class editmodelesEvaluacion8
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -490,9 +493,6 @@ namespace APITestPyscoIA.Migrations
                     b.Property<int>("IdSecciones")
                         .HasColumnType("int");
 
-                    b.Property<int>("Orden")
-                        .HasColumnType("int");
-
                     b.Property<string>("Pregunta")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -568,10 +568,6 @@ namespace APITestPyscoIA.Migrations
 
                     b.Property<bool?>("Eliminado")
                         .HasColumnType("bit");
-
-                    b.Property<string>("FormulaAgregado")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("IdConfiguracionSecciones")
                         .HasColumnType("int");
@@ -733,7 +729,7 @@ namespace APITestPyscoIA.Migrations
             modelBuilder.Entity("APITestPyscoIA.Models.Entidades.OpcionesModel", b =>
                 {
                     b.HasOne("APITestPyscoIA.Models.Entidades.PreguntasModel", "Preguntas")
-                        .WithMany("Opciones")
+                        .WithMany()
                         .HasForeignKey("IdPreguntas")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -829,11 +825,6 @@ namespace APITestPyscoIA.Migrations
             modelBuilder.Entity("APITestPyscoIA.Models.Entidades.PaisModel", b =>
                 {
                     b.Navigation("Provincias");
-                });
-
-            modelBuilder.Entity("APITestPyscoIA.Models.Entidades.PreguntasModel", b =>
-                {
-                    b.Navigation("Opciones");
                 });
 
             modelBuilder.Entity("APITestPyscoIA.Models.Entidades.ProvinciaModel", b =>

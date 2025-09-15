@@ -18,9 +18,9 @@ namespace APITestPyscoIA.Data
         public DbSet<PacienteModel> Pacientes { get; set; }
         public DbSet<PaisModel> Paises { get; set; }
         public DbSet<ProvinciaModel> Provincias { get; set; }
-        public DbSet<EvaluacionesModel> Tests { get; set; }
-        public DbSet<PreguntasModel> TestsPreguntas { get; set; }
-        public DbSet<SeccionesModel> TestsSecciones { get; set; }
+        public DbSet<EvaluacionesModel> Evaluaciones { get; set; }
+        public DbSet<PreguntasModel> Preguntas { get; set; }
+        public DbSet<SeccionesModel> Secciones { get; set; }
         public DbSet<TipoTestModel> TiposTest { get; set; }
 
         public DbSet<OpcionesModel> Opciones { get; set; }

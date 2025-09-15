@@ -25,14 +25,14 @@ namespace APITestPyscoIA.Controllers.Evaluacion
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SeccionesModel>>> GetTestsSecciones()
         {
-            return await _context.TestsSecciones.ToListAsync();
+            return await _context.Secciones.ToListAsync();
         }
 
         // GET: api/TestSecciones/5
         [HttpGet("{id}")]
         public async Task<ActionResult<SeccionesModel>> GetTestSeccionesModel(int id)
         {
-            var testSeccionesModel = await _context.TestsSecciones.FindAsync(id);
+            var testSeccionesModel = await _context.Secciones.FindAsync(id);
 
             if (testSeccionesModel == null)
             {
@@ -78,7 +78,7 @@ namespace APITestPyscoIA.Controllers.Evaluacion
         [HttpPost]
         public async Task<ActionResult<SeccionesModel>> PostTestSeccionesModel(SeccionesModel testSeccionesModel)
         {
-            _context.TestsSecciones.Add(testSeccionesModel);
+            _context.Secciones.Add(testSeccionesModel);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetTestSeccionesModel", new { id = testSeccionesModel.Id }, testSeccionesModel);
@@ -88,13 +88,13 @@ namespace APITestPyscoIA.Controllers.Evaluacion
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTestSeccionesModel(int id)
         {
-            var testSeccionesModel = await _context.TestsSecciones.FindAsync(id);
+            var testSeccionesModel = await _context.Secciones.FindAsync(id);
             if (testSeccionesModel == null)
             {
                 return NotFound();
             }
 
-            _context.TestsSecciones.Remove(testSeccionesModel);
+            _context.Secciones.Remove(testSeccionesModel);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -102,7 +102,7 @@ namespace APITestPyscoIA.Controllers.Evaluacion
 
         private bool TestSeccionesModelExists(int id)
         {
-            return _context.TestsSecciones.Any(e => e.Id == id);
+            return _context.Secciones.Any(e => e.Id == id);
         }
     }
 }

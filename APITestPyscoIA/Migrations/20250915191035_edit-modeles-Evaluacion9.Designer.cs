@@ -4,6 +4,7 @@ using APITestPyscoIA.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APITestPyscoIA.Migrations
 {
     [DbContext(typeof(DatosDbContext))]
-    partial class DatosDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250915191035_edit-modeles-Evaluacion9")]
+    partial class editmodelesEvaluacion9
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -490,7 +493,7 @@ namespace APITestPyscoIA.Migrations
                     b.Property<int>("IdSecciones")
                         .HasColumnType("int");
 
-                    b.Property<int>("Orden")
+                    b.Property<int?>("Orden")
                         .HasColumnType("int");
 
                     b.Property<string>("Pregunta")
@@ -568,10 +571,6 @@ namespace APITestPyscoIA.Migrations
 
                     b.Property<bool?>("Eliminado")
                         .HasColumnType("bit");
-
-                    b.Property<string>("FormulaAgregado")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("IdConfiguracionSecciones")
                         .HasColumnType("int");
