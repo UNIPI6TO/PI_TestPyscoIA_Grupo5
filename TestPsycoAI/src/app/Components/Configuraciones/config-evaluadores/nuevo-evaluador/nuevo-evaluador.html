@@ -139,12 +139,12 @@
                 </select>
                 </div>
             </fieldset>
-            <div class="d-flex justify-content-end">
-              <button type="submit" class="btn btn-success me-2" [disabled]="evaluadorForm.invalid">
-                <i class="fa-solid fa-floppy-disk"></i> Guardar
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-primary" [disabled]="evaluadorForm.invalid">
+                Crear Evaluador
               </button>
-              <button type="button" class="btn btn-secondary" routerLink="/configuraciones/evaluadores">
-                <i class="fa-solid fa-arrow-left"></i> Cancelar
+              <button type="button" class="btn btn-secondary" (click)="evaluadorForm.reset()">
+                Limpiar
               </button>
             </div>
           </form>

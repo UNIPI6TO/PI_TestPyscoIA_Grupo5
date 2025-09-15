@@ -4,6 +4,7 @@ using APITestPyscoIA.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APITestPyscoIA.Migrations
 {
     [DbContext(typeof(DatosDbContext))]
-    partial class DatosDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250915015808_edit-modeles-Evaluacion2")]
+    partial class editmodelesEvaluacion2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -242,10 +245,6 @@ namespace APITestPyscoIA.Migrations
                     b.Property<bool?>("Eliminado")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Evaluacion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("FechaFinTest")
                         .HasColumnType("datetime2");
 
@@ -341,50 +340,6 @@ namespace APITestPyscoIA.Migrations
                     b.HasIndex("IdCiudad");
 
                     b.ToTable("Evaluadores");
-                });
-
-            modelBuilder.Entity("APITestPyscoIA.Models.Entidades.OpcionesModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime?>("Actualizado")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("Creado")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool?>("Eliminado")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("IdPreguntas")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Opcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Orden")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Peso")
-                        .HasPrecision(8, 4)
-                        .HasColumnType("decimal(8,4)");
-
-                    b.Property<bool?>("Sincronizado")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("seleccionado")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdPreguntas");
-
-                    b.ToTable("Opciones");
                 });
 
             modelBuilder.Entity("APITestPyscoIA.Models.Entidades.PacienteModel", b =>
@@ -484,7 +439,7 @@ namespace APITestPyscoIA.Migrations
                     b.Property<bool?>("Eliminado")
                         .HasColumnType("bit");
 
-                    b.Property<int>("IdConfiguracionPreguntas")
+                    b.Property<int>("IdConfiguracionBancoPreguntas")
                         .HasColumnType("int");
 
                     b.Property<int>("IdSecciones")
@@ -501,15 +456,18 @@ namespace APITestPyscoIA.Migrations
                     b.Property<bool?>("Sincronizado")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("TestSeccionesId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Valor")
                         .HasPrecision(8, 4)
                         .HasColumnType("decimal(8,4)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdConfiguracionPreguntas");
+                    b.HasIndex("IdConfiguracionBancoPreguntas");
 
-                    b.HasIndex("IdSecciones");
+                    b.HasIndex("TestSeccionesId");
 
                     b.ToTable("Preguntas");
                 });
@@ -566,6 +524,9 @@ namespace APITestPyscoIA.Migrations
                     b.Property<bool?>("Eliminado")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("EvaluacionesModelId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("FechaFinTest")
                         .HasColumnType("datetime2");
 
@@ -589,9 +550,9 @@ namespace APITestPyscoIA.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdConfiguracionSecciones");
+                    b.HasIndex("EvaluacionesModelId");
 
-                    b.HasIndex("IdEvaluaciones");
+                    b.HasIndex("IdConfiguracionSecciones");
 
                     b.ToTable("Secciones");
                 });
@@ -728,17 +689,6 @@ namespace APITestPyscoIA.Migrations
                     b.Navigation("Ciudad");
                 });
 
-            modelBuilder.Entity("APITestPyscoIA.Models.Entidades.OpcionesModel", b =>
-                {
-                    b.HasOne("APITestPyscoIA.Models.Entidades.PreguntasModel", "Preguntas")
-                        .WithMany()
-                        .HasForeignKey("IdPreguntas")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Preguntas");
-                });
-
             modelBuilder.Entity("APITestPyscoIA.Models.Entidades.PacienteModel", b =>
                 {
                     b.HasOne("APITestPyscoIA.Models.Entidades.CiudadModel", "Ciudad")
@@ -754,19 +704,17 @@ namespace APITestPyscoIA.Migrations
                 {
                     b.HasOne("APITestPyscoIA.Models.Entidades.ConfiguracionPreguntasModel", "ConfiguracionPreguntas")
                         .WithMany()
-                        .HasForeignKey("IdConfiguracionPreguntas")
+                        .HasForeignKey("IdConfiguracionBancoPreguntas")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("APITestPyscoIA.Models.Entidades.SeccionesModel", "Secciones")
+                    b.HasOne("APITestPyscoIA.Models.Entidades.SeccionesModel", "TestSecciones")
                         .WithMany("Preguntas")
-                        .HasForeignKey("IdSecciones")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TestSeccionesId");
 
                     b.Navigation("ConfiguracionPreguntas");
 
-                    b.Navigation("Secciones");
+                    b.Navigation("TestSecciones");
                 });
 
             modelBuilder.Entity("APITestPyscoIA.Models.Entidades.ProvinciaModel", b =>
@@ -782,21 +730,17 @@ namespace APITestPyscoIA.Migrations
 
             modelBuilder.Entity("APITestPyscoIA.Models.Entidades.SeccionesModel", b =>
                 {
+                    b.HasOne("APITestPyscoIA.Models.Entidades.EvaluacionesModel", null)
+                        .WithMany("Secciones")
+                        .HasForeignKey("EvaluacionesModelId");
+
                     b.HasOne("APITestPyscoIA.Models.Entidades.ConfiguracionSeccionesModel", "ConfiguracionSecciones")
                         .WithMany()
                         .HasForeignKey("IdConfiguracionSecciones")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("APITestPyscoIA.Models.Entidades.EvaluacionesModel", "Evaluaciones")
-                        .WithMany("Secciones")
-                        .HasForeignKey("IdEvaluaciones")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("ConfiguracionSecciones");
-
-                    b.Navigation("Evaluaciones");
                 });
 
             modelBuilder.Entity("APITestPyscoIA.Models.Entidades.ConfiguracionPreguntasModel", b =>

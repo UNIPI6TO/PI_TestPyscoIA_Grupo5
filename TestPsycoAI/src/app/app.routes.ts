@@ -12,6 +12,8 @@ import { ConfigEvaluacionesEditarComponent } from './Components/Configuraciones/
 import { ConfigEvaluadoresComponent } from './Components/Configuraciones/config-evaluadores/config-evaluadores';
 import { NuevoEvaluadorComponent } from './Components/Configuraciones/config-evaluadores/nuevo-evaluador/nuevo-evaluador';
 import { EditarEvaluadorComponent } from './Components/Configuraciones/config-evaluadores/editar-evaluador/editar-evaluador';
+import { GenerarEvaluacionComponent } from './Components/Pacientes/generar-evaluacion/generar-evaluacion';
+import { SiteMapComponent } from './layout/site-map/site-map';
 
 export const routes: Routes = [
     
@@ -29,6 +31,10 @@ export const routes: Routes = [
                 {
                     path: '',
                     component: PacientesComponent
+                },
+                {
+                    path: 'generar-evaluacion/:idpaciente',
+                    component: GenerarEvaluacionComponent
                 }
             ]
 
@@ -81,5 +87,9 @@ export const routes: Routes = [
                     component: EditarEvaluadorComponent
                 }
             ]
+        },
+        {
+            path: 'mapa-sitio',
+            component: SiteMapComponent
         }
     ];  

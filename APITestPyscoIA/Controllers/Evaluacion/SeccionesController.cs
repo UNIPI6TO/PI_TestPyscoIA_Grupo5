@@ -12,25 +12,25 @@ namespace APITestPyscoIA.Controllers.Evaluacion
 {
     [Route("api/evaluacion/[controller]")]
     [ApiController]
-    public class TestSeccionesController : ControllerBase
+    public class SeccionesController : ControllerBase
     {
         private readonly DatosDbContext _context;
 
-        public TestSeccionesController(DatosDbContext context)
+        public SeccionesController(DatosDbContext context)
         {
             _context = context;
         }
 
         // GET: api/TestSecciones
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TestSeccionesModel>>> GetTestsSecciones()
+        public async Task<ActionResult<IEnumerable<SeccionesModel>>> GetTestsSecciones()
         {
             return await _context.TestsSecciones.ToListAsync();
         }
 
         // GET: api/TestSecciones/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<TestSeccionesModel>> GetTestSeccionesModel(int id)
+        public async Task<ActionResult<SeccionesModel>> GetTestSeccionesModel(int id)
         {
             var testSeccionesModel = await _context.TestsSecciones.FindAsync(id);
 
@@ -45,7 +45,7 @@ namespace APITestPyscoIA.Controllers.Evaluacion
         // PUT: api/TestSecciones/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTestSeccionesModel(int id, TestSeccionesModel testSeccionesModel)
+        public async Task<IActionResult> PutTestSeccionesModel(int id, SeccionesModel testSeccionesModel)
         {
             if (id != testSeccionesModel.Id)
             {
@@ -76,7 +76,7 @@ namespace APITestPyscoIA.Controllers.Evaluacion
         // POST: api/TestSecciones
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TestSeccionesModel>> PostTestSeccionesModel(TestSeccionesModel testSeccionesModel)
+        public async Task<ActionResult<SeccionesModel>> PostTestSeccionesModel(SeccionesModel testSeccionesModel)
         {
             _context.TestsSecciones.Add(testSeccionesModel);
             await _context.SaveChangesAsync();

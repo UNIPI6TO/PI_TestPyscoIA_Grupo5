@@ -21,7 +21,7 @@
       </div>
 
       <div class="table-responsive">
-        <table class="table table-hover table-striped">
+        <table class="table table-hover table-responsive table-striped">
           <thead class="table-dark">
             <tr>
               <th scope="col">Cédula</th>
@@ -45,6 +45,9 @@
                 <div class="d-flex align-items-center" style="min-width: 110px;">
                   <button class="btn btn-sm btn-warning me-2" [routerLink]="['/pacientes/editar', paciente.id]">
                     <i class="fa-solid fa-pen-to-square"></i>
+                  </button>
+                    <button class="btn btn-sm btn-primary me-2" [routerLink]="['/pacientes/generar-evaluacion', paciente.id]">
+                    <i class="fa-solid fa-qrcode"></i>
                   </button>
                   <button class="btn btn-sm btn-danger" (click)="eliminarPaciente(paciente.id!)">
                     <i class="fa-solid fa-trash"></i>

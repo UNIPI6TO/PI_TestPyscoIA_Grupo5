@@ -10,27 +10,27 @@ using APITestPyscoIA.Models.Entidades;
 
 namespace APITestPyscoIA.Controllers.Evaluacion
 {
-    [Route("api/[controller]")]
+    [Route("api/evaluacion/[controller]")]
     [ApiController]
-    public class TestPreguntasController : ControllerBase
+    public class PreguntasController : ControllerBase
     {
         private readonly DatosDbContext _context;
 
-        public TestPreguntasController(DatosDbContext context)
+        public PreguntasController(DatosDbContext context)
         {
             _context = context;
         }
 
         // GET: api/TestPreguntas
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TestPreguntasModel>>> GetTestsPreguntas()
+        public async Task<ActionResult<IEnumerable<PreguntasModel>>> GetTestsPreguntas()
         {
             return await _context.TestsPreguntas.ToListAsync();
         }
 
         // GET: api/TestPreguntas/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<TestPreguntasModel>> GetTestPreguntasModel(int id)
+        public async Task<ActionResult<PreguntasModel>> GetTestPreguntasModel(int id)
         {
             var testPreguntasModel = await _context.TestsPreguntas.FindAsync(id);
 
@@ -45,7 +45,7 @@ namespace APITestPyscoIA.Controllers.Evaluacion
         // PUT: api/TestPreguntas/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTestPreguntasModel(int id, TestPreguntasModel testPreguntasModel)
+        public async Task<IActionResult> PutTestPreguntasModel(int id, PreguntasModel testPreguntasModel)
         {
             if (id != testPreguntasModel.Id)
             {
@@ -76,7 +76,7 @@ namespace APITestPyscoIA.Controllers.Evaluacion
         // POST: api/TestPreguntas
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TestPreguntasModel>> PostTestPreguntasModel(TestPreguntasModel testPreguntasModel)
+        public async Task<ActionResult<PreguntasModel>> PostTestPreguntasModel(PreguntasModel testPreguntasModel)
         {
             _context.TestsPreguntas.Add(testPreguntasModel);
             await _context.SaveChangesAsync();

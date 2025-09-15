@@ -40,7 +40,8 @@ namespace APITestPyscoIA.Models.Entidades
 
         
         public CiudadModel? Ciudad { get; set; }
-        public ICollection<TestModel>? Evaluaciones { get; set; }
+        public ICollection<EvaluacionesModel>? Evaluaciones { get; set; }
+
 
 
     }

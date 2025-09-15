@@ -23,8 +23,7 @@ export class EditarPacienteComponent implements OnInit {
 
   public paciente: IPaciente = {
     id: 0,
-    creado: '',
-    actualizado: '',
+    creado: new Date(),
     eliminado: false,
     cedula: '',
     nombre: '',
@@ -74,8 +73,7 @@ export class EditarPacienteComponent implements OnInit {
         this.pacienteForm?.resetForm();
         this.paciente = {
           id: 0,
-          creado: '',
-          actualizado: '',
+          creado: new Date(),
           eliminado: false,
           cedula: '',
           nombre: '',
