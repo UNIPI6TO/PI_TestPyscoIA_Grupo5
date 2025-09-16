@@ -34,12 +34,37 @@ namespace APITestPyscoIA.Controllers.Evaluacion
         [HttpGet("{id}")]
         public async Task<ActionResult<EvaluacionesModel>> GetEvaluaciones(int id)
         {
-            var evaluacionesModel = await _context.Evaluaciones.FindAsync(id);
+            
+            EvaluacionesModel? evaluacionesModel = await _context.Evaluaciones.FindAsync(id);
+            
 
             if (evaluacionesModel == null)
             {
                 return NotFound();
             }
+            evaluacionesModel.ConfiguracionTest = await _context.ConfiguracionesTest.Include(t => t.TipoTest)
+                   .FirstOrDefaultAsync(t => t.Id == evaluacionesModel.IdConfiguracionTest);
+            evaluacionesModel.Secciones = await _context.Secciones
+                .Where(s => s.IdEvaluaciones == evaluacionesModel.Id && s.Eliminado == false)
+                .ToListAsync();
+            foreach (SeccionesModel seccion in evaluacionesModel.Secciones)
+            {
+                seccion.ConfiguracionSecciones = await _context.ConfiguracionesSecciones
+                    .FirstOrDefaultAsync(cs => cs.Id == seccion.IdConfiguracionSecciones);
+                seccion.Preguntas = await _context.Preguntas
+                    .Where(p => p.IdSecciones == seccion.Id && p.Eliminado == false)
+                    .ToListAsync();
+                foreach (PreguntasModel pregunta in seccion.Preguntas)
+                {
+                    pregunta.ConfiguracionPreguntas = await _context.ConfiguracionesPreguntas
+                        .FirstOrDefaultAsync(cp => cp.Id == pregunta.IdConfiguracionPreguntas);
+                    pregunta.Opciones = await _context.Opciones
+                        .Where(o => o.IdPreguntas == pregunta.Id && o.Eliminado == false)
+                        .OrderBy(o => o.Orden)
+                        .ToListAsync();
+                }
+            }
+
 
             return evaluacionesModel;
         }
@@ -49,6 +74,7 @@ namespace APITestPyscoIA.Controllers.Evaluacion
         {
             var evaluacionesModel = await _context.Evaluaciones.
                 Where(e=> e.IdPaciente==idPaciente && e.Eliminado== false)
+                .OrderByDescending(e=> e.Creado)
                 .ToListAsync();
 
             if (evaluacionesModel == null)
@@ -56,7 +82,50 @@ namespace APITestPyscoIA.Controllers.Evaluacion
                 return NotFound();
             }
 
+
             return evaluacionesModel;
+        }
+
+        [HttpGet("paciente-activo/{idPaciente}")]
+        public async Task<ActionResult<IEnumerable<EvaluacionesModel>>> GetEvaluacionesByPacienteActivas(int idPaciente)
+        {
+            ICollection<EvaluacionesModel> evaluacionesModel = await _context.Evaluaciones.
+                Where(e => e.IdPaciente == idPaciente && e.Eliminado == false && e.Completado == false)
+                .OrderByDescending(e => e.Creado)
+                .ToListAsync();
+
+            if (evaluacionesModel == null || !evaluacionesModel.Any())
+            {
+                return NotFound();
+            }
+
+            foreach (EvaluacionesModel eval in evaluacionesModel)
+            {
+                eval.ConfiguracionTest = await _context.ConfiguracionesTest.Include(t=> t.TipoTest)
+                    .FirstOrDefaultAsync(t => t.Id == eval.IdConfiguracionTest);
+                eval.Secciones = await _context.Secciones
+                    .Where(s => s.IdEvaluaciones == eval.Id && s.Eliminado == false)
+                    .ToListAsync();
+                foreach (SeccionesModel seccion in eval.Secciones)
+                {
+                    seccion.ConfiguracionSecciones = await _context.ConfiguracionesSecciones
+                        .FirstOrDefaultAsync(cs => cs.Id == seccion.IdConfiguracionSecciones);
+                    seccion.Preguntas = await _context.Preguntas
+                        .Where(p => p.IdSecciones == seccion.Id && p.Eliminado == false)
+                        .ToListAsync();
+                    foreach (PreguntasModel pregunta in seccion.Preguntas)
+                    {
+                        pregunta.ConfiguracionPreguntas= await _context.ConfiguracionesPreguntas
+                            .FirstOrDefaultAsync(cp => cp.Id == pregunta.IdConfiguracionPreguntas);
+                        pregunta.Opciones = await _context.Opciones
+                            .Where(o => o.IdPreguntas == pregunta.Id && o.Eliminado == false)
+                            .OrderBy(o => o.Orden)
+                            .ToListAsync();
+                    }
+                }
+            }
+
+            return Ok(evaluacionesModel);
         }
 
         // PUT: api/EvaluacionModels/5
@@ -68,24 +137,15 @@ namespace APITestPyscoIA.Controllers.Evaluacion
             {
                 return BadRequest();
             }
-
-            _context.Entry(evaluacionesModel).State = EntityState.Modified;
-
-            try
+            if (!EvaluacionesExists(id))
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!EvaluacionesExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            evaluacionesModel.Actualizado = DateTime.Now;
+
+            _context.Evaluaciones.Update(evaluacionesModel);
+
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
