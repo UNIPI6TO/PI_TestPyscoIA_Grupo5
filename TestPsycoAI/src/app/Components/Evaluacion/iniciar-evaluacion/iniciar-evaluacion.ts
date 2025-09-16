@@ -6,8 +6,6 @@ import Swal from 'sweetalert2';
 import { EvaluacionesService } from '../../../Service/Test/evaluaciones';
 import { IEvaluacion } from '../../../Interfaces/Evaluaciones/ievaluacion';
 import { IPreguntas } from '../../../Interfaces/Evaluaciones/ipreguntas';
-import { IOpciones } from '../../../Interfaces/Evaluaciones/iopciones';
-import { PreguntasService } from '../../../Service/Test/preguntas';
 import { Title } from '@angular/platform-browser';
 
 @Component({
@@ -75,7 +73,6 @@ export class IniciarEvaluacionComponent implements OnInit {
         
       } else {
         this.cargarPregunta();
-        
         Swal.close();
       }
       
@@ -89,7 +86,11 @@ export class IniciarEvaluacionComponent implements OnInit {
       this.evaluacionesService.cargarEvaluacionId(this.EvaluacionId).subscribe({
         next: (evaluacion) => {
           this.evaluacion = evaluacion;
-
+          if(this.evaluacion?.completado){
+            this.router.navigate(['/test/tomar-evaluacion']);
+            Swal.fire('Evaluación Completada', 'La evaluación ya ha sido completada.', 'info');
+            return;
+          }
           this.cargarPregunta();
           Swal.close();
         },
@@ -133,10 +134,29 @@ export class IniciarEvaluacionComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        ///por implementar 
+        if (this.evaluacion) {
+          this.evaluacion.completado = true;
+          this.evaluacion.fechaFinTest = this.fechaZonahoraria(new Date());
+          this.actualizarPregunta(this.NumPregunta, this.buscarOpcionSelecionadaHtml());
+          this.totalizarSeccionesRespuestas(this.evaluacion);
+          this.editarHTP(this.evaluacion);
+          this.router.navigate(['/test/tomar-evaluacion']);
+        }
       }
     });
   }
+  totalizarSeccionesRespuestas(evaluacion : IEvaluacion) {
+    evaluacion.secciones.forEach(seccion => {
+      seccion.score = 0;
+      seccion.preguntas.forEach(pregunta => {
+        seccion.score! += pregunta.valor || 0;
+      });
+      if (seccion.formulaAgregado=='AVG') {
+        seccion.score = seccion.score! / seccion.preguntas.length;
+      }
+    });
+  }
+
   reanudarEvaluacion(preguntasContestadas: number) {
     if (this.evaluacion) {
       this.evaluacion.iniciado = true;
@@ -190,6 +210,7 @@ iniciarContadorTiempo() {
     if (this.evaluacion && this.NumPregunta < this.evaluacion.cantidadPreguntas!) {
       const opcionSeleccionadaId:number = this.buscarOpcionSelecionadaHtml();
       this.actualizarPregunta(this.NumPregunta, opcionSeleccionadaId);
+      this.editarHTP(this.evaluacion);
       this.NumPregunta++;
       
       this.router.navigate([`/test/iniciar-evaluacion/${this.EvaluacionId}/pregunta/${this.NumPregunta}`]);
@@ -240,6 +261,7 @@ iniciarContadorTiempo() {
     }
     return -1;
   }
+  
   actualizarPregunta(Orden: number, OpcionId: number) {
     if (this.preguntaActual) {
       this.evaluacion?.secciones.forEach(seccion => {
@@ -261,14 +283,7 @@ iniciarContadorTiempo() {
                   this.evaluacion!.noContestadas= this.evaluacion!.cantidadPreguntas - this.evaluacion!.contestadas;
                   pregunta.actualizado = this.fechaZonahoraria(new Date());
                   opcion.actualizado = this.fechaZonahoraria(new Date());
-                  this.evaluacionesService.actualizarEvaluacion(this.evaluacion!).subscribe({
-                    next: (evaluacion) => {
-                      console.log("Evaluacion actualizada");
-                    },
-                    error: (error) => {
-                      console.error("Error al actualizar la evaluación:", error);
-                    }
-                  });
+                 
                 } else {
                   opcion.seleccionado = false;
                 }
@@ -279,6 +294,18 @@ iniciarContadorTiempo() {
       });
     }
   }
+
+  editarHTP(evaluacion: IEvaluacion) {
+    this.evaluacionesService.actualizarEvaluacion(evaluacion).subscribe({
+      next: (evaluacion) => {
+        console.log("Evaluacion actualizada");
+      },
+      error: (error) => {
+        console.error("Error al actualizar la evaluación:", error);
+      }
+    });
+  }
+
   obtenerPreguntasContestadas(evaluacion: IEvaluacion): number {
     let contador = 0;
     evaluacion.secciones.forEach(seccion => {
