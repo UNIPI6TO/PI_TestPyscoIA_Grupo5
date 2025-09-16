@@ -32,9 +32,10 @@ export class EvaluacionComponent implements OnInit {
   admin: boolean = true;
 
   ngOnInit(): void {
-    this.titleService.setTitle('Evaluación de [Aqui el Test] - PsycoAI');
+    this.titleService.setTitle('Evaluaciones - PsycoAI');
     this.cargarPacientes();
   }
+  
   cargarPacientes() { 
     this.pacientesService.getPacientes().subscribe({
       next: (data) => {

@@ -8,6 +8,7 @@ import { IEvaluacion } from '../../../Interfaces/Evaluaciones/ievaluacion';
 import { IPreguntas } from '../../../Interfaces/Evaluaciones/ipreguntas';
 import { IOpciones } from '../../../Interfaces/Evaluaciones/iopciones';
 import { PreguntasService } from '../../../Service/Test/preguntas';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-iniciar-evaluacion',
@@ -37,7 +38,7 @@ export class IniciarEvaluacionComponent implements OnInit {
   constructor(
     private parametros: ActivatedRoute,
     private evaluacionesService: EvaluacionesService,
-    private preguntasService: PreguntasService,
+    private titleService: Title,
     private router: Router
   ) {  }
   obtenerParametros() {
@@ -65,15 +66,19 @@ export class IniciarEvaluacionComponent implements OnInit {
       Swal.showLoading();
       }
     });
-
+    
     this.parametros.paramMap.subscribe(() => {
       this.obtenerParametros();
+      
       if (this.evaluacion === null) {
         this.cargarEvaluacionConPregunta();
+        
       } else {
         this.cargarPregunta();
+        
         Swal.close();
       }
+      
     });
   
 
@@ -102,7 +107,7 @@ export class IniciarEvaluacionComponent implements OnInit {
       this.evaluacionesService.cargarEvaluacionId(this.EvaluacionId).subscribe({
         next: (evaluacion) => {
           this.evaluacion = evaluacion;
-
+          this.titleService.setTitle(`${this.evaluacion?.configuracionTest?.tipoTest?.nombre} - PsycoAI`);
         },
         error: (error) => {
           Swal.fire('Error', 'Error al cargar la evaluación', 'error');
@@ -113,7 +118,25 @@ export class IniciarEvaluacionComponent implements OnInit {
 
   }
 
-  
+  isOpcionSeleccionada(): boolean {
+    return Array.isArray(this.preguntaActual?.opciones) && this.preguntaActual.opciones.some(o => o?.seleccionado);
+  }
+  finalizarEvaluacion() {
+    Swal.fire({
+      title: '¿Estás seguro de finalizar la evaluación?',
+      text: "No podrás cambiar tus respuestas después de finalizar.", 
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, finalizar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        ///por implementar 
+      }
+    });
+  }
   reanudarEvaluacion(preguntasContestadas: number) {
     if (this.evaluacion) {
       this.evaluacion.iniciado = true;
@@ -142,7 +165,26 @@ export class IniciarEvaluacionComponent implements OnInit {
       this.cargarPregunta();
     }
   }
+intervaloTiempo: any = null;
+
+iniciarContadorTiempo() {
+  const tiempoTrasncurrido = this.evaluacion?.tiempoTranscurrido || 0;
+  console.log("Tiempo transcurrido al iniciar el contador:", tiempoTrasncurrido);
+  let tiempoTranscurrido = tiempoTrasncurrido;
   
+  if (this.preguntaActual) {
+    if (this.intervaloTiempo) {
+      clearInterval(this.intervaloTiempo);
+    }
+    // Solo inicializa tiempoTranscurrido si es la primera vez
+    this.intervaloTiempo = setInterval(() => {
+      tiempoTranscurrido++;
+      if (this.evaluacion) {
+        this.evaluacion.tiempoTranscurrido = tiempoTranscurrido;
+      }
+    }, 1000);
+  }
+}
 
   siguientePregunta() {
     if (this.evaluacion && this.NumPregunta < this.evaluacion.cantidadPreguntas!) {
@@ -163,10 +205,13 @@ export class IniciarEvaluacionComponent implements OnInit {
     this.obtenerParametros()
     if (this.NumPregunta > 0) {
       if (this.evaluacion) {
+        
         this.evaluacion.secciones.forEach(secciones => {
           secciones.preguntas.find(pregunta => { 
             if (pregunta.orden === this.NumPregunta) {
+              
               this.preguntaActual = pregunta;
+              this.iniciarContadorTiempo();
             }
             
           });

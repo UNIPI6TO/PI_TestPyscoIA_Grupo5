@@ -7,21 +7,20 @@
     </button>
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
       <ul class="navbar-nav nav-items"  style="margin-block: auto;">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i class="fa-solid fa-list-check"></i> Evaluaciones</a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" [routerLink]="['/test/tomar-evaluacion']">Autoestima</a></li>
-            <li><a class="dropdown-item" [routerLink]="['/test/tomar-evaluacion']">Personalidad</a></li>
-          </ul>
+        <li class="nav-item">
+          <a class="dropdown-item" [routerLink]="['/test/tomar-evaluacion']" routerLinkActive="active"><i class="fa-solid fa-address-book"></i> Pacientes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/test/tomar-evaluacion']" routerLinkActive="active"><i class="fa-solid fa-list-check"></i> Evaluaciones</a>
         </li>
        
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/pacientes']"><i class="fa-solid fa-address-book"></i> Pacientes</a>
+          <a class="nav-link" [routerLink]="['/pacientes']" routerLinkActive="active"><i class="fa-solid fa-address-book"></i> Pacientes</a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i class="fa-solid fa-gear"></i> Configuraciones</a>
+          <a class="nav-link dropdown-toggle"  href="#" role="button" data-bs-toggle="dropdown"><i class="fa-solid fa-gear"></i> Configuraciones</a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" [routerLink]="['/configuraciones/tipo-test']"><i class="fa-solid fa-wrench"></i> Tipo de Evaluaciones</a></li>
+            <li><a class="dropdown-item"  [routerLink]="['/configuraciones/tipo-test']"><i class="fa-solid fa-wrench"></i> Tipo de Evaluaciones</a></li>
             <li><a class="dropdown-item" [routerLink]="['/configuraciones/evaluaciones']"><i class="fa-solid fa-screwdriver-wrench"></i> Evaluaciones</a></li>
             <li><a class="dropdown-item" [routerLink]="['/configuraciones/evaluadores']"><i class="fa-solid fa-user-doctor"></i> Evaluadores</a></li>
 
