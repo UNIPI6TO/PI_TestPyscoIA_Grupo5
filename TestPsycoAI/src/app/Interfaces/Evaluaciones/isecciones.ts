@@ -9,5 +9,6 @@ export interface ISecciones {
     seccion: string,
     idEvaluaciones: number,
     idConfiguracionSecciones: number,
+    formulaAgregado: string,
     preguntas: IPreguntas[]
 }

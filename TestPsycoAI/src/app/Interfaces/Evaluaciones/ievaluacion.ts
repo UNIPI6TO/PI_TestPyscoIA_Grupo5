@@ -20,7 +20,8 @@ export interface IEvaluacion {
     fechaInicioTest?: Date,
     fechaFinTest?: Date,
     evaluacion: String,
-    tipoTest?: ITipoTest
+    tipoTest?: ITipoTest,
+    formulaAgregador?: string,
     secciones: ISecciones[]
     configuracionTest?: IConfigEvaluaciones
 }

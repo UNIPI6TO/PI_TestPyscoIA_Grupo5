@@ -4,3 +4,10 @@
   justify-content: center;
   list-style: none;
 }
+
+.nav-link.active {
+  font-weight: bold;
+  color: #11a725 !important;
+  background-color: #0d6efd;
+  border-radius: 0.25rem;
+}
