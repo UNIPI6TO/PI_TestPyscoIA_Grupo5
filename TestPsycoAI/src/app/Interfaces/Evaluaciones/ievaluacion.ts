@@ -1,3 +1,4 @@
+import { IConfigEvaluaciones } from "../Configuraciones/iconfig-evaluaciones"
 import { ITipoTest } from "../Configuraciones/itipo-test"
 import { ISecciones } from "./isecciones"
 
@@ -11,8 +12,8 @@ export interface IEvaluacion {
     idEvaluador: number,
     idPaciente: number,
     duracion: number,
-    contestadas?: number,
-    noContestadas?: number,
+    contestadas: number,
+    noContestadas: number,
     completado?: boolean,
     iniciado?: boolean,
     tiempoTranscurrido?: number,
@@ -21,6 +22,7 @@ export interface IEvaluacion {
     evaluacion: String,
     tipoTest?: ITipoTest
     secciones: ISecciones[]
+    configuracionTest?: IConfigEvaluaciones
 }
 
 export interface IValidacionGenerarEvaluacion {

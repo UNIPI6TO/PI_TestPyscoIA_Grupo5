@@ -58,7 +58,7 @@ namespace APITestPyscoIA.Models.Entidades
         public DateTime? FechaFinTest { get; set; }
 
 
-        [JsonIgnore]
+       
         public ConfiguracionTestModel? ConfiguracionTest { get; set; }
 
         [JsonIgnore]

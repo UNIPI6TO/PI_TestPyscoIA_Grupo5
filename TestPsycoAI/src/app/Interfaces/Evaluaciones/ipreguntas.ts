@@ -1,3 +1,5 @@
+import { IOpciones } from "./iopciones";
+
 export interface IPreguntas {
     id?: number,
     creado: Date,
@@ -7,5 +9,8 @@ export interface IPreguntas {
     respuesta?: string,
     valor?: number,
     idConfiguracionPreguntas: number,
-    idSecciones: number
+    idSecciones: number,
+    orden: number,
+    opciones?: IOpciones[],
+    
 }

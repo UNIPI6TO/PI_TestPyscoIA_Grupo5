@@ -8,7 +8,7 @@ import { IEvaluacion } from '../../Interfaces/Evaluaciones/ievaluacion';
   providedIn: 'root'
 })
 export class EvaluacionesService {
-   private API_URL = environment.apiUrl;
+  private API_URL = environment.apiUrl;
   private CONTEXT = 'api/Evaluacion';
 
   constructor(private http: HttpClient) { }
@@ -16,6 +16,7 @@ export class EvaluacionesService {
     const msg = error.error?.message || error.statusText || 'Error de red';
     return throwError(() => {
       new Error(msg);
+      console.error(msg);
     });
   }
     manejoErroresHttp(error: any) {
@@ -27,6 +28,11 @@ export class EvaluacionesService {
       catchError(this.manejoErrores)
     );
 
+  }
+  obtenerEvaluacionesPorPacientesActivas(idPaciente: number): Observable<IEvaluacion[]> {
+    return this.http.get<IEvaluacion[]>(`${this.API_URL}${this.CONTEXT}/paciente-activo/${idPaciente}`).pipe(
+      catchError(this.manejoErrores)
+    );
   }
   generarEvaluacion(idPaciente: number, idConfiguracionTest: number, idEvaluador: number): Observable<IEvaluacion> {
     const payload = {
@@ -42,6 +48,17 @@ export class EvaluacionesService {
     return this.http
       .delete<void>(`${this.API_URL}${this.CONTEXT}/${id}`)
       .pipe(catchError(this.manejoErrores));
+  }
+  cargarEvaluacionId(id: number): Observable<IEvaluacion> {
+    return this.http.get<IEvaluacion>(`${this.API_URL}${this.CONTEXT}/${id}`).pipe(
+      catchError(this.manejoErrores)
+    );
+
+  }
+  actualizarEvaluacion(evaluacion: IEvaluacion): Observable<IEvaluacion> {
+    return this.http.put<IEvaluacion>(`${this.API_URL}${this.CONTEXT}/${evaluacion.id}`, evaluacion).pipe(
+      catchError(this.manejoErroresHttp)
+    );
   }
 }
 

@@ -15,6 +15,7 @@ import { EditarEvaluadorComponent } from './Components/Configuraciones/config-ev
 import { GenerarEvaluacionComponent } from './Components/Pacientes/generar-evaluacion/generar-evaluacion';
 import { SiteMapComponent } from './layout/site-map/site-map';
 import { EvaluacionComponent } from './Components/Evaluacion/evaluacion';
+import { IniciarEvaluacionComponent } from './Components/Evaluacion/iniciar-evaluacion/iniciar-evaluacion';
 
 export const routes: Routes = [
     
@@ -46,6 +47,14 @@ export const routes: Routes = [
                 {
                     path: 'tomar-evaluacion',
                     component: EvaluacionComponent
+                },
+                {
+                    path: 'iniciar-evaluacion/:id',
+                    component: IniciarEvaluacionComponent
+                },
+                {
+                    path: 'iniciar-evaluacion/:id/pregunta/:numPregunta',
+                    component: IniciarEvaluacionComponent
                 }
             ]
         },
