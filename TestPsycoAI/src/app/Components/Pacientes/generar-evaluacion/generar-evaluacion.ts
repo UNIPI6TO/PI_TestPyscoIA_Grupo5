@@ -188,7 +188,7 @@ export class GenerarEvaluacionComponent implements  OnInit {
       this.evaluacionService.obtenerEvaluacionesPorPaciente(this.pacienteId).subscribe({
         next: (evaluaciones) => {
           this.evaluacionesGeneradas = evaluaciones;
-          console.log('Evaluaciones generadas cargadas:', this.evaluacionesGeneradas);
+
         },
         error: (err) => {
           Swal.fire('Error', 'No se pueden cargar las evaluaciones generadas', 'error');
@@ -206,7 +206,7 @@ export class GenerarEvaluacionComponent implements  OnInit {
     this.pacienteService.obtenerUnPaciente(this.pacienteId).subscribe({
       next: (paciente) => {
         this.paciente = paciente;
-        console.log('Paciente cargado:', this.paciente);
+        
       },
       error: (err) => {
         console.error('Error al cargar el paciente:', err);
