@@ -3,8 +3,8 @@
     <div class="card-header bg-primary text-white text-center">
       <h3 class="mb-0"><i class="fa-solid fa-sitemap"></i> Mapa del Sitio</h3>
     </div>
-    <div class="card-body">
-<ul class="list-group">
+<div class="card-body">
+      <ul class="list-group">
         <li class="list-group-item">
           <strong><i class="fa-solid fa-user-group"></i> Pacientes</strong>
           <ul>
@@ -17,7 +17,8 @@
         <li class="list-group-item">
           <strong><i class="fa-solid fa-vial"></i> Test</strong>
           <ul>
-            <li><i class="fa-solid fa-play"></i> <a routerLink="/test/tomar-evaluacion">Tomar Evaluación</a></li>
+            <li><i class="fa-solid fa-play"></i> <a routerLink="/test/tomar-evaluacion"> Tomar Evaluación</a></li>
+            <li><i class="fa-solid fa-file-alt"></i> <a routerLink="/test/iniciar-evaluacion/1/pregunta/1"> Iniciar Evaluación</a> <span class="text-muted">(reemplaza 1 por el ID)</span></li>
           </ul>
         </li>
         <li class="list-group-item">
@@ -26,27 +27,33 @@
             <li>
               <strong><i class="fa-solid fa-clipboard-list"></i> Tipo Test</strong>
               <ul>
-                <li><i class="fa-solid fa-list"></i> <a routerLink="/configuraciones/tipo-test">Listado de Tipos de Test</a></li>
-                <li><i class="fa-solid fa-plus"></i> <a routerLink="/configuraciones/tipo-test/nuevo">Nuevo Tipo de Test</a></li>
-                <li><i class="fa-solid fa-pen"></i> <a routerLink="/configuraciones/tipo-test/editar/1">Editar Tipo de Test</a> <span class="text-muted">(reemplaza 1 por el ID)</span></li>
+                <li><i class="fa-solid fa-list"></i> <a routerLink="/configuraciones/tipo-test"> Listado de Tipos de Test</a></li>
+                <li><i class="fa-solid fa-plus"></i> <a routerLink="/configuraciones/tipo-test/nuevo"> Nuevo Tipo de Test</a></li>
+                <li><i class="fa-solid fa-pen"></i> <a routerLink="/configuraciones/tipo-test/editar/1"> Editar Tipo de Test</a> <span class="text-muted">(reemplaza 1 por el ID)</span></li>
               </ul>
             </li>
             <li>
               <strong><i class="fa-solid fa-file-contract"></i> Evaluaciones</strong>
               <ul>
-                <li><i class="fa-solid fa-list"></i> <a routerLink="/configuraciones/evaluaciones">Listado de Evaluaciones</a></li>
-                <li><i class="fa-solid fa-eye"></i> <a routerLink="/configuraciones/evaluaciones/detalle/1">Detalle de Evaluación</a> <span class="text-muted">(reemplaza 1 por el ID)</span></li>
-                <li><i class="fa-solid fa-pen"></i> <a routerLink="/configuraciones/evaluaciones/editar/1">Editar Evaluación</a> <span class="text-muted">(reemplaza 1 por el ID)</span></li>
+                <li><i class="fa-solid fa-list"></i> <a routerLink="/configuraciones/evaluaciones"> Listado de Evaluaciones</a></li>
+                <li><i class="fa-solid fa-eye"></i> <a routerLink="/configuraciones/evaluaciones/detalle/1"> Detalle de Evaluación</a> <span class="text-muted">(reemplaza 1 por el ID)</span></li>
+                <li><i class="fa-solid fa-pen"></i> <a routerLink="/configuraciones/evaluaciones/editar/1"> Editar Evaluación</a> <span class="text-muted">(reemplaza 1 por el ID)</span></li>
               </ul>
             </li>
             <li>
               <strong><i class="fa-solid fa-user-tie"></i> Evaluadores</strong>
               <ul>
-                <li><i class="fa-solid fa-list"></i> <a routerLink="/configuraciones/evaluadores">Listado de Evaluadores</a></li>
-                <li><i class="fa-solid fa-user-plus"></i> <a routerLink="/configuraciones/evaluadores/nuevo">Nuevo Evaluador</a></li>
-                <li><i class="fa-solid fa-user-pen"></i> <a routerLink="/configuraciones/evaluadores/editar/1">Editar Evaluador</a> <span class="text-muted">(reemplaza 1 por el ID)</span></li>
+                <li><i class="fa-solid fa-list"></i> <a routerLink="/configuraciones/evaluadores"> Listado de Evaluadores</a></li>
+                <li><i class="fa-solid fa-user-plus"></i> <a routerLink="/configuraciones/evaluadores/nuevo"> Nuevo Evaluador</a></li>
+                <li><i class="fa-solid fa-user-pen"></i> <a routerLink="/configuraciones/evaluadores/editar/1"> Editar Evaluador</a> <span class="text-muted">(reemplaza 1 por el ID)</span></li>
               </ul>
             </li>
+          </ul>
+        </li>
+        <li class="list-group-item">
+          <strong><i class="fa-solid fa-map"></i> Otros</strong>
+          <ul>
+            <li><i class="fa-solid fa-sitemap"></i> <a routerLink="/mapa-sitio"> Mapa del Sitio</a></li>
           </ul>
         </li>
       </ul>

@@ -35,7 +35,9 @@ namespace APITestPyscoIA.Controllers.Configuracion
         [HttpGet("{id}")]
         public async Task<ActionResult<PacienteModel>> GetPacienteModel(int id)
         {
-            var pacienteModel = await _context.Pacientes.FindAsync(id);
+            var pacienteModel = await _context.Pacientes
+                .Include(p=>p.Ciudad)
+                .FirstOrDefaultAsync(p=>p.Id==id);
 
             if (pacienteModel == null)
             {

@@ -1,0 +1,107 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-11">
+      <div class="card shadow-lg">
+        <div class="card-header bg-success text-white text-center d-flex justify-content-between align-items-center">
+            <a class="text-white" style="cursor:pointer;" (click)="goBack()">
+            <h3><i class="fa fa-arrow-left"></i></h3> 
+            </a>
+          <h3 class="mb-0 flex-grow-1 text-center">
+            <i class="fa-solid fa-file-lines"></i> {{ evaluacionDetalle.configuracionTest?.tipoTest?.nombre }}
+          </h3>
+        </div>
+        <!-- Botón Exportar a PDF -->
+        <div class="text-end p-3 me-5">
+          <button class="btn btn-danger" (click)="exportarAPDF()" >
+            <i class="fa-solid fa-file-pdf"></i> Exportar a PDF
+          </button>
+        </div>
+        <div class="card-body mt-2 mb-2 ms-3 me-2">
+          <div class="row">
+            <div class="col-md-6">
+              <p><strong>Cédula: </strong> {{ paciente.cedula }}</p>
+              <p><strong>Nombre: </strong> {{ paciente.nombre }}</p>
+              <p><strong>Edad: </strong> {{ calcularEdad(paciente.fechaNacimiento.toString()) }} años</p>
+              <p><strong>Ciudad: </strong> {{ paciente.ciudad?.nombre }}</p>
+              <p><strong>Email: </strong> {{ paciente.email }}</p>
+              <p><strong>Dirección: </strong> {{ paciente.direccion }}</p>
+            </div>
+            <div class="col-md-6">
+              <p><strong>Evaluador: </strong> {{ evaluador.nombre }}</p>
+              <p><strong>Fecha de Inicio: </strong> {{ evaluacionDetalle.fechaInicioTest }}</p>
+              <p><strong>Fecha de Finalización: </strong> {{ evaluacionDetalle.fechaFinTest ? evaluacionDetalle.fechaFinTest : 'No disponible' }}</p>
+              <p><strong>Estado: </strong> 
+                <span *ngIf="evaluacionDetalle.completado" class="badge bg-success">Completada</span>
+                <span *ngIf="evaluacionDetalle.iniciado" class="badge bg-warning text-dark">Inconclusa</span>
+                <span *ngIf="!evaluacionDetalle.completado && !evaluacionDetalle.iniciado" class="badge bg-secondary">No iniciada</span>
+              </p>
+              <p><strong>Preguntas Contestadas:</strong> {{ evaluacionDetalle.contestadas || 0 }} de {{ evaluacionDetalle.cantidadPreguntas || 0 }}</p>
+              @if (evaluacionDetalle.completado) {
+                <p ><strong>Score:</strong> 
+                  @for (seccion of evaluacionDetalle.secciones; track $index) {
+                    <span class="badge bg-warnning text-dark me-2">
+                      {{ seccion.seccion }}: {{ seccion.score || 0 }}
+                    </span>
+                  }
+                </p>
+              }
+              <p> <strong>Tiempo Transcurrido: </strong>
+               <span class="badge bg-warning text-dark" >
+                            {{ (evaluacionDetalle.tiempoTranscurrido! / 60) | number:'1.0-0' }}:{{ (evaluacionDetalle.tiempoTranscurrido! % 60) | number:'1.0-0' }} min
+               </span>
+               </p>
+            </div>
+          </div>
+          @for (seccion of evaluacionDetalle.secciones; track $index) {
+            <div class="row mt-4">
+              <h4 class="mb-3"><i class="fa-solid fa-folder-open"></i> {{ seccion.seccion }}</h4>
+                <div class="col-12 mb-3">
+                <table class="table bordered table-striped responsive">
+                  <thead class="table-dark">
+                    <tr>
+                      <th>
+                        Pregunta
+                      </th>
+                      <th>
+                        Respuestas
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (pregunta of seccion.preguntas; track $index) {
+                      <tr>
+                        <td style="width: 50%;">
+                          <div [innerHTML]="pregunta.pregunta"></div>
+                        </td>
+                        <td>
+                          <table class="table table-bordered table-striped">
+                            <tbody>
+                              @for (opcion of pregunta.opciones; track $index) {
+                                <tr>
+                                  <td class="border">
+                                    <div class="form-check">
+                                      <label class="label">{{ opcion.opcion }}</label>
+                                    </div>
+                                  </td>
+                                  <td class="border">
+                                    <span *ngIf="opcion.seleccionado" class="badge bg-success">X</span>
+                                    
+                                  </td>
+                                </tr>
+                              }
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          }
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

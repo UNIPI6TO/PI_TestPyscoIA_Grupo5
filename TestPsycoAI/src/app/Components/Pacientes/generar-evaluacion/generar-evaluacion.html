@@ -81,7 +81,12 @@
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <h5 class="card-title fw-semibold mb-0">Evaluación</h5>
                                         <div>
-                                            <button type="button" class="btn btn-outline-primary btn-sm" title="Vista Previa">
+                                            <button 
+                                                type="button" 
+                                                class="btn btn-outline-dark btn-sm" 
+                                                title="Vista Previa"
+                                                [routerLink]="['/test/detalle-evaluacion', paciente.id, 'evaluacion', evaluacion.id]"
+                                            >
                                                 <i class="fa fa-eye"></i>
                                             </button>
                                             @if(!evaluacion.completado) {
@@ -116,8 +121,8 @@
                                         <span *ngIf="evaluacion.tiempoTranscurrido! >0" class="badge bg-secondary">
                                             <!-- Tiempo transcurrido -->
                                             {{ (evaluacion.tiempoTranscurrido! / 60) | number:'1.0-0' }}:{{ (evaluacion.tiempoTranscurrido! % 60) | number:'2.0-0' }} min
-                                        </span> de
-                                        <span *ngIf="evaluacion.tiempoTranscurrido! >0" class="badge bg-secondary">
+                                        
+                                            /
                                             <!-- Tiempo transcurrido -->
                                             {{ (evaluacion.duracion/60) | number:'1.0-0' }}:{{ (evaluacion.duracion % 60) | number:'2.0-0' }} min
                                         </span>
