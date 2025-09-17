@@ -32,7 +32,7 @@ SELECT  2 Orden,
 FROM [PI-5toGrupoApi].[dbo].[ConfiguracionesPreguntas]
 where IdConfiguracionSecciones=@idSeccionAutoestima
 union all
-SELECT  4 Orden,
+SELECT  3 Orden,
 	'De acuerdo' Opcion,
 	case 
 	   when [Inversa]=0 then  3 else 2 end as Peso,
@@ -43,7 +43,7 @@ SELECT  4 Orden,
 FROM [PI-5toGrupoApi].[dbo].[ConfiguracionesPreguntas]
 where IdConfiguracionSecciones=@idSeccionAutoestima
 union all
-SELECT  5 Orden,
+SELECT  4 Orden,
 	'Totalmente de acuerdo' Opcion,
 	case 
 	   when [Inversa]=0 then  4 else 1 end as Peso,
