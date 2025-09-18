@@ -1,20 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { IConfigEvaluacionesResumen } from '../../../../Interfaces/Configuraciones/iconfig-evaluaciones-resumen';
 import { ConfigEvaluacionesService } from '../../../../Service/Configuraciones/config-evaluaciones';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { IUsuario } from '../../../../Interfaces/Login/iusuario';
+import { AccesoDenegadoComponent } from '../../../../layout/acceso-denegado/acceso-denegado';
 
 @Component({
   selector: 'app-config-evaluaciones-detalle',
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, AccesoDenegadoComponent],
   templateUrl: './config-evaluaciones-detalle.html',
   styleUrls: ['./config-evaluaciones-detalle.css']
 })
 export class ConfigEvaluacionesDetalleComponent implements OnInit {
   evaluacion: IConfigEvaluacionesResumen;
-  constructor(private configuracionesService: ConfigEvaluacionesService, private route: ActivatedRoute) {
+  constructor(private configuracionesService: ConfigEvaluacionesService, private route: ActivatedRoute,private router: Router) {
     this.evaluacion = {
       id: 0,
       nombre: '',
@@ -65,4 +67,27 @@ ngOnInit(): void {
       });
     }
   }
+  rolesValidos: string[] = ['ADMIN'];
+  accesoDenegado: boolean = false;
+  sesion: IUsuario | null = null;
+  iniciadaSesion: boolean = false;
+  verificarSesion(){
+    const match = document.cookie.match(new RegExp('(^| )username=([^;]+)'));
+    if (match) {
+      const username = JSON.parse(decodeURIComponent(match[2]));
+      this.sesion = username;
+      this.iniciadaSesion = true;
+      if (this.sesion && !this.rolesValidos.includes(this.sesion.rol)) {
+        this.accesoDenegado = true;
+      }
+    } else {
+      this.sesion = null;
+      this.iniciadaSesion = false;
+      this.router.navigate(['/iniciar-sesion']).then(() => {
+        window.location.reload();
+      });
+    }
+  }
+
+
 }

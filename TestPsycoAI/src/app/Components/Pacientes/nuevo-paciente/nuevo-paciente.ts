@@ -9,13 +9,16 @@ import { Router } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Title } from '@angular/platform-browser';
+import { IUsuario } from '../../../Interfaces/Login/iusuario';
+import { AccesoDenegadoComponent } from '../../../layout/acceso-denegado/acceso-denegado';
 @Component({
   selector: 'app-nuevo-paciente',
   standalone: true,
   imports: [
     CommonModule, 
     FormsModule, 
-    RouterLink
+    RouterLink,
+    AccesoDenegadoComponent
   ],
   templateUrl: './nuevo-paciente.html',
   styleUrls: ['./nuevo-paciente.css']
@@ -47,10 +50,34 @@ export class NuevoPacienteComponent implements OnInit {
     private titleService: Title) { }
 
   ngOnInit(): void {
-    this.pacienteForm?.resetForm();
-    this.cargarCiudades();
     this.titleService.setTitle('Nuevo Paciente - PsycoAI');
+    this.pacienteForm?.resetForm();
+    this.verificarSesion();
+    this.cargarCiudades();
   }
+
+  rolesValidos: string[] = ['ADMIN', 'EVALUADOR'];
+  accesoDenegado: boolean = false;
+  sesion: IUsuario | null = null;
+  iniciadaSesion: boolean = false;
+  verificarSesion(){
+    const match = document.cookie.match(new RegExp('(^| )username=([^;]+)'));
+    if (match) {
+      const username = JSON.parse(decodeURIComponent(match[2]));
+      this.sesion = username;
+      this.iniciadaSesion = true;
+      if (this.sesion && !this.rolesValidos.includes(this.sesion.rol)) {
+        this.accesoDenegado = true;
+      }
+    } else {
+      this.sesion = null;
+      this.iniciadaSesion = false;
+      this.router.navigate(['/iniciar-sesion']).then(() => {
+        window.location.reload();
+      });
+    }
+  }
+
 
   private cargarCiudades(): void {
     this.ciudadService.getCiudades().subscribe({

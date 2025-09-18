@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, Route } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { EvaluacionesService } from '../../../Service/Test/evaluaciones';
 import { IEvaluacion } from '../../../Interfaces/Evaluaciones/ievaluacion';
@@ -11,14 +11,18 @@ import { EvaluadoresService } from '../../../Service/Configuraciones/evaluadores
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PdfService } from '../../../Service/Test/pdf';
+import { IUsuario } from '../../../Interfaces/Login/iusuario';
+import { AccesoDenegadoComponent } from '../../../layout/acceso-denegado/acceso-denegado';
+
 
 
 @Component({
   selector: 'app-deatlle-evaluacion',
   imports: [
     CommonModule,
-    FormsModule
-
+    FormsModule,
+    AccesoDenegadoComponent
+    
   ],
   templateUrl: './deatlle-evaluacion.html',
   styleUrls: ['./deatlle-evaluacion.css']
@@ -31,7 +35,8 @@ export class DeatlleEvaluacionComponent implements OnInit {
     private evaluacionesService: EvaluacionesService,
     private pacientesService: PacienteService,
     private evaluadoresService: EvaluadoresService,
-    private pdfService: PdfService
+    private pdfService: PdfService,
+    private router: Router
   ) {  }
 
   idPaciente : number = 0;  
@@ -40,8 +45,44 @@ export class DeatlleEvaluacionComponent implements OnInit {
   evaluador: IEvaluadores = null!;
   paciente: IPaciente = null!;
   ngOnInit(): void {
+    Swal.fire({
+      title: 'Cargando...',
+      text: 'Por favor espere',
+      allowOutsideClick: false,
+      didOpen: () => {
+      Swal.showLoading();
+      }
+    });
+
     this.obtenerParametros();
+    this.verificarSesion();
     this.cargarEvaluacion(this.idEvaluacion, this.idPaciente);
+
+    this.titleService.setTitle('Detalle Evaluación - PsycoAI');
+    setTimeout(() => {
+      Swal.close();
+    }, 1500);
+  }
+  rolesValidos: string[] = ['PACIENTE', 'ADMIN', 'EVALUADOR'];
+  accesoDenegado: boolean = false;
+  sesion: IUsuario | null = null;
+  iniciadaSesion: boolean = false;
+  verificarSesion(){
+    const match = document.cookie.match(new RegExp('(^| )username=([^;]+)'));
+    if (match) {
+      const username = JSON.parse(decodeURIComponent(match[2]));
+      this.sesion = username;
+      this.iniciadaSesion = true;
+      if (this.sesion && !this.rolesValidos.includes(this.sesion.rol)) {
+        this.accesoDenegado = true;
+      }
+    } else {
+      this.sesion = null;
+      this.iniciadaSesion = false;
+      this.router.navigate(['/iniciar-sesion']).then(() => {
+        window.location.reload();
+      });
+    }
   }
 
   cargarEvaluacion(idEvaluacion: number, idPaciente: number) {

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IPaciente } from '../../../Interfaces/ipaciente';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PacienteService } from '../../../Service/paciente';
 import { Title } from '@angular/platform-browser';
 import { IConfigEvaluaciones } from '../../../Interfaces/Configuraciones/iconfig-evaluaciones';
@@ -10,13 +10,16 @@ import { ConfigEvaluacionesService } from '../../../Service/Configuraciones/conf
 import { IEvaluacion } from '../../../Interfaces/Evaluaciones/ievaluacion';
 import { EvaluacionesService } from '../../../Service/Test/evaluaciones';
 import Swal from 'sweetalert2';
+import { AccesoDenegadoComponent } from '../../../layout/acceso-denegado/acceso-denegado';
+import { IUsuario } from '../../../Interfaces/Login/iusuario';
 
 @Component({
   selector: 'app-generar-evaluacion',
   imports: [
     CommonModule,
     FormsModule,
-    RouterLink
+    RouterLink,
+    AccesoDenegadoComponent
   ],
   templateUrl: './generar-evaluacion.html',
   styleUrls: ['./generar-evaluacion.css']
@@ -48,7 +51,8 @@ export class GenerarEvaluacionComponent implements  OnInit {
     private evaluacionService: EvaluacionesService,
     private configEvaluacionService: ConfigEvaluacionesService,
     private titleService: Title,
-    private parametros: ActivatedRoute
+    private parametros: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -63,10 +67,15 @@ export class GenerarEvaluacionComponent implements  OnInit {
       Swal.showLoading();
       }
     });
-
-    this.cargarUnPaciente();
-    this.titleService.setTitle('Generar Evaluación - PsycoAI');
-    this.cargarEvaluacionesGeneradas();
+    this.verificarSesion();
+    if(this.sesion)
+    {
+      this.idEvaluador = this.sesion.idEvaluador!;
+    
+      this.cargarUnPaciente();
+      this.titleService.setTitle('Generar Evaluación - PsycoAI');
+      this.cargarEvaluacionesGeneradas();
+    }
     this.configEvaluacionService.obtenerEvaluaciones().subscribe({
       next: (evaluaciones) => {
       this.evaluacionesConfig = evaluaciones;
@@ -80,6 +89,29 @@ export class GenerarEvaluacionComponent implements  OnInit {
       }
     });
     
+  }
+
+  
+  rolesValidos: string[] = [ 'EVALUADOR'];
+  accesoDenegado: boolean = false;
+  sesion: IUsuario | null = null;
+  iniciadaSesion: boolean = false;
+  verificarSesion(){
+    const match = document.cookie.match(new RegExp('(^| )username=([^;]+)'));
+    if (match) {
+      const username = JSON.parse(decodeURIComponent(match[2]));
+      this.sesion = username;
+      this.iniciadaSesion = true;
+      if (this.sesion && !this.rolesValidos.includes(this.sesion.rol)) {
+        this.accesoDenegado = true;
+      }
+    } else {
+      this.sesion = null;
+      this.iniciadaSesion = false;
+      this.router.navigate(['/iniciar-sesion']).then(() => {
+        window.location.reload();
+      });
+    }
   }
 
   generarEvaluacion()

@@ -3,22 +3,69 @@ import { Component, OnInit } from '@angular/core';
 import { ITipoTest } from '../../../Interfaces/Configuraciones/itipo-test';
 import { TipoTestService } from '../../../Service/Configuraciones/tipo-test';
 import Swal from 'sweetalert2';
-import { RouterLink, RouterModule } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
+import { IUsuario } from '../../../Interfaces/Login/iusuario';
+import { AccesoDenegadoComponent } from '../../../layout/acceso-denegado/acceso-denegado';
+import { Title } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-tipo-test',
-  imports: [DatePipe, CommonModule, RouterLink, RouterModule],
+  imports: [
+    DatePipe, 
+    CommonModule, 
+    RouterLink, 
+    RouterModule,
+    AccesoDenegadoComponent
+  ],
   templateUrl: './tipo-test.html',
   styleUrls: ['./tipo-test.css']
 })
 export class TipoTestComponent implements OnInit {
 
   evaluaciones: ITipoTest[] = [];
-  constructor(private tipoTestService: TipoTestService) { }
+  constructor(
+    private tipoTestService: TipoTestService,
+    private router: Router,
+    private titleService: Title
+  ) { }
   ngOnInit(): void {
+    Swal.fire({
+      title: 'Cargando...',
+      allowOutsideClick: false,
+      didOpen: () => {
+      Swal.showLoading();
+      }
+    });
+    this.titleService.setTitle('Gestión de Tipos de Evaluaciones - PsycoAI');
+    this.verificarSesion();
     this.cargarEvaluaciones();
+
+    Swal.close();
   }
 
+  rolesValidos: string[] = ['ADMIN'];
+  accesoDenegado: boolean = false;
+  sesion: IUsuario | null = null;
+  iniciadaSesion: boolean = false;
+  verificarSesion(){
+    const match = document.cookie.match(new RegExp('(^| )username=([^;]+)'));
+    if (match) {
+      const username = JSON.parse(decodeURIComponent(match[2]));
+      this.sesion = username;
+      this.iniciadaSesion = true;
+      if (this.sesion && !this.rolesValidos.includes(this.sesion.rol)) {
+        this.accesoDenegado = true;
+      }
+    } else {
+      this.sesion = null;
+      this.iniciadaSesion = false;
+      this.router.navigate(['/iniciar-sesion']).then(() => {
+        window.location.reload();
+      });
+    }
+  }
+  
   cargarEvaluaciones() {
     this.tipoTestService.getTipoTest().subscribe({
       next: (data) => {

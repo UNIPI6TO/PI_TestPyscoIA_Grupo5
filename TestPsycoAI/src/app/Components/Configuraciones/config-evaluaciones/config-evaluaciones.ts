@@ -1,6 +1,6 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { RouterLink, RouterModule } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { ConfigEvaluacionesService } from '../../../Service/Configuraciones/config-evaluaciones';
 import { FormsModule } from '@angular/forms';
 import { IConfigEvaluacionesResumen } from '../../../Interfaces/Configuraciones/iconfig-evaluaciones-resumen';
@@ -8,10 +8,12 @@ import Swal from 'sweetalert2';
 import { IConfigEvaluaciones } from '../../../Interfaces/Configuraciones/iconfig-evaluaciones';
 import { TipoTestService } from '../../../Service/Configuraciones/tipo-test';
 import { ITipoTest } from '../../../Interfaces/Configuraciones/itipo-test';
+import { IUsuario } from '../../../Interfaces/Login/iusuario';
+import { AccesoDenegadoComponent } from '../../../layout/acceso-denegado/acceso-denegado';
 
 @Component({
   selector: 'app-config-evaluaciones',
-  imports: [ CommonModule,FormsModule, RouterLink, RouterModule],
+  imports: [ CommonModule,FormsModule, RouterLink, RouterModule, AccesoDenegadoComponent],
   templateUrl:  './config-evaluaciones.html',
   styleUrls: ['./config-evaluaciones.css']
 })
@@ -22,11 +24,49 @@ export class ConfigEvaluacionesComponent implements OnInit {
   constructor(
     private configEvaluacionesService: ConfigEvaluacionesService,
     private configTiposTestService: TipoTestService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
+    // Mostrar spinner con SweetAlert2 al iniciar
+    // @ts-ignore
+    Swal.fire({
+      title: 'Cargando...',
+      allowOutsideClick: false,
+      didOpen: () => {
+      // @ts-ignore
+      Swal.showLoading();
+      }
+    });
+
+    this.verificarSesion();
     this.cargarEvaluaciones();
+
+    
+    setTimeout(() => { Swal.close(); }, 1000);
   }
+  rolesValidos: string[] = ['ADMIN'];
+  accesoDenegado: boolean = false;
+  sesion: IUsuario | null = null;
+  iniciadaSesion: boolean = false;
+  verificarSesion(){
+    const match = document.cookie.match(new RegExp('(^| )username=([^;]+)'));
+    if (match) {
+      const username = JSON.parse(decodeURIComponent(match[2]));
+      this.sesion = username;
+      this.iniciadaSesion = true;
+      if (this.sesion && !this.rolesValidos.includes(this.sesion.rol)) {
+        this.accesoDenegado = true;
+      }
+    } else {
+      this.sesion = null;
+      this.iniciadaSesion = false;
+      this.router.navigate(['/iniciar-sesion']).then(() => {
+        window.location.reload();
+      });
+    }
+  }
+
   cargarEvaluaciones() {
     this.isLoadingDetalle = true;
     // Mostrar spinner con SweetAlert2
@@ -58,6 +98,8 @@ export class ConfigEvaluacionesComponent implements OnInit {
     });
 
   }
+
+  
   nuevaEvaluacion: IConfigEvaluaciones = {
     id: 0,
     nombre: '',
@@ -66,6 +108,8 @@ export class ConfigEvaluacionesComponent implements OnInit {
     creado: new Date(),
     eliminado: false
   };
+
+
   tiposTest: ITipoTest[] = [];
   cargarNuevaEvaluacion(){
     this.nuevaEvaluacion = {

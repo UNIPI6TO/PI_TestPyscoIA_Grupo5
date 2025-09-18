@@ -7,14 +7,17 @@
     </button>
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
       <ul class="navbar-nav nav-items"  style="margin-block: auto;">
-        
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/test/tomar-evaluacion']" routerLinkActive="active"><i class="fa-solid fa-list-check"></i> Evaluaciones</a>
-        </li>
-       
+        @if(iniciadaSesion && (sesion?.rol === 'PACIENTE'|| sesion?.rol === 'ADMIN')) {    
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/test/tomar-evaluacion']" routerLinkActive="active"><i class="fa-solid fa-list-check"></i> Evaluaciones</a>
+          </li>
+        }
+        @if(iniciadaSesion && (sesion?.rol === 'EVALUADOR'|| sesion?.rol === 'ADMIN')) {    
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['/pacientes']" routerLinkActive="active"><i class="fa-solid fa-address-book"></i> Pacientes</a>
         </li>
+        }
+        @if(iniciadaSesion && (sesion?.rol === 'ADMIN')) {    
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle"  href="#" role="button" data-bs-toggle="dropdown"><i class="fa-solid fa-gear"></i> Configuraciones</a>
           <ul class="dropdown-menu">
@@ -24,10 +27,14 @@
 
           </ul>
         </li>
+        }
+        
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i class="fa-solid fa-info-circle"></i> Acerca de</a>
           <ul class="dropdown-menu">
+            @if(iniciadaSesion) {
             <li><a class="dropdown-item" [routerLink]="['/mapa-sitio']"><i class="fa-solid fa-sitemap"></i> Mapa del Sitio</a></li>
+            }
             <li><a class="dropdown-item" [routerLink]="['/conocenos']"><i class="fa-solid fa-info-circle"></i> Conócenos</a></li>
 
           </ul>
@@ -35,9 +42,15 @@
         </li>
         </ul>
         <ul class="navbar-nav ms-auto">
+          @if(!iniciadaSesion) {
           <li class="nav-item">
             <a class="nav-link" [routerLink]="['/iniciar-sesion']"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
           </li>
+          } @else {
+          <li class="nav-item">
+            <a class="nav-link" (click)="cerrarSesion()"><i class="fa-solid fa-right-to-bracket"></i> Logout</a>
+          </li>
+          }
         </ul>
 
       

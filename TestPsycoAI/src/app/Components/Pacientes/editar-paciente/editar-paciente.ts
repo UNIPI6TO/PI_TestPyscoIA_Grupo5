@@ -5,13 +5,20 @@ import { ICiudad } from '../../../Interfaces/iciudad';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CiudadService } from '../../../Service/ciudad';
 import { PacienteService } from '../../../Service/paciente';
-import { CommonModule } from '@angular/common';
+
 import Swal from 'sweetalert2';
 import { Title } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
+import { AccesoDenegadoComponent } from '../../../layout/acceso-denegado/acceso-denegado';
+import { IUsuario } from '../../../Interfaces/Login/iusuario';
 
 @Component({
   selector: 'app-editar-paciente',
-  imports: [RouterLink, CommonModule,FormsModule],
+  imports: [RouterLink,
+     CommonModule,
+     FormsModule,
+     AccesoDenegadoComponent
+    ],
   templateUrl: './editar-paciente.html',
   styleUrls: ['./editar-paciente.css']
 })
@@ -46,6 +53,27 @@ export class EditarPacienteComponent implements OnInit {
     this.titleService.setTitle('Editar Paciente - PsycoAI');
   }
 
+  rolesValidos: string[] = ['ADMIN', 'EVALUADOR'];
+  accesoDenegado: boolean = false;
+  sesion: IUsuario | null = null;
+  iniciadaSesion: boolean = false;
+  verificarSesion(){
+    const match = document.cookie.match(new RegExp('(^| )username=([^;]+)'));
+    if (match) {
+      const username = JSON.parse(decodeURIComponent(match[2]));
+      this.sesion = username;
+      this.iniciadaSesion = true;
+      if (this.sesion && !this.rolesValidos.includes(this.sesion.rol)) {
+        this.accesoDenegado = true;
+      }
+    } else {
+      this.sesion = null;
+      this.iniciadaSesion = false;
+      this.router.navigate(['/iniciar-sesion']).then(() => {
+        window.location.reload();
+      });
+    }
+  }
   public onSubmit(): void {
     if (!this.pacienteForm) 
     {

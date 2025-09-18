@@ -4,35 +4,60 @@ import { FormsModule } from '@angular/forms';
 import { Inject } from '@angular/core';
 import { PacienteService } from '../../Service/paciente';
 import { IPaciente } from '../../Interfaces/ipaciente';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Title } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
+import { IUsuario } from '../../Interfaces/Login/iusuario';
+import { AccesoDenegadoComponent } from '../../layout/acceso-denegado/acceso-denegado';
 @Component({
   selector: 'app-pacientes',
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, AccesoDenegadoComponent],
   templateUrl: './pacientes.html',
   styleUrls: ['./pacientes.css'],
 
 })
 export class PacientesComponent implements OnInit {
   
-  
-
-
-
   public pacientes: IPaciente[] = [];
   public pacientesFiltrados: IPaciente[] = [];
   // Variables para los campos de búsqueda
   public filtro: string = '';
 
-  constructor(@Inject(PacienteService) private pacienteService: PacienteService,
-              private titleService: Title) { }
+  constructor(@Inject(PacienteService) 
+              private pacienteService: PacienteService,
+              private titleService: Title,
+              private router: Router
+            ) { }
 
   ngOnInit(): void {
     this.cargarPacientes();
     this.titleService.setTitle('Gestión de Pacientes - PsycoAI');
+    this.verificarSesion();
   }
+
+  rolesValidos: string[] = ['ADMIN', 'EVALUADOR'];
+  accesoDenegado: boolean = false;
+  sesion: IUsuario | null = null;
+  iniciadaSesion: boolean = false;
+  verificarSesion(){
+    const match = document.cookie.match(new RegExp('(^| )username=([^;]+)'));
+    if (match) {
+      const username = JSON.parse(decodeURIComponent(match[2]));
+      this.sesion = username;
+      this.iniciadaSesion = true;
+      if (this.sesion && !this.rolesValidos.includes(this.sesion.rol)) {
+        this.accesoDenegado = true;
+      }
+    } else {
+      this.sesion = null;
+      this.iniciadaSesion = false;
+      this.router.navigate(['/iniciar-sesion']).then(() => {
+        window.location.reload();
+      });
+    }
+  }
+
 
   /**
    * Carga la lista completa de pacientes desde el servicio.

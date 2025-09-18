@@ -11,7 +11,7 @@ using APITestPyscoIA.Models.ViewModel;
 
 namespace APITestPyscoIA.Controllers.Login
 {
-    [Route("api/Login/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class UsuarioController : ControllerBase
     {
@@ -24,7 +24,7 @@ namespace APITestPyscoIA.Controllers.Login
 
         // POST: api/Usuario
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost("inicioSesion")]
+        [HttpPost("Login")]
         public async Task<ActionResult<UsuarioModel>> PostIniciarSesion(UsuarioViewModel usuario)
         {
            if (usuario == null || string.IsNullOrEmpty(usuario.Usuario) || string.IsNullOrEmpty(usuario.Password))

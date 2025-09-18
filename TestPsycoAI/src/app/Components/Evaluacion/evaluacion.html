@@ -1,3 +1,7 @@
+@if(accesoDenegado) {
+  <app-acceso-denegado></app-acceso-denegado>
+} @else {
+
 <div class="container mt-5" style="min-height: 70vh;">
   <div class="row justify-content-center">
     <div class="col-md-12">
@@ -7,12 +11,15 @@
           <h3 class="mb-0 flex-grow-1 text-center"><i class="fa-solid fa-list-check"></i> Evaluaciones</h3>
         </div>
         <div class="card-body">
-            <select name="cli" id="" class="form-select mb-3" [(ngModel)]="pacienteSelecionado" (change)="onPacienteChange()">
-                <option value="" disabled selected>Seleccione un paciente</option>
-                <option *ngFor="let paciente of pacientes" [value]="paciente.id">
-                    {{ paciente.nombre }}
-                </option>
-            </select>
+            @if(iniciadaSesion && (sesion?.rol === 'ADMIN'))
+            {
+                <select name="cli" id="" class="form-select mb-3" [(ngModel)]="pacienteSelecionado" (change)="onPacienteChange()">
+                    <option value="" disabled selected>Seleccione un paciente</option>
+                    <option *ngFor="let paciente of pacientes" [value]="paciente.id">
+                        {{ paciente.nombre }}
+                    </option>
+                </select>
+            }
             <div class="d-flex justify-content-center">
                 <fieldset class="col-md-12 mb-4 p-3 border rounded">
                     <legend class="float-none w-auto px-1 fs-6 text-primary"></legend>
@@ -24,14 +31,17 @@
                                         <h5 class="card-title fw-semibold mb-0">Evaluación</h5>
                                         <div>
                                             
-                                            @if(evaluacion.iniciado && !evaluacion.completado) {
-                                                <button type="button" class="btn btn-outline-secondary  btn-sm" [routerLink]="['/test/iniciar-evaluacion', evaluacion.id, 'pregunta', -1]" title="Reanudar">
-                                                    <i class="fa fa-rotate-right"></i>
-                                                </button>
-                                            } @else if(!evaluacion.iniciado && !evaluacion.completado) {
-                                                <button type="button" class="btn btn-outline-primary btn-sm" [routerLink]="['/test/iniciar-evaluacion', evaluacion.id, 'pregunta', -1]" title="Iniciar" >
-                                                    <i class="fa fa-play"></i>
-                                                </button>
+                                            @if(sesion?.rol === 'PACIENTE') {
+                                             
+                                                @if(evaluacion.iniciado && !evaluacion.completado) {
+                                                    <button type="button" class="btn btn-outline-secondary  btn-sm" [routerLink]="['/test/iniciar-evaluacion', evaluacion.id, 'pregunta', -1]" title="Reanudar">
+                                                        <i class="fa fa-rotate-right"></i>
+                                                    </button>
+                                                } @else if(!evaluacion.iniciado && !evaluacion.completado) {
+                                                    <button type="button" class="btn btn-outline-primary btn-sm" [routerLink]="['/test/iniciar-evaluacion', evaluacion.id, 'pregunta', -1]" title="Iniciar" >
+                                                        <i class="fa fa-play"></i>
+                                                    </button>
+                                                }
                                             }
                                            <button type="button" class="btn btn-outline-dark btn-sm" [routerLink]="['/test/detalle-evaluacion',pacienteSelecionado,'evaluacion', evaluacion.id]" title="Ver Detalle">
                                                 <i class="fa fa-eye"></i>
@@ -91,5 +101,6 @@
       </div>
     </div>
   </div>
-
+</div>
+}
 
