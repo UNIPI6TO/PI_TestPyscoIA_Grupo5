@@ -19,6 +19,7 @@ import { IniciarEvaluacionComponent } from './Components/Evaluacion/iniciar-eval
 import { DeatlleEvaluacionComponent } from './Components/Evaluacion/deatlle-evaluacion/deatlle-evaluacion';
 import { ConocenosComponent } from './layout/conocenos/conocenos';
 import { HomeComponent } from './layout/home/home';
+import { InicioSesionComponent } from './Components/Login/inicio-sesion/inicio-sesion';
 
 export const routes: Routes = [
     
@@ -104,6 +105,10 @@ export const routes: Routes = [
                     component: EditarEvaluadorComponent
                 }
             ]
+        },
+        {
+            path: 'iniciar-sesion',
+            component: InicioSesionComponent
         },
         {
             path: 'mapa-sitio',
