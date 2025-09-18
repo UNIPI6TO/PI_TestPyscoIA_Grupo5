@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IConfigEvaluacionesResumen } from '../../../../Interfaces/Configuraciones/iconfig-evaluaciones-resumen';
 import { ConfigEvaluacionesService } from '../../../../Service/Configuraciones/config-evaluaciones';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IConfigSecciones } from '../../../../Interfaces/Configuraciones/iconfig-secciones';
@@ -14,10 +14,12 @@ import { IConfigPreguntas } from '../../../../Interfaces/Configuraciones/iconfig
 import { IConfigOpciones } from '../../../../Interfaces/Configuraciones/iconfig-opciones';
 import { ConfigOpcionesService } from '../../../../Service/Configuraciones/config-opciones';
 import { ConfigPreguntasService } from '../../../../Service/Configuraciones/config-preguntas';
+import { IUsuario } from '../../../../Interfaces/Login/iusuario';
+import { AccesoDenegadoComponent } from '../../../../layout/acceso-denegado/acceso-denegado';
 
 @Component({
   selector: 'app-config-evaluaciones-editar',
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, AccesoDenegadoComponent],
   templateUrl: './config-evaluaciones-editar.html',
   styleUrls: ['./config-evaluaciones-editar.css']
 })
@@ -108,7 +110,8 @@ export class ConfigEvaluacionesEditarComponent implements OnInit {
     private tiposTestService: TipoTestService,
     private configuracionesPreguntasService: ConfigPreguntasService,
     private configuracionesOpcionesService: ConfigOpcionesService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.evaluacion = {
       id: 0,
@@ -133,7 +136,7 @@ export class ConfigEvaluacionesEditarComponent implements OnInit {
       Swal.showLoading();
       }
     });
-
+    this.verificarSesion();
     const idParam = this.route.snapshot.paramMap.get('id');
     if (idParam) {
       const id = Number(idParam);
@@ -158,6 +161,28 @@ export class ConfigEvaluacionesEditarComponent implements OnInit {
       const id = Number(idParam);
       this.configuracionesService.getUnaConfigEvaluacion(id).subscribe((data: IConfigEvaluacionesResumen) => {
         this.evaluacion = data;
+      });
+    }
+  }
+
+  rolesValidos: string[] = ['ADMIN'];
+  accesoDenegado: boolean = false;
+  sesion: IUsuario | null = null;
+  iniciadaSesion: boolean = false;
+  verificarSesion(){
+    const match = document.cookie.match(new RegExp('(^| )username=([^;]+)'));
+    if (match) {
+      const username = JSON.parse(decodeURIComponent(match[2]));
+      this.sesion = username;
+      this.iniciadaSesion = true;
+      if (this.sesion && !this.rolesValidos.includes(this.sesion.rol)) {
+        this.accesoDenegado = true;
+      }
+    } else {
+      this.sesion = null;
+      this.iniciadaSesion = false;
+      this.router.navigate(['/iniciar-sesion']).then(() => {
+        window.location.reload();
       });
     }
   }

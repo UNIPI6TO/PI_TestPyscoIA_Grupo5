@@ -6,15 +6,18 @@ import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { CiudadService } from '../../../../Service/ciudad';
 import { EvaluadoresService } from '../../../../Service/Configuraciones/evaluadores';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+import { IUsuario } from '../../../../Interfaces/Login/iusuario';
+import { AccesoDenegadoComponent } from '../../../../layout/acceso-denegado/acceso-denegado';
 
 @Component({
   selector: 'app-editar-evaluador',
   imports: [
     CommonModule,
     FormsModule,
-    RouterLink
+    RouterLink,
+    AccesoDenegadoComponent
   ],
   templateUrl: './editar-evaluador.html',
   styleUrls: ['./editar-evaluador.css']
@@ -38,7 +41,8 @@ export class EditarEvaluadorComponent implements OnInit {
     private ciudadService: CiudadService,
     private evaluadorService: EvaluadoresService,
     private parametros: ActivatedRoute,
-    private titleService: Title
+    private titleService: Title,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -49,7 +53,7 @@ export class EditarEvaluadorComponent implements OnInit {
       Swal.showLoading();
       }
     });
-
+    this.verificarSesion();
     this.cargarCiudades();
     this.cargarUnEvaluador();
     this.titleService.setTitle('Editar Evaluador - PsycoAI');
@@ -57,6 +61,28 @@ export class EditarEvaluadorComponent implements OnInit {
       Swal.close();
     }, 1000);
   }
+  rolesValidos: string[] = ['ADMIN'];
+  accesoDenegado: boolean = false;
+  sesion: IUsuario | null = null;
+  iniciadaSesion: boolean = false;
+  verificarSesion(){
+    const match = document.cookie.match(new RegExp('(^| )username=([^;]+)'));
+    if (match) {
+      const username = JSON.parse(decodeURIComponent(match[2]));
+      this.sesion = username;
+      this.iniciadaSesion = true;
+      if (this.sesion && !this.rolesValidos.includes(this.sesion.rol)) {
+        this.accesoDenegado = true;
+      }
+    } else {
+      this.sesion = null;
+      this.iniciadaSesion = false;
+      this.router.navigate(['/iniciar-sesion']).then(() => {
+        window.location.reload();
+      });
+    }
+  }
+
   cargarCiudades() {
     this.ciudadService.getCiudades().subscribe({
       next: (data: ICiudad[]) => {

@@ -7,13 +7,16 @@ import { EvaluacionesService } from '../../../Service/Test/evaluaciones';
 import { IEvaluacion } from '../../../Interfaces/Evaluaciones/ievaluacion';
 import { IPreguntas } from '../../../Interfaces/Evaluaciones/ipreguntas';
 import { Title } from '@angular/platform-browser';
+import { IUsuario } from '../../../Interfaces/Login/iusuario';
+import { AccesoDenegadoComponent } from '../../../layout/acceso-denegado/acceso-denegado';
 
 @Component({
   selector: 'app-iniciar-evaluacion',
   imports: [
     CommonModule,
     FormsModule,
-    RouterLink
+    RouterLink,
+    AccesoDenegadoComponent
   ],
   templateUrl: './iniciar-evaluacion.html',
   styleUrls: ['./iniciar-evaluacion.css']
@@ -64,7 +67,8 @@ export class IniciarEvaluacionComponent implements OnInit {
       Swal.showLoading();
       }
     });
-    
+    this.titleService.setTitle('Resolver Evaluación - PsycoAI');
+    this.verificarSesion();
     this.parametros.paramMap.subscribe(() => {
       this.obtenerParametros();
       
@@ -80,6 +84,29 @@ export class IniciarEvaluacionComponent implements OnInit {
   
 
   }
+
+  rolesValidos: string[] = ['PACIENTE'];
+  accesoDenegado: boolean = false;
+  sesion: IUsuario | null = null;
+  iniciadaSesion: boolean = false;
+  verificarSesion(){
+    const match = document.cookie.match(new RegExp('(^| )username=([^;]+)'));
+    if (match) {
+      const username = JSON.parse(decodeURIComponent(match[2]));
+      this.sesion = username;
+      this.iniciadaSesion = true;
+      if (this.sesion && !this.rolesValidos.includes(this.sesion.rol)) {
+        this.accesoDenegado = true;
+      }
+    } else {
+      this.sesion = null;
+      this.iniciadaSesion = false;
+      this.router.navigate(['/iniciar-sesion']).then(() => {
+        window.location.reload();
+      });
+    }
+  }
+
 
   cargarEvaluacionConPregunta() {
     if (this.EvaluacionId) {

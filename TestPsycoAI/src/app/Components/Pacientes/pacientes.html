@@ -1,3 +1,6 @@
+@if(accesoDenegado) {
+  <app-acceso-denegado></app-acceso-denegado>
+} @else {
 <div class="container mt-5 " style="min-height: 70vh;">
   <div class="card shadow-lg">
     <div class="card-header bg-success text-white text-center d-flex justify-content-between align-items-center">
@@ -45,10 +48,13 @@
                 <div class="d-flex align-items-center" style="min-width: 110px;">
                   <button class="btn btn-sm btn-warning me-2" [routerLink]="['/pacientes/editar', paciente.id]">
                     <i class="fa-solid fa-pen-to-square"></i>
+                 
                   </button>
+                   @if(sesion?.rol === 'EVALUADOR') {
                     <button class="btn btn-sm btn-primary me-2" [routerLink]="['/pacientes/generar-evaluacion', paciente.id]">
                     <i class="fa-solid fa-qrcode"></i>
                   </button>
+                  }
                   <button class="btn btn-sm btn-danger" (click)="eliminarPaciente(paciente.id!)">
                     <i class="fa-solid fa-trash"></i>
                   </button>
@@ -66,3 +72,4 @@
     </div>
   </div>
 </div>
+}

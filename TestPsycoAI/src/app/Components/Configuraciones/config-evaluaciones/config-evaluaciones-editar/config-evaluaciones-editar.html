@@ -1,3 +1,7 @@
+@if(accesoDenegado) {
+  <app-acceso-denegado></app-acceso-denegado>
+} @else {
+
 <div class="container mt-5" style="min-height: 70vh;">
   <div class="card shadow-lg">
     
@@ -11,7 +15,7 @@
         
 
         <div class="row">
-            <div class="mb-3 col-md-6">
+            <div class="mb-3 col-md-12">
                 <label for="tipoTest" class="form-label "><strong>Descripción:</strong> {{ evaluacion.tipoTest.descripcion }} </label>
             </div>
         </div>
@@ -21,10 +25,11 @@
 
             </div> 
         </div>
-        <div>
+      
 
-    </div>
-        <div class="row col-md-4">
+    
+    <div class="row mt-3 mb-1">
+        <div class=" col-md-4 ">
             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                 <button type="button" class="btn btn-warning"  data-bs-toggle="modal" (click)="cargarEdicion()" data-bs-target="#editarEvaluacionModal">
                     <i class="fa fa-pen-to-square"></i> {{ evaluacion.nombre }}
@@ -39,7 +44,7 @@
                 </button>
             </div>
         </div>
-
+    </div>
     <br>
     <div class="card">
     <div class="card-header bg-success text-white">
@@ -187,8 +192,11 @@
             }
         </div>
     </div>
+    </div>
+  </div>
 </div>
-
+</div>
+}
 
 
 <!-- Modal de instrucciones -->
