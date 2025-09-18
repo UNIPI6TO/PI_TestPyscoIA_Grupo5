@@ -1,4 +1,4 @@
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f6fb; }
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #ffffff; }
         .header {
             background: #aed2dc;
             color: #fff;
@@ -25,7 +25,7 @@
         }
         .feature {
             flex: 1 1 250px;
-            background: #f4f6fb;
+            background: #f6f6f6;
             border-radius: 8px;
             padding: 24px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);

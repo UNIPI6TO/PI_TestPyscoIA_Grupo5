@@ -9,11 +9,12 @@
     </style>
 </head>
 <body>
+  <div class="container min-vh-100">
     <div class="header">
         <h1>PsycoAI</h1>
         <p>Apoyo psicológico asistido por inteligencia artificial</p>
     </div>
-    <div class="container">
+    <div class="container ">
         <h2>Bienvenido</h2>
         <p>Descubre cómo PsycoAI puede ayudarte a mejorar tu bienestar emocional. Nuestra plataforma combina tecnología avanzada y atención personalizada para ofrecerte el mejor apoyo psicológico.</p>
         <div class="features">
@@ -34,9 +35,10 @@
             </div>
         </div>
         <div class="actions">
-            <a href="/login" class="btn">Iniciar sesión</a>
-            <a href="/register" class="btn">Registrarse</a>
+            <a [routerLink]="['/iniciar-sesion']" class="btn">Iniciar sesión</a>
+            
         </div>
+    </div>
     </div>
 </body>
 </html>
