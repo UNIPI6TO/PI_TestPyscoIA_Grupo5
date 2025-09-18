@@ -17,6 +17,8 @@ import { SiteMapComponent } from './layout/site-map/site-map';
 import { EvaluacionComponent } from './Components/Evaluacion/evaluacion';
 import { IniciarEvaluacionComponent } from './Components/Evaluacion/iniciar-evaluacion/iniciar-evaluacion';
 import { DeatlleEvaluacionComponent } from './Components/Evaluacion/deatlle-evaluacion/deatlle-evaluacion';
+import { ConocenosComponent } from './layout/conocenos/conocenos';
+import { HomeComponent } from './layout/home/home';
 
 export const routes: Routes = [
     
@@ -106,5 +108,13 @@ export const routes: Routes = [
         {
             path: 'mapa-sitio',
             component: SiteMapComponent
+        },
+        {
+            path: 'conocenos',
+            component: ConocenosComponent
+        },
+        {
+            path: '',
+            component: HomeComponent
         }
     ];  

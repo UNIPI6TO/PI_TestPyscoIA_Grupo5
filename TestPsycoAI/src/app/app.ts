@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Header } from './layout/header/header';
+import { Footer } from './layout/footer/footer';
 
 
 
@@ -9,7 +10,8 @@ import { Header } from './layout/header/header';
   selector: 'app-root',
   imports: [ 
     RouterOutlet, 
-    Header
+    Header,
+    Footer  
   ],
   templateUrl: './app.html',
   styleUrl: './app.css'
