@@ -25,11 +25,13 @@
           </ul>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i class="fa-brands fa-speakap"></i> Conocenos</a>
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i class="fa-solid fa-info-circle"></i> Acerca de</a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" [routerLink]="['/mapa-sitio']"><i class="fa-solid fa-sitemap"></i> Mapa del Sitio</a></li>
+            <li><a class="dropdown-item" [routerLink]="['/conocenos']"><i class="fa-solid fa-info-circle"></i> Conócenos</a></li>
 
           </ul>
+         
         </li>
         </ul>
         <ul class="navbar-nav ms-auto">
@@ -42,3 +44,20 @@
     </div>
   </div>
 </nav>
+
+<header class="text-center">
+<div class="container">
+<div class="row align-items-center">
+<div class="col-md-7 text-md-start text-center">
+<h1>Consultorio Privado "DannyZamora"</h1>
+<p>Plataforma web para evaluación psicométrica automatizada</p>
+</div>
+@if (validarConocenos())
+{
+  <div class="col-md-5 d-none d-md-block">
+  <img src="https://images.pexels.com/photos/8460371/pexels-photo-8460371.jpeg" alt="Profesionales médicos" class="img-fluid">
+  </div>
+}
+</div>
+</div>
+</header>

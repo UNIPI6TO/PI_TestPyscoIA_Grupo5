@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { Inject } from '@angular/core';
 import { PacienteService } from '../../Service/paciente';
@@ -7,6 +7,7 @@ import { IPaciente } from '../../Interfaces/ipaciente';
 import { RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Title } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-pacientes',
   imports: [CommonModule, FormsModule, RouterLink],
