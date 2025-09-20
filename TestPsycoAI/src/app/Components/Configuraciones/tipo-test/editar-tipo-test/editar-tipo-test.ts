@@ -87,7 +87,10 @@ export class EditarTipoTestComponent {
   onSubmit(): void {
     this.tipoTestService.updateTipoTest(this.tipoTest).subscribe({
       next: () => {
-        Swal.fire('Éxito', 'Tipo de test actualizado correctamente', 'success');
+        Swal.fire('Éxito', 'Tipo de test actualizado correctamente', 'success').then(() => {
+          this.router.navigate(['/configuraciones/tipo-test']);
+        });
+        
       },
       error: (error) => {
         Swal.fire('Error', error.message, 'error');

@@ -35,7 +35,7 @@
               <p><strong>Fecha de Finalización: </strong> {{ evaluacionDetalle.fechaFinTest ? evaluacionDetalle.fechaFinTest : 'No disponible' }}</p>
               <p><strong>Estado: </strong> 
                 <span *ngIf="evaluacionDetalle.completado" class="badge bg-success">Completada</span>
-                <span *ngIf="evaluacionDetalle.iniciado" class="badge bg-warning text-dark">Inconclusa</span>
+                <span *ngIf="evaluacionDetalle.iniciado && !evaluacionDetalle.completado" class="badge bg-warning text-dark">Inconclusa</span>
                 <span *ngIf="!evaluacionDetalle.completado && !evaluacionDetalle.iniciado" class="badge bg-secondary">No iniciada</span>
               </p>
               <p><strong>Preguntas Contestadas:</strong> {{ evaluacionDetalle.contestadas || 0 }} de {{ evaluacionDetalle.cantidadPreguntas || 0 }}</p>
