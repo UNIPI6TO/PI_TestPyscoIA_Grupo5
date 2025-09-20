@@ -63,12 +63,72 @@ namespace APITestPyscoIA.Controllers.Login
 
             return usuarioModel;
         }
+        [HttpGet("Existe/{usuario}")]
+        public async Task<ActionResult<UsuarioModel>> GetUsuarioByEvaluadorModel(string usuario)
+        {
+            var usuarioModel = await _context.Usuarios
+                .Where(u => u.Usuario == usuario)
+                .FirstOrDefaultAsync();
+
+            if (usuarioModel == null)
+            {
+                return NotFound();
+            }
+
+            return usuarioModel;
+        }
+
+        // GET: api/Usuario/5
+        [HttpGet("Evaluador/{id}")]
+        public async Task<ActionResult<UsuarioModel>> GetUsuarioByEvaluadorModel(int id)
+        {
+            var usuarioModel = await _context.Usuarios
+                .Where(u=> u.idEvaluador==id)
+                .FirstOrDefaultAsync();
+
+            if (usuarioModel == null)
+            {
+                return NotFound();
+            }
+
+            return usuarioModel;
+        }
+
+        // GET: api/Usuario/5
+        [HttpGet("Paciente/{id}")]
+        public async Task<ActionResult<UsuarioModel>> GetUsuarioByPacienteModel(int id)
+        {
+            var usuarioModel = await _context.Usuarios
+                .Where(u => u.idPaciente == id)
+                .FirstOrDefaultAsync();
+
+            if (usuarioModel == null)
+            {
+                return NotFound();
+            }
+
+            return usuarioModel;
+        }
 
         // PUT: api/Usuario/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUsuarioModel(int id, UsuarioModel usuarioModel)
+        public async Task<IActionResult> PutUsuarioModel(int id, CrearUsuarioViewModel usuario)
         {
+            UsuarioModel usuarioModel = new UsuarioModel
+            {
+                Id = id,
+                Usuario = usuario.Usuario,
+                Password = usuario.Password,
+                Rol = usuario.Rol,
+                idEvaluador = usuario.idEvaluador,
+                idPaciente = usuario.idPaciente,
+                Actualizado = DateTime.Now,
+                Creado = usuario.Creado,
+                Eliminado = usuario.Eliminado
+
+            };
+
             if (id != usuarioModel.Id)
             {
                 return BadRequest();
@@ -98,8 +158,18 @@ namespace APITestPyscoIA.Controllers.Login
         // POST: api/Usuario
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<UsuarioModel>> PostUsuarioModel(UsuarioModel usuarioModel)
+        public async Task<ActionResult<UsuarioModel>> PostUsuarioModel(CrearUsuarioViewModel usuario)
         {
+            UsuarioModel usuarioModel = new UsuarioModel
+            {
+                Usuario = usuario.Usuario,
+                Password = usuario.Password,
+                Rol = usuario.Rol,
+                idEvaluador = usuario.idEvaluador,
+                idPaciente = usuario.idPaciente,
+                Creado= DateTime.Now,
+                Eliminado = false
+            };
             _context.Usuarios.Add(usuarioModel);
             await _context.SaveChangesAsync();
 
@@ -115,8 +185,9 @@ namespace APITestPyscoIA.Controllers.Login
             {
                 return NotFound();
             }
-
-            _context.Usuarios.Remove(usuarioModel);
+            usuarioModel.Eliminado = false;
+            usuarioModel.Actualizado = DateTime.Now;
+            _context.Usuarios.Update(usuarioModel);
             await _context.SaveChangesAsync();
 
             return NoContent();

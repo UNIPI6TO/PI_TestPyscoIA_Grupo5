@@ -27,7 +27,7 @@ export class InicioSesionComponent {
       response => {
         console.log('Respuesta del servidor:', response);
         
-        const expires = Date.now() + 10 * 60 * 1000;
+        const expires = Date.now() + 60 * 60 * 1000;
         document.cookie = `username=${encodeURIComponent(JSON.stringify(response))}; path=/; expires=${new Date(expires).toUTCString()}; SameSite=Strict; Secure`;
         sessionStorage.setItem('username', JSON.stringify(response));
         

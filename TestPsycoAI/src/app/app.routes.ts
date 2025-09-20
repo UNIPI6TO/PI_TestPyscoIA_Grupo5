@@ -20,6 +20,8 @@ import { DeatlleEvaluacionComponent } from './Components/Evaluacion/deatlle-eval
 import { ConocenosComponent } from './layout/conocenos/conocenos';
 import { HomeComponent } from './layout/home/home';
 import { InicioSesionComponent } from './Components/Login/inicio-sesion/inicio-sesion';
+import {  ConfigurarUsuarioComponent } from './Components/Login/Usuarios/configurar-usuario/configurar-usuario';
+import { ConfigurarUsuarioPacienteComponent } from './Components/Login/Usuarios/configurar-usuario-paciente/configurar-usuario-paciente';
 
 export const routes: Routes = [
     
@@ -109,6 +111,14 @@ export const routes: Routes = [
         {
             path: 'iniciar-sesion',
             component: InicioSesionComponent
+        },
+        {
+            path: 'usuario/configurar-evaluador/:idEvaluador',
+            component: ConfigurarUsuarioComponent
+        },
+        {
+            path: 'usuario/configurar-paciente/:idPaciente',
+            component: ConfigurarUsuarioPacienteComponent
         },
         {
             path: 'mapa-sitio',

@@ -6,7 +6,8 @@ export interface IUsuario {
     idPaciente?: number | null,
     creado: Date,
     actualizado?: Date | null,
-    eliminado: boolean
+    eliminado: boolean,
+    password?: string,
 }
 export interface IInicioSesion {
     usuario: string;
