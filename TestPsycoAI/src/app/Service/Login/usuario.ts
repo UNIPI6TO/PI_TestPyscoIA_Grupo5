@@ -60,5 +60,10 @@ export class UsuarioService {
       catchError(this.manejoErrores)
     );
   }
+  cargarUnUsuario(id: number): Observable<IUsuario> {
+    return this.http.get<IUsuario>(`${this.API_URL}${this.CONTEXT}/${id}`).pipe(
+      catchError(this.manejoErrores)
+    );
+  }
 
 }
