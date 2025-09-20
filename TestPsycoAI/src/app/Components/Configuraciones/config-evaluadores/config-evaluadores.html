@@ -41,6 +41,10 @@
                   <button type="button" class="btn btn-danger btn-sm" (click)="eliminarEvaluador(evaluador)">
                     <i class="fa fa-trash"></i> 
                   </button>
+                    <span class="mx-1"></span>
+                    <button type="button" class="btn btn-primary btn-sm" [routerLink]="['/usuario/configurar-evaluador', evaluador.id]">
+                    <i class="fa-solid fa-user-gear"></i>
+                    </button>
                 </td>
               </tr>
           }

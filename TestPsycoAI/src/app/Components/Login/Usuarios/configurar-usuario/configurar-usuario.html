@@ -1,0 +1,100 @@
+@if(accesoDenegado) {
+  <app-acceso-denegado></app-acceso-denegado>
+} @else {
+<div class="container mt-5" style="min-height: 70vh;">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-lg">
+        <div class="card-header bg-secondary text-white text-center d-flex justify-content-between align-items-center">
+            <a class="text-white" [routerLink]="['/configuraciones/evaluadores']">
+            <h3><i class="fa fa-arrow-left"></i></h3> 
+            </a>
+          <h3 class="mb-0 flex-grow-1 text-center"><i class="fa-solid fa-person-circle-plus"></i> Configurar Usuario Evaluador</h3>
+        </div>
+        <div class="card-body">
+        <form #usuarioForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+            <legend>Información del Usuario</legend>
+            <div class="mb-3">
+                <div class="form-control-plaintext">
+                    {{ evaluador.nombre ? evaluador.nombre : 'Nombre no disponible' }} - {{ evaluador.cargo ? evaluador.cargo : 'Cargo no disponible' }}
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="usuario" class="form-label">Nombre de Usuario</label>
+                <input 
+                    type="text" 
+                    id="usuario" 
+                    name="usuario" 
+                    class="form-control" 
+                    required 
+                    [(ngModel)]="usuario.usuario"
+                    pattern="^[a-zA-Z0-9._-]{4,20}$"
+                    #usuarioInput="ngModel"
+                    title="El nombre de usuario debe tener entre 4 y 20 caracteres y solo puede contener letras, números, puntos, guiones y guiones bajos."
+                >
+                <div *ngIf="usuarioInput.invalid && usuarioInput.touched" class="text-danger">
+                    <small *ngIf="usuarioInput.errors?.['required']">El nombre de usuario es obligatorio.</small>
+                    <small *ngIf="usuarioInput.errors?.['pattern']">Formato inválido.</small>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Contraseña</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    class="form-control" 
+                    required 
+                    [(ngModel)]="usuario.password"
+                    pattern="^(?=.*[A-Z])(?=.*\d).{6,}$"
+                    #passwordInput="ngModel"
+                    title="La contraseña debe tener al menos 6 caracteres, una mayúscula y un número."
+                >
+                <div *ngIf="passwordInput.invalid && passwordInput.touched" class="text-danger">
+                    <small *ngIf="passwordInput.errors?.['required']">La contraseña es obligatoria.</small>
+                    <small *ngIf="passwordInput.errors?.['pattern']">Debe tener al menos 6 caracteres, una mayúscula y un número.</small>
+                </div>
+                <div class="form-text">
+                    Mínimo 6 caracteres, al menos una mayúscula y un número.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
+                <input 
+                    type="password" 
+                    id="confirmPassword" 
+                    name="confirmPassword" 
+                    class="form-control" 
+                    required 
+                    [(ngModel)]="confirmPassword"
+                    #confirmPasswordInput="ngModel"
+                    [pattern]="usuario.password || ''"
+                    title="Las contraseñas deben coincidir."
+                >
+                <div *ngIf="confirmPasswordInput.invalid && confirmPasswordInput.touched" class="text-danger">
+                    <small *ngIf="confirmPasswordInput.errors?.['required']">Debe confirmar la contraseña.</small>
+                    <small *ngIf="confirmPasswordInput.errors?.['pattern']">Las contraseñas no coinciden.</small>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="rol" class="form-label">Rol</label>
+                <select id="rol" name="rol" class="form-select" required [(ngModel)]="usuario.rol" #rolInput="ngModel">
+                    <option selected disabled value="EVALUADOR">Evaluador</option>
+                </select>
+                <div *ngIf="rolInput.invalid && rolInput.touched" class="text-danger">
+                    <small>Debe seleccionar un rol.</small>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary"  [disabled]="usuarioForm.invalid">Guardar Cambios</button>
+            </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+}
