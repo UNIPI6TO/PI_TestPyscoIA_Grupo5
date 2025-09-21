@@ -52,7 +52,10 @@ namespace APITestPyscoIA.Models.Entidades
         public int? NoContestadas { get; set; }
         public bool? Completado { get; set; }
         public bool? Iniciado { get; set; }
-        
+        public string? ResultadosAI { get; set; }
+
+        public float? Score { get; set; }
+
         public int? TiempoTranscurrido { get; set; }
         public DateTime? FechaInicioTest { get; set; }
         public DateTime? FechaFinTest { get; set; }
