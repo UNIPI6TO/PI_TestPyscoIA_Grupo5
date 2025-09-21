@@ -23,6 +23,8 @@ namespace APITestPyscoIA.Models.Entidades
             base.Eliminado = false;
         }
         public float? Score { get; set; }
+        
+        public  string? Resultado{ get; set; }
 
         [Required]
         public string Seccion { get; set; }
