@@ -29,14 +29,14 @@ namespace APITestPyscoIA.Controllers.Evaluacion
             if (datos == null)
                 return BadRequest();
             DatoEntradaGenericoAI? dato = datos.Valores
-                .Find(x => x.Key == "Autoestima");
+                .Find(x => x.Key.Trim() == "Autoestima");
             if (dato == null)
                 return NotFound();
             Autoestima autoestimaPredictor = new Autoestima();
             ResultModel resultModel = new ResultModel();
-            resultModel.Valor = dato.Valor;
+            resultModel.Score = dato.Valor;
 
-            resultModel.Resultado = autoestimaPredictor.Prediccion(dato.Valor);
+            resultModel.ResultadoAI = autoestimaPredictor.Prediccion(dato.Valor);
 
             return resultModel;
         }
@@ -59,14 +59,14 @@ namespace APITestPyscoIA.Controllers.Evaluacion
             if (datos == null)
                 return BadRequest();
             DatoEntradaGenericoAI? dato = datos.Valores
-                .Find(x => x.Key == "Ansiedad");
+                .Find(x => x.Key.Trim() == "Ansiedad");
             if (dato == null)
                 return NotFound();
             Ansiedad depresionPredictor = new Ansiedad();
             ResultModel resultModel = new ResultModel();
-            resultModel.Valor = dato.Valor;
+            resultModel.Score = dato.Valor;
 
-            resultModel.Resultado = depresionPredictor.Prediccion(dato.Valor);
+            resultModel.ResultadoAI = depresionPredictor.Prediccion(dato.Valor);
 
             return resultModel;
         }
@@ -90,14 +90,14 @@ namespace APITestPyscoIA.Controllers.Evaluacion
             if (datos==null)
                 return BadRequest();
             DatoEntradaGenericoAI? dato =datos.Valores
-                .Find(x => x.Key == "Depresión");
+                .Find(x => x.Key.Trim() == "Depresión");
             if (dato==null)
                 return NotFound();
             Depresion depresionPredictor = new Depresion();
             ResultModel resultModel = new ResultModel();
-            resultModel.Valor = dato.Valor;
+            resultModel.Score = dato.Valor;
 
-            resultModel.Resultado = depresionPredictor.Prediccion(dato.Valor);
+            resultModel.ResultadoAI = depresionPredictor.Prediccion(dato.Valor);
 
             return resultModel;
         }
@@ -123,31 +123,31 @@ namespace APITestPyscoIA.Controllers.Evaluacion
                 return BadRequest();
             
             DatoEntradaGenericoAI? Apertura = datos.Valores
-                .Find(x => x.Key == "Apertura");
+                .Find(x => x.Key.Trim() == "Apertura");
 
             if (Apertura == null)
                 return NotFound();
 
             DatoEntradaGenericoAI? Responsabilidad = datos.Valores
-                .Find(x => x.Key == "Responsabilidad");
+                .Find(x => x.Key.Trim() == "Responsabilidad");
 
             if (Responsabilidad == null)
                 return NotFound();
 
             DatoEntradaGenericoAI? Extroversion = datos.Valores
-                .Find(x => x.Key == "Extroversión");
+                .Find(x => x.Key.Trim() == "Extroversión");
 
             if (Extroversion == null)
                 return NotFound();
 
             DatoEntradaGenericoAI? Amabilidad = datos.Valores
-                .Find(x => x.Key == "Amabilidad");
+                .Find(x => x.Key.Trim() == "Amabilidad");
 
             if (Amabilidad == null)
                 return NotFound();
 
             DatoEntradaGenericoAI? Neuroticismo = datos.Valores
-                .Find(x => x.Key == "Neuroticismo");
+                .Find(x => x.Key.Trim() == "Neuroticismo");
 
             if (Neuroticismo == null)
                 return NotFound();
@@ -162,11 +162,14 @@ namespace APITestPyscoIA.Controllers.Evaluacion
             ResultModel resultModel = new ResultModel();
             
 
-            resultModel.Resultado= personalidadPredictor.Prediccion(datosPersonalidad);
+            resultModel.ResultadoAI= personalidadPredictor.Prediccion(datosPersonalidad);
 
+            DatoEntradaGenericoAI? resultado = datos.Valores.Find(d=> resultModel.ResultadoAI==d.Key.Trim())
+;            if (resultado != null)
+                resultModel.Score = resultado.Valor;    
             return resultModel;
         }
-
+  
 
     }
     public class Muestras()
@@ -199,8 +202,8 @@ namespace APITestPyscoIA.Controllers.Evaluacion
 
     public class ResultModel()
     {
-        public float Valor { get; set; }
-        public string? Resultado { get; set; }
+        public float Score { get; set; }
+        public string? ResultadoAI { get; set; }
     }
     
 

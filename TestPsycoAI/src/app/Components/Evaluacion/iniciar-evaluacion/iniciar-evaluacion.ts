@@ -9,6 +9,8 @@ import { IPreguntas } from '../../../Interfaces/Evaluaciones/ipreguntas';
 import { Title } from '@angular/platform-browser';
 import { IUsuario } from '../../../Interfaces/Login/iusuario';
 import { AccesoDenegadoComponent } from '../../../layout/acceso-denegado/acceso-denegado';
+import { EvaluacionAIService } from '../../../Service/Test/evaluacion-ai';
+import { IDatosEntradaAI } from '../../../Interfaces/Evaluaciones/idatos-entrada-ai';
 
 @Component({
   selector: 'app-iniciar-evaluacion',
@@ -40,7 +42,8 @@ export class IniciarEvaluacionComponent implements OnInit {
     private parametros: ActivatedRoute,
     private evaluacionesService: EvaluacionesService,
     private titleService: Title,
-    private router: Router
+    private router: Router,
+    private evaluacionAIService: EvaluacionAIService
   ) {  }
   obtenerParametros() {
       const evaluacionIdParam = this.parametros.snapshot.paramMap.get('id');
@@ -167,8 +170,28 @@ export class IniciarEvaluacionComponent implements OnInit {
           this.evaluacion.fechaFinTest = this.fechaZonahoraria(new Date());
           this.actualizarPregunta(this.NumPregunta, this.buscarOpcionSelecionadaHtml());
           this.totalizarSeccionesRespuestas(this.evaluacion);
-          this.editarHTP(this.evaluacion);
-          this.router.navigate(['/test/tomar-evaluacion']);
+          var datosEntradaAI: IDatosEntradaAI = {
+            valores: []
+          };
+          this.evaluacion.secciones.forEach(seccion => {
+            datosEntradaAI.valores.push({ key: seccion.seccion.trim(), valor: seccion.score || 0 });
+          });
+          this.evaluacionAIService.predecirResultadosAI(datosEntradaAI, String(this.evaluacion.configuracionTest?.nombre)).subscribe({
+            next: (respuesta) => {
+              if (this.evaluacion!=null) {
+                this.evaluacion.resultadosAI = respuesta.resultadoAI;
+                this.evaluacion.score = respuesta.score;
+                console.log(JSON.stringify(this.evaluacion));
+                this.editarHTP(this.evaluacion);
+                this.router.navigate(['/test/tomar-evaluacion']);    
+              }
+              
+            },
+            error: (error) => {
+              console.error('Error al predecir resultados:', error);
+            }
+          });
+          
         }
       }
     });

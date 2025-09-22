@@ -3,6 +3,6 @@ DECLARE @idAutoestima as int = (Select Top 1 Id from ConfiguracionesTest where N
 insert into [dbo].[ConfiguracionesSecciones]
 (Seccion,NumeroPreguntas,IdConfiguracionesTest,FormulaAgregado,Creado,Eliminado)
 Values
-('Ansiedad de Beck','21',@idAutoestima,'SUM',getdate(),0)
+('Ansiedad','21',@idAutoestima,'SUM',getdate(),0)
 SELECT *  FROM [dbo].[ConfiguracionesSecciones]
 

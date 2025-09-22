@@ -60,5 +60,6 @@ export class EvaluacionesService {
       catchError(this.manejoErroresHttp)
     );
   }
+
 }
 
