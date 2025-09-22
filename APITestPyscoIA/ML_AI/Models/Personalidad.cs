@@ -130,7 +130,7 @@ namespace APITestPyscoIA.ML_AI.Models
             contexto.Model.Save(modelo, datos.Schema, FILE_NAME);
             return metricasEntrenamiento;
         }
-        public string Predecir(DatosPersonalidad datosEntrada)
+        public string Prediccion(DatosPersonalidad datosEntrada)
         {
             var contexto = new MLContext();
             ITransformer modelo;

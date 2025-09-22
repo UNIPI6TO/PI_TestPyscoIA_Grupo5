@@ -128,7 +128,7 @@ export class DeatlleEvaluacionComponent implements OnInit {
   }
 
   async exportarAPDF() {
-    const pdfBlob = await this.pdfService.generarPdf(this.evaluacionDetalle, this.paciente, this.evaluador);
+    const pdfBlob = await this.pdfService.generarPdf(this.evaluacionDetalle, this.paciente, this.evaluador,this.sesion?.rol!);
     const fechaObj = this.fechaZonahoraria(new Date());
     const fecha = `${fechaObj.getFullYear()}${(fechaObj.getMonth()+1).toString().padStart(2,'0')}${fechaObj.getDate().toString().padStart(2,'0')}${fechaObj.getHours().toString().padStart(2,'0')}${fechaObj.getMinutes().toString().padStart(2,'0')}${fechaObj.getSeconds().toString().padStart(2,'0')}`;
     this.pdfService.descargarPdf(pdfBlob, `detalle_evaluacion_${this.idEvaluacion}_${fecha}.pdf`);

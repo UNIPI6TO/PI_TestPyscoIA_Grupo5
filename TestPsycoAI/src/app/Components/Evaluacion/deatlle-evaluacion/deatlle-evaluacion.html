@@ -48,6 +48,14 @@
                   }
                 </p>
               }
+               @if(evaluacionDetalle.completado && (sesion?.rol === 'ADMIN' || sesion?.rol === 'EVALUADOR')) {
+                  <span class="fw-bold text-dark">
+                      Resultado AI:
+                      <span class="badge bg-warning text-dark ms-2">{{ evaluacionDetalle?.resultadosAI || 'Sin resultado' }}</span>
+                      <span class="badge bg-info text-dark ms-2">Score AI: {{ evaluacionDetalle?.score || 0 }}</span>
+                  </span>
+              }
+              <p></p>
               <p> <strong>Tiempo Transcurrido: </strong>
                <span class="badge bg-warning text-dark" >
                             {{ (evaluacionDetalle.tiempoTranscurrido! / 60) | number:'1.0-0' }}:{{ (evaluacionDetalle.tiempoTranscurrido! % 60) | number:'1.0-0' }} min

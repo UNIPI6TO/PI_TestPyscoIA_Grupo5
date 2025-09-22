@@ -24,7 +24,7 @@ namespace APITestPyscoIA.ML_AI.Models
             var datosEjemplo = new List<DatosDepresion>();
             for (int i = 0; i < muestras; i++)
             {
-                int valor = rnd.Next(0, 64);
+                float valor = rnd.Next(0, 64);
                 string resultado;
                 if (valor >= 29)
                     resultado = "Depresión Grave";
@@ -105,7 +105,7 @@ namespace APITestPyscoIA.ML_AI.Models
         }
 
 
-        public string Prediccion(int Valor)
+        public string Prediccion(float Valor)
         {
             // Cargar el modelo entrenado
             var contexto = new MLContext();

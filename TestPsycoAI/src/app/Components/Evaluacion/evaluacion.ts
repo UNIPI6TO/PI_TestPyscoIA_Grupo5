@@ -25,6 +25,7 @@ import { AccesoDenegadoComponent } from '../../layout/acceso-denegado/acceso-den
   styleUrls: ['./evaluacion.css']
 })
 export class EvaluacionComponent implements OnInit {
+  public Math = Math;
   constructor(
     private titleService: Title, 
     private pacientesService: PacienteService,

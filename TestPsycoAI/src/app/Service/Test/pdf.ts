@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
 export class PdfService {
     constructor() { }
 
-  async generarPdf(evaluacion: IEvaluacion, paciente: IPaciente, evaluador: IEvaluadores): Promise<Blob> {
+  async generarPdf(evaluacion: IEvaluacion, paciente: IPaciente, evaluador: IEvaluadores, rol:string): Promise<Blob> {
     if (!evaluacion || !paciente || !evaluador) {
       Swal.fire('Error', 'No hay evaluación cargada para exportar.', 'error');
       return new Blob();
@@ -62,8 +62,16 @@ export class PdfService {
     // Tiempo transcurrido
     const minutos = Math.floor((evaluacion.tiempoTranscurrido ?? 0) / 60);
     const segundos = (evaluacion.tiempoTranscurrido ?? 0) % 60;
-    doc.text(`Tiempo Transcurrido: ${minutos}:${segundos} min`, 14, y); y += 10;
+    
+    if (evaluacion.completado && (rol === 'ADMIN' || rol === 'EVALUADOR'))
+    {
+      doc.text(`Tiempo Transcurrido: ${minutos}:${segundos} min`, 14, y); y += 6;
+      doc.text(`Resultado AI: ${evaluacion.resultadosAI || 'Sin resultado'} - Score AI: ${evaluacion.score || 0}`, 14, y); y += 10;
+    }else{
+      doc.text(`Tiempo Transcurrido: ${minutos}:${segundos} min`, 14, y); y += 10;
+    }
 
+    
     // Secciones, preguntas y respuestas
     if (evaluacion.secciones) {
       evaluacion.secciones.forEach(seccion => {

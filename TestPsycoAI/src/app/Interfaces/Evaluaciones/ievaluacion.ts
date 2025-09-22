@@ -24,8 +24,12 @@ export interface IEvaluacion {
    
     secciones: ISecciones[]
     configuracionTest?: IConfigEvaluaciones
+    resultadosAI?: String
+    score?: number
 }
 
 export interface IValidacionGenerarEvaluacion {
     generar: boolean,
 }
+
+
