@@ -183,7 +183,9 @@ export class IniciarEvaluacionComponent implements OnInit {
                 this.evaluacion.score = respuesta.score;
                 console.log(JSON.stringify(this.evaluacion));
                 this.editarHTP(this.evaluacion);
-                this.router.navigate(['/test/tomar-evaluacion']);    
+                this.router.navigate(['/test/tomar-evaluacion']).then(() => {
+                  window.location.reload();
+                });
               }
               
             },
@@ -312,7 +314,15 @@ iniciarContadorTiempo() {
     }
     return -1;
   }
-  
+
+  cantidadPreguntas(evaluacion: IEvaluacion): number {
+    var cantidad = 0;
+    evaluacion?.secciones.forEach(seccion => {
+      cantidad += seccion.preguntas.length;
+    });
+    return cantidad;
+  }
+
   actualizarPregunta(Orden: number, OpcionId: number) {
     if (this.preguntaActual) {
       this.evaluacion?.secciones.forEach(seccion => {
@@ -331,7 +341,7 @@ iniciarContadorTiempo() {
                     this.evaluacion!.iniciado = true;
                   }
                   this.evaluacion!.contestadas=this.obtenerPreguntasContestadas(this.evaluacion!);
-                  this.evaluacion!.noContestadas= this.evaluacion!.cantidadPreguntas - this.evaluacion!.contestadas;
+                  this.evaluacion!.noContestadas= this.cantidadPreguntas(this.evaluacion!) - this.evaluacion!.contestadas;
                   pregunta.actualizado = this.fechaZonahoraria(new Date());
                   opcion.actualizado = this.fechaZonahoraria(new Date());
                  
@@ -358,12 +368,14 @@ iniciarContadorTiempo() {
   }
 
   obtenerPreguntasContestadas(evaluacion: IEvaluacion): number {
-    let contador = 0;
+    var contador = 0;
     evaluacion.secciones.forEach(seccion => {
       seccion.preguntas.forEach(pregunta => {
-        if (pregunta.valor !== null && pregunta.valor !== undefined && pregunta.valor !== 0) {
-          contador++;
-        }
+        pregunta.opciones!.forEach(opcion => {
+          if (opcion.seleccionado) {
+            contador++;
+          }
+      });
       });
     });
     return contador;
