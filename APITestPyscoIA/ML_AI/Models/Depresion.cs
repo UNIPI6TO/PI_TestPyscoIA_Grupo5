@@ -5,13 +5,12 @@ using System.Text.Json.Nodes;
 
 namespace APITestPyscoIA.ML_AI.Models
 {
-    public class Autoestima
-
+    public class Depresion
     {
-        private const string FILE_NAME = "ML_AI\\Entrenados\\modeloAutoestimaMLNET.zip";
-        public MetricasEntrenamiento metricasEntrenamiento  { get; set; }
-        public Autoestima()
-        {
+        private const string FILE_NAME = "ML_AI\\Entrenados\\modeloDepresionMLNET.zip";
+        public MetricasEntrenamiento metricasEntrenamiento { get; set; }
+        public Depresion()
+        { 
             metricasEntrenamiento = new MetricasEntrenamiento();
         }
         public MetricasEntrenamiento Entrenar(int muestras)
@@ -22,25 +21,27 @@ namespace APITestPyscoIA.ML_AI.Models
             // Cargar los datos
             // Crear datos sintéticos aleatorios
             var rnd = new Random();
-            var datosEjemplo = new List<DatosAutoestima>();
+            var datosEjemplo = new List<DatosDepresion>();
             for (int i = 0; i < muestras; i++)
             {
-                int valor = rnd.Next(1, 41);
+                int valor = rnd.Next(0, 64);
                 string resultado;
-                if (valor >= 30)
-                    resultado = "Autoestima Alta";
+                if (valor >= 29)
+                    resultado = "Depresión Grave";
                 else if (valor >= 20)
-                    resultado = "Autoestima Media";
+                    resultado = "Depresión Moderada";
+                else if (valor >= 14)
+                    resultado = "Depresión Leve";
                 else
-                    resultado = "Autoestima Baja";
-                datosEjemplo.Add(new DatosAutoestima { Valor = valor, Resultado = resultado });
+                    resultado = "Depresión Mínima";
+                datosEjemplo.Add(new DatosDepresion { Valor = valor, Resultado = resultado });
             }
 
             var datos = contexto.Data.LoadFromEnumerable(datosEjemplo);
 
             // Preparar el pipeline
-            var pipeline = contexto.Transforms.Conversion.MapValueToKey("Label", nameof(DatosAutoestima.Resultado))
-            .Append(contexto.Transforms.Concatenate("Features", nameof(DatosAutoestima.Valor)))
+            var pipeline = contexto.Transforms.Conversion.MapValueToKey("Label", nameof(DatosDepresion.Resultado))
+            .Append(contexto.Transforms.Concatenate("Features", nameof(DatosDepresion.Valor)))
 
             .Append(contexto.MulticlassClassification.Trainers.LightGbm())
             .Append(contexto.Transforms.Conversion.MapKeyToValue("PredictedLabel"));
@@ -70,7 +71,7 @@ namespace APITestPyscoIA.ML_AI.Models
             contexto.Model.Save(modelo, datos.Schema, FILE_NAME);
             return metricasEntrenamiento;
         }
-        public MetricasEntrenamiento Entrenar(List<DatosAutoestima> datosEntrenamiento)
+        public MetricasEntrenamiento Entrenar(List<DatosDepresion> datosEntrenamiento)
         {
 
             var contexto = new MLContext();
@@ -79,9 +80,9 @@ namespace APITestPyscoIA.ML_AI.Models
             var datos = contexto.Data.LoadFromEnumerable(datosEntrenamiento);
 
             // Preparar el pipeline
-            var pipeline = contexto.Transforms.Conversion.MapValueToKey("Label", nameof(DatosAutoestima.Resultado))
-            .Append(contexto.Transforms.Concatenate("Features", nameof(DatosAutoestima.Valor)))
-            .Append(contexto.MulticlassClassification.Trainers.SdcaMaximumEntropy())
+            var pipeline = contexto.Transforms.Conversion.MapValueToKey("Label", nameof(DatosDepresion.Resultado))
+            .Append(contexto.Transforms.Concatenate("Features", nameof(DatosDepresion.Valor)))
+            .Append(contexto.MulticlassClassification.Trainers.LightGbm())
             .Append(contexto.Transforms.Conversion.MapKeyToValue("PredictedLabel"));
             Console.WriteLine("Entrenando el modelo...");
             // Entrenar el modelo
@@ -114,25 +115,24 @@ namespace APITestPyscoIA.ML_AI.Models
                 modelo = contexto.Model.Load(stream, out var _);
             }
 
-            var motor = contexto.Model.CreatePredictionEngine<DatosAutoestima, PrediccionAutoestima>(modelo);
+            var motor = contexto.Model.CreatePredictionEngine<DatosDepresion, PrediccionDepresion>(modelo);
 
-            var nuevaEntrada = new DatosAutoestima { Valor = Valor };
+            var nuevaEntrada = new DatosDepresion { Valor = Valor };
             var resultado = motor.Predict(nuevaEntrada);
 
             Console.WriteLine($"Predicción: {resultado.Prediccion}");
             return resultado.Prediccion != null ? resultado.Prediccion.ToString() : string.Empty;
         }
-    }
 
-    public class DatosAutoestima
+
+    }
+    public class DatosDepresion
     {
         [LoadColumn(0)] public float Valor;
         [LoadColumn(1)] public string? Resultado;
     }
-
-    public class PrediccionAutoestima
+    public class PrediccionDepresion
     {
         [ColumnName("PredictedLabel")] public string? Prediccion;
     }
-
 }
