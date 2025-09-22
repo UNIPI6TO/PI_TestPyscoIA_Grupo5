@@ -25,7 +25,7 @@ namespace APITestPyscoIA.ML_AI.Models
             var datosEjemplo = new List<DatosAutoestima>();
             for (int i = 0; i < muestras; i++)
             {
-                int valor = rnd.Next(1, 41);
+                float valor = rnd.Next(1, 41);
                 string resultado;
                 if (valor >= 30)
                     resultado = "Autoestima Alta";
@@ -104,7 +104,7 @@ namespace APITestPyscoIA.ML_AI.Models
         }
 
 
-        public string Prediccion(int Valor)
+        public string Prediccion(float Valor)
         {
             // Cargar el modelo entrenado
             var contexto = new MLContext();

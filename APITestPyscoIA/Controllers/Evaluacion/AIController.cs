@@ -2,6 +2,8 @@
 using APITestPyscoIA.Models.Entidades;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
+using System.ComponentModel.DataAnnotations;
 
 namespace APITestPyscoIA.Controllers.Evaluacion
 {
@@ -21,14 +23,22 @@ namespace APITestPyscoIA.Controllers.Evaluacion
             return BadRequest();
         }
 
-        [HttpGet("Predecir/Autoestima/{valor}")]
-        public ActionResult<ResultModel> PredecirAutoestima(int valor)
+        [HttpPost("Predecir/Autoestima")]
+        public ActionResult<ResultModel> PredecirAutoestima(DatosEntradaGenericoAI datos)
         {
-            ResultModel autoestima = new ResultModel();
-            autoestima.Valor = valor;
+            if (datos == null)
+                return BadRequest();
+            DatoEntradaGenericoAI? dato = datos.Valores
+                .Find(x => x.Key == "Autoestima");
+            if (dato == null)
+                return NotFound();
             Autoestima autoestimaPredictor = new Autoestima();
-            autoestima.Resultado = autoestimaPredictor.Prediccion(autoestima.Valor);
-            return autoestima;
+            ResultModel resultModel = new ResultModel();
+            resultModel.Valor = dato.Valor;
+
+            resultModel.Resultado = autoestimaPredictor.Prediccion(dato.Valor);
+
+            return resultModel;
         }
 
         [HttpPost("Entrenar/Ansiedad")]
@@ -43,14 +53,22 @@ namespace APITestPyscoIA.Controllers.Evaluacion
             return BadRequest();
         }
 
-        [HttpGet("Predecir/Ansiedad/{valor}")]
-        public ActionResult<ResultModel> PredecirAnsiedad(int valor)
+        [HttpPost("Predecir/Ansiedad")]
+        public ActionResult<ResultModel> PredecirAnsiedad(DatosEntradaGenericoAI datos)
         {
-            ResultModel ansiedad = new ResultModel();
-            ansiedad.Valor = valor;
-            Ansiedad ansiedadPredictor = new Ansiedad();
-            ansiedad.Resultado = ansiedadPredictor.Prediccion(ansiedad.Valor);
-            return ansiedad;
+            if (datos == null)
+                return BadRequest();
+            DatoEntradaGenericoAI? dato = datos.Valores
+                .Find(x => x.Key == "Ansiedad");
+            if (dato == null)
+                return NotFound();
+            Ansiedad depresionPredictor = new Ansiedad();
+            ResultModel resultModel = new ResultModel();
+            resultModel.Valor = dato.Valor;
+
+            resultModel.Resultado = depresionPredictor.Prediccion(dato.Valor);
+
+            return resultModel;
         }
 
 
@@ -66,14 +84,22 @@ namespace APITestPyscoIA.Controllers.Evaluacion
             return BadRequest();
         }
 
-        [HttpGet("Predecir/Depresion/{valor}")]
-        public ActionResult<ResultModel> PredecirDepresion(int valor)
+        [HttpPost("Predecir/Depresion")]
+        public ActionResult<ResultModel> PredecirDepresion(DatosEntradaGenericoAI datos)
         {
-            ResultModel depresion = new ResultModel();
-            depresion.Valor = valor;
+            if (datos==null)
+                return BadRequest();
+            DatoEntradaGenericoAI? dato =datos.Valores
+                .Find(x => x.Key == "Depresión");
+            if (dato==null)
+                return NotFound();
             Depresion depresionPredictor = new Depresion();
-            depresion.Resultado = depresionPredictor.Prediccion(depresion.Valor);
-            return depresion;
+            ResultModel resultModel = new ResultModel();
+            resultModel.Valor = dato.Valor;
+
+            resultModel.Resultado = depresionPredictor.Prediccion(dato.Valor);
+
+            return resultModel;
         }
 
 
@@ -90,19 +116,55 @@ namespace APITestPyscoIA.Controllers.Evaluacion
         }
 
         [HttpPost("Predecir/Personalidad")]
-        public ActionResult<DatosPersonalidadModel> PredecirPersonalidad( DatosPersonalidadModel datos)
+        public ActionResult<ResultModel> PredecirPersonalidad(DatosEntradaGenericoAI datos)
         {
-            DatosPersonalidad personalidad = new DatosPersonalidad
-            {
-                Apertura = datos.Apertura,
-                Responsabilidad = datos.Responsabilidad,
-                Extroversion = datos.Extroversion,
-                Amabilidad = datos.Amabilidad,
-                Neuroticismo = datos.Neuroticismo   
-            };
+            DatosPersonalidad datosPersonalidad = new DatosPersonalidad();
+            if (datos == null)
+                return BadRequest();
+            
+            DatoEntradaGenericoAI? Apertura = datos.Valores
+                .Find(x => x.Key == "Apertura");
+
+            if (Apertura == null)
+                return NotFound();
+
+            DatoEntradaGenericoAI? Responsabilidad = datos.Valores
+                .Find(x => x.Key == "Responsabilidad");
+
+            if (Responsabilidad == null)
+                return NotFound();
+
+            DatoEntradaGenericoAI? Extroversion = datos.Valores
+                .Find(x => x.Key == "Extroversión");
+
+            if (Extroversion == null)
+                return NotFound();
+
+            DatoEntradaGenericoAI? Amabilidad = datos.Valores
+                .Find(x => x.Key == "Amabilidad");
+
+            if (Amabilidad == null)
+                return NotFound();
+
+            DatoEntradaGenericoAI? Neuroticismo = datos.Valores
+                .Find(x => x.Key == "Neuroticismo");
+
+            if (Neuroticismo == null)
+                return NotFound();
+
+            datosPersonalidad.Apertura = Apertura.Valor;
+            datosPersonalidad.Responsabilidad = Responsabilidad.Valor;
+            datosPersonalidad.Extroversion = Extroversion.Valor;
+            datosPersonalidad.Amabilidad = Amabilidad.Valor;
+            datosPersonalidad.Neuroticismo = Neuroticismo.Valor;
+
             Personalidad personalidadPredictor = new Personalidad();
-            datos.Resultado = personalidadPredictor.Predecir(personalidad);
-            return datos;
+            ResultModel resultModel = new ResultModel();
+            
+
+            resultModel.Resultado= personalidadPredictor.Prediccion(datosPersonalidad);
+
+            return resultModel;
         }
 
 
@@ -113,6 +175,17 @@ namespace APITestPyscoIA.Controllers.Evaluacion
 
     }
 
+    public class DatosEntradaGenericoAI()
+    {
+        public  List<DatoEntradaGenericoAI> Valores { get; set ; }
+
+    }
+
+    public class DatoEntradaGenericoAI()
+    {
+        public string Key { get; set; }
+        public float Valor { get; set; }
+    }
     public class DatosPersonalidadModel
     {
         public float Apertura { get; set; }
@@ -126,8 +199,9 @@ namespace APITestPyscoIA.Controllers.Evaluacion
 
     public class ResultModel()
     {
-        public int Valor { get; set; }
+        public float Valor { get; set; }
         public string? Resultado { get; set; }
     }
+    
 
 }

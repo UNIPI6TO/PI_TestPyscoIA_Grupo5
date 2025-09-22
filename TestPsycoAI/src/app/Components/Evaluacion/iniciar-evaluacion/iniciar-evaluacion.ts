@@ -162,6 +162,7 @@ export class IniciarEvaluacionComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         if (this.evaluacion) {
+          
           this.evaluacion.completado = true;
           this.evaluacion.fechaFinTest = this.fechaZonahoraria(new Date());
           this.actualizarPregunta(this.NumPregunta, this.buscarOpcionSelecionadaHtml());
