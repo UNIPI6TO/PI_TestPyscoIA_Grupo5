@@ -65,5 +65,10 @@ export class UsuarioService {
       catchError(this.manejoErrores)
     );
   }
+  registrarPerfilPaciente(data: { cedula: string; usuario: string; password: string; }): Observable<any> {
+  return this.http.post(`${this.API_URL}${this.CONTEXT}/RegistrarPerfilPaciente`, data)
+    .pipe(catchError(this.manejoErroresHttp));
+}
+
 
 }

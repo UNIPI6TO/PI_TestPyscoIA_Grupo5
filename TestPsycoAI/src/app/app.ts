@@ -8,6 +8,7 @@ import { Footer } from './layout/footer/footer';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   imports: [ 
     RouterOutlet, 
     Header,
