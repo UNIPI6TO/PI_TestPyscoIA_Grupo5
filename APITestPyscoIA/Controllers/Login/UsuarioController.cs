@@ -11,6 +11,13 @@ using APITestPyscoIA.Models.ViewModel;
 
 namespace APITestPyscoIA.Controllers.Login
 {
+    public class RegisterPerfilPacienteViewModel
+    {
+        public string Cedula { get; set; }
+        public string Usuario { get; set; }
+        public string Password { get; set; }
+    }
+
     [Route("api/[controller]")]
     [ApiController]
     public class UsuarioController : ControllerBase
@@ -40,6 +47,51 @@ namespace APITestPyscoIA.Controllers.Login
                 return NotFound(new { message ="Credenciales Inválidas" });
             }
             return usuarioModel;
+        }
+        [HttpPost("RegistrarPerfilPaciente")]
+        public async Task<IActionResult> RegistrarPerfilPaciente(RegisterPerfilPacienteViewModel request)
+        {
+            if (request == null ||
+                string.IsNullOrWhiteSpace(request.Cedula) ||
+                string.IsNullOrWhiteSpace(request.Usuario) ||
+                string.IsNullOrWhiteSpace(request.Password))
+            {
+                return BadRequest(new { message = "Cédula, Usuario y Contraseña son obligatorios." });
+            }
+
+            // 1. Buscar paciente por cédula
+            var paciente = await _context.Pacientes
+                .FirstOrDefaultAsync(p => p.Cedula == request.Cedula);
+
+            if (paciente == null)
+            {
+                return BadRequest(new { message = "No existe un paciente con esa cédula. Solicite al administrador registrarlo primero." });
+            }
+
+            // 2. Verificar si ya tiene perfil de usuario
+            var existeUsuario = await _context.Usuarios
+                .FirstOrDefaultAsync(u => u.idPaciente == paciente.Id && u.Eliminado == false);
+
+            if (existeUsuario != null)
+            {
+                return BadRequest(new { message = "Ya existe un perfil de usuario para este paciente." });
+            }
+
+            // 3. Crear el usuario asociado al paciente (contraseña en texto plano)
+            var nuevoUsuario = new UsuarioModel
+            {
+                Usuario = request.Usuario,
+                Password = request.Password,
+                Rol = "PACIENTE",
+                idPaciente = paciente.Id,
+                Creado = DateTime.Now,
+                Eliminado = false
+            };
+
+            _context.Usuarios.Add(nuevoUsuario);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Perfil creado correctamente. Ya puede iniciar sesión.", id = nuevoUsuario.Id });
         }
 
 

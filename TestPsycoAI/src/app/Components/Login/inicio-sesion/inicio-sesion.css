@@ -43,3 +43,9 @@ margin-top: 40px;
 border-radius: 12px;
 }
 
+.login-container { min-height: 70vh; }
+.card-login, .card-register { background: #fff; max-width: 600px; width: 100%; height: auto; }
+.titulo-login { color: #2575fc; }
+.titulo-register { color: #28a745; }
+.input-rounded { border-radius: 8px; }
+.link-registro, .link-login { color: #2575fc; font-weight: bold; cursor: pointer; text-decoration: none; }

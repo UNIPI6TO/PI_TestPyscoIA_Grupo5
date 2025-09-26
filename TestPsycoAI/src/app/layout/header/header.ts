@@ -4,6 +4,7 @@ import { IUsuario } from '../../Interfaces/Login/iusuario';
 
 @Component({
   selector: 'app-header',
+  standalone: true,
   imports: [RouterLink],
   templateUrl: './header.html',
   styleUrls: ['./header.css']
