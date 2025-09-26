@@ -3,60 +3,187 @@
     <div class="card-header bg-primary text-white text-center">
       <h3 class="mb-0"><i class="fa-solid fa-sitemap"></i> Mapa del Sitio</h3>
     </div>
-<div class="card-body">
-      <ul class="list-group">
-        <li class="list-group-item">
-          <strong><i class="fa-solid fa-user-group"></i> Pacientes</strong>
-          <ul>
-            <li><i class="fa-solid fa-list"></i> <a routerLink="/pacientes">Listado de Pacientes</a></li>
-            <li><i class="fa-solid fa-user-plus"></i> <a routerLink="/pacientes/nuevo">Nuevo Paciente</a></li>
-            <li><i class="fa-solid fa-user-pen"></i> <a routerLink="/pacientes/editar/1">Editar Paciente</a> <span class="text-muted">(reemplaza 1 por el ID)</span></li>
-            <li><i class="fa-solid fa-file-medical"></i> <a routerLink="/pacientes/generar-evaluacion/1">Generar Evaluación</a> <span class="text-muted">(reemplaza 1 por el ID)</span></li>
-          </ul>
-        </li>
-        <li class="list-group-item">
-          <strong><i class="fa-solid fa-vial"></i> Test</strong>
-          <ul>
-            <li><i class="fa-solid fa-play"></i> <a routerLink="/test/tomar-evaluacion">Tomar Evaluación</a></li>
-            <li><i class="fa-solid fa-file-alt"></i> <a routerLink="/test/iniciar-evaluacion/1/pregunta/1">Iniciar Evaluación</a> <span class="text-muted">(reemplaza 1 por el ID)</span></li>
-          </ul>
-        </li>
-        <li class="list-group-item">
-          <strong><i class="fa-solid fa-gears"></i> Configuraciones</strong>
-          <ul>
-            <li>
-              <strong><i class="fa-solid fa-clipboard-list"></i> Tipo Test</strong>
-              <ul>
-                <li><i class="fa-solid fa-list"></i> <a routerLink="/configuraciones/tipo-test">Listado de Tipos de Test</a></li>
-                <li><i class="fa-solid fa-plus"></i> <a routerLink="/configuraciones/tipo-test/nuevo">Nuevo Tipo de Test</a></li>
-                <li><i class="fa-solid fa-pen"></i> <a routerLink="/configuraciones/tipo-test/editar/1">Editar Tipo de Test</a> <span class="text-muted">(reemplaza 1 por el ID)</span></li>
-              </ul>
-            </li>
-            <li>
-              <strong><i class="fa-solid fa-file-contract"></i> Evaluaciones</strong>
-              <ul>
-                <li><i class="fa-solid fa-list"></i> <a routerLink="/configuraciones/evaluaciones">Listado de Evaluaciones</a></li>
-                <li><i class="fa-solid fa-eye"></i> <a routerLink="/configuraciones/evaluaciones/detalle/1">Detalle de Evaluación</a> <span class="text-muted">(reemplaza 1 por el ID)</span></li>
-                <li><i class="fa-solid fa-pen"></i> <a routerLink="/configuraciones/evaluaciones/editar/1">Editar Evaluación</a> <span class="text-muted">(reemplaza 1 por el ID)</span></li>
-              </ul>
-            </li>
-            <li>
-              <strong><i class="fa-solid fa-user-tie"></i> Evaluadores</strong>
-              <ul>
-                <li><i class="fa-solid fa-list"></i> <a routerLink="/configuraciones/evaluadores">Listado de Evaluadores</a></li>
-                <li><i class="fa-solid fa-user-plus"></i> <a routerLink="/configuraciones/evaluadores/nuevo">Nuevo Evaluador</a></li>
-                <li><i class="fa-solid fa-user-pen"></i> <a routerLink="/configuraciones/evaluadores/editar/1">Editar Evaluador</a> <span class="text-muted">(reemplaza 1 por el ID)</span></li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-        <li class="list-group-item">
-          <strong><i class="fa-solid fa-map"></i> Otros</strong>
-          <ul>
-            <li><i class="fa-solid fa-sitemap"></i> <a routerLink="/mapa-sitio">Mapa del Sitio</a></li>
-          </ul>
-        </li>
-      </ul>
+    <div class="card-body">
+      <!-- Principal -->
+      <div class="mb-4">
+        <h4 class="text-primary"><i class="fa-solid fa-home"></i> Principal</h4>
+        <div class="ms-4">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="mb-2">
+                <i class="fa-solid fa-house"></i> <a routerLink="/">Inicio</a>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="mb-2">
+                <i class="fa-solid fa-circle-info"></i> <a routerLink="/conocenos">Conócenos</a>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="mb-2">
+                <i class="fa-solid fa-right-to-bracket"></i> <a routerLink="/iniciar-sesion">Iniciar Sesión</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pacientes -->
+      <div class="mb-4">
+        <h4 class="text-primary"><i class="fa-solid fa-user-group"></i> Pacientes</h4>
+        <div class="ms-4">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-2">
+                <i class="fa-solid fa-list"></i> <a routerLink="/pacientes">Listado de Pacientes</a>
+              </div>
+              <div class="mb-2">
+                <i class="fa-solid fa-user-plus"></i> <a routerLink="/pacientes/nuevo">Nuevo Paciente</a>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-2">
+                <i class="fa-solid fa-user-pen"></i> <a routerLink="/pacientes/editar/1">Editar Paciente</a>
+                <small class="text-muted">(reemplaza el ID)</small>
+              </div>
+              <div class="mb-2">
+                <i class="fa-solid fa-file-medical"></i> <a routerLink="/pacientes/generar-evaluacion/1">Generar Evaluación</a>
+                <small class="text-muted">(reemplaza el ID)</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tests -->
+      <div class="mb-4">
+        <h4 class="text-primary"><i class="fa-solid fa-vial"></i> Tests</h4>
+        <div class="ms-4">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-2">
+                <i class="fa-solid fa-play"></i> <a routerLink="/test/tomar-evaluacion">Tomar Evaluación</a>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-2">
+                <i class="fa-solid fa-file-alt"></i> <a routerLink="/test/iniciar-evaluacion/1/pregunta/1">Iniciar Evaluación</a>
+                <small class="text-muted">(reemplaza los IDs)</small>
+              </div>
+              <div class="mb-2">
+                <i class="fa-solid fa-chart-line"></i> <a routerLink="/test/detalle-evaluacion/1">Resultados</a>
+                <small class="text-muted">(reemplaza el ID)</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Configuraciones -->
+      <div class="mb-4">
+        <h4 class="text-primary"><i class="fa-solid fa-gears"></i> Configuraciones</h4>
+
+        <!-- Tipo Test -->
+        <div class="ms-4 mb-3">
+          <h5><i class="fa-solid fa-clipboard-list"></i> Tipos de Test</h5>
+          <div class="ms-3">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="mb-2">
+                  <i class="fa-solid fa-list"></i> <a routerLink="/configuraciones/tipo-test">Listar Tipos</a>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="mb-2">
+                  <i class="fa-solid fa-plus"></i> <a routerLink="/configuraciones/tipo-test/nuevo">Nuevo Tipo</a>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="mb-2">
+                  <i class="fa-solid fa-pen"></i> <a routerLink="/configuraciones/tipo-test/editar/1">Editar Tipo</a>
+                  <small class="text-muted">(ID)</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Evaluaciones -->
+        <div class="ms-4 mb-3">
+          <h5><i class="fa-solid fa-file-contract"></i> Evaluaciones</h5>
+          <div class="ms-3">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="mb-2">
+                  <i class="fa-solid fa-list"></i> <a routerLink="/configuraciones/evaluaciones">Listar Evaluaciones</a>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="mb-2">
+                  <i class="fa-solid fa-eye"></i> <a routerLink="/configuraciones/evaluaciones/detalle/1">Ver Detalle</a>
+                  <small class="text-muted">(ID)</small>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="mb-2">
+                  <i class="fa-solid fa-pen"></i> <a routerLink="/configuraciones/evaluaciones/editar/1">Editar</a>
+                  <small class="text-muted">(ID)</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Evaluadores -->
+        <div class="ms-4">
+          <h5><i class="fa-solid fa-user-tie"></i> Evaluadores</h5>
+          <div class="ms-3">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="mb-2">
+                  <i class="fa-solid fa-list"></i> <a routerLink="/configuraciones/evaluadores">Listar Evaluadores</a>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="mb-2">
+                  <i class="fa-solid fa-user-plus"></i> <a routerLink="/configuraciones/evaluadores/nuevo">Nuevo Evaluador</a>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="mb-2">
+                  <i class="fa-solid fa-user-pen"></i> <a routerLink="/configuraciones/evaluadores/editar/1">Editar</a>
+                  <small class="text-muted">(ID)</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Administración -->
+      <div class="mb-4">
+        <h4 class="text-primary"><i class="fa-solid fa-shield-alt"></i> Administración</h4>
+        <div class="ms-4">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="mb-2">
+                <i class="fa-solid fa-user-shield"></i> <a routerLink="/admin/usuarios">Gestión de Usuarios</a>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="mb-2">
+                <i class="fa-solid fa-cogs"></i> <a routerLink="/admin/configuracion">Configuración del Sistema</a>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="mb-2">
+                <i class="fa-solid fa-database"></i> <a routerLink="/admin/reportes">Reportes y Estadísticas</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { UsuarioService } from '../../../Service/Login/usuario';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-inicio-sesion',
@@ -36,7 +37,7 @@ export class InicioSesionComponent {
 
     this.usuarioService.iniciarSesion(this.usuario, this.password).subscribe(
       response => {
-        const expires = Date.now() + 10 * 60 * 1000;
+        const expires = Date.now() + environment.minutosSesion * 60 * 1000;
         document.cookie = `username=${encodeURIComponent(JSON.stringify(response))}; path=/; expires=${new Date(expires).toUTCString()}; SameSite=Strict; Secure`;
         sessionStorage.setItem('username', JSON.stringify(response));
 
