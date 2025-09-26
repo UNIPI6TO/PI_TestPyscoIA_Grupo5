@@ -1,5 +1,6 @@
 export const environment = {
     production: true,
     apiUrl: 'https://localhost:7200/',
-    featureFlag: false
+    featureFlag: false,
+    minutosSesion: 10
 };
